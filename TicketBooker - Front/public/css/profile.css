@@ -1,0 +1,88 @@
+body {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.container {
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+
+.top {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	margin-bottom: 70px;
+}
+
+.bottom{
+	flex-direction:column;
+	margin-bottom:70px;
+}
+
+.topbottom{
+	display: flex;
+	justify-content: space-between;
+}
+ 
+.btn {
+	display: flex;
+	gap: 2px;
+	padding: 1rem 4rem;
+	font-size: 1.10rem;
+	font-weight: 300;
+	border-radius: 1rem;
+	border: none;
+	color: var(--background);
+	background-color: var(--accent);
+	cursor: pointer;
+	margin-top:15px;
+}
+
+.top h1 {
+	font-size: 2.5rem;
+
+}
+
+.top p {
+	font-size: 1.15rem;
+	color: var(--text-secondary);
+}
+
+.tab input[type='radio'] {
+	position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.tab input[type='radio'] + .content {
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 1.15rem;
+	background-color: var(--foreground);
+	padding: 1rem 1.25rem;
+	border-radius: 0.75rem;
+}
+
+.tab input[type='radio']:checked + .content {
+	background-color: var(--accent);
+}
+
+.tab .content .left {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 15px;
+}
+
+.divider {
+	border: none;
+	border-bottom: 1px solid var(--border);
+	margin: 35px 0;
+	border-radius: 1px;
+}
