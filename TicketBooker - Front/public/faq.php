@@ -21,7 +21,7 @@
 	<!-- Navigation Bar -->
 	<nav class="navbar navbar-logged">
 		<div class="navbar-content">
-			<a class="navbar-logo" href="index.html">
+			<a class="navbar-logo" href="index.php">
 				<img src="assets/icons/logo.svg" alt="">
 			</a>
 			<div class="middle">

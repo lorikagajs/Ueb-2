@@ -46,7 +46,7 @@
 				<h1>Welcome back</h1>
 				<p>
 					Don't have an account?
-					<a href="signup.html">Sign up</a>.
+					<a href="signup.php">Sign up</a>.
 					</h2>
 			</div>
 

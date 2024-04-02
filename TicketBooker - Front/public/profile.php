@@ -24,14 +24,14 @@
 	<!-- Navigation Bar -->
 	<nav class="navbar navbar-logged">
 		<div class="navbar-content">
-			<a class="navbar-logo" href="index.html">
+			<a class="navbar-logo" href="index.php">
 				<img src="assets/icons/logo.svg" alt="">
 			</a>
 			<div class="middle">
-				<a href="index.html" class="link">Home</a>
-				<a href="about.html" class="link">About</a>
-				<a href="contact.html" class="link">Contact</a>
-				<a href="faq.html" class="link">FAQ</a>
+				<a href="index.php" class="link">Home</a>
+				<a href="about.php" class="link">About</a>
+				<a href="contact.php" class="link">Contact</a>
+				<a href="faq.php" class="link">FAQ</a>
 			</div>
 			<div class="right">
 				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
@@ -51,15 +51,15 @@
 				</div>
 
 				<div class="options">
-					<a href="profile.html" class="option">
+					<a href="profile.php" class="option">
 						<img src="assets/icons/profile.svg" alt="">
 						<p>Profile</p>
 					</a>
-					<a href="createTicket.html" class="option">
+					<a href="createTicket.php" class="option">
 						<img src="assets/icons/create.svg" alt="">
 						<p>Create Ticket</p>
 					</a>
-					<a href="editProfile.html" class="option">
+					<a href="editProfile.php" class="option">
 						<img src="assets/icons/settings.svg" alt="">
 						<p>Settings</p>
 					</a>
