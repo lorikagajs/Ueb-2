@@ -48,7 +48,7 @@
 
 			<div class="options">
 				<p>What, when, where?</p>
-				<?php include "../src/modules/ticketfinder.php" ?>
+				<!-- <?php include "../src/modules/ticketfinder.php" ?> -->
 				<div class="selectors">
 					<select name="type" id="select-what" required>
 						<option value="" disabled selected>Type</option>

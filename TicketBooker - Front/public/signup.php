@@ -1,6 +1,103 @@
+<?php 
+//  if(isset($_POST['submit'])){
+// 	$passwordi = $_POST['password'];
+// 	$passordConfirmed =  $_POST['password_confirm'];
+
+// 	$notTheSameMessage = "Wrong! The Password and Password Confirmed Section should be the same";
+// 	$shortLengthMessage = "Wrong! It should be more than 4 characters";
+// 	if ($passwordi == $passordConfirmed){
+
+// 	} else if($passwordi !== $passordConfirmed){
+// 		echo "<script>alert('$notTheSameMessage');</script>";
+// 	} else if ($passwordi<4 || $passordConfirmed<4 ){
+// 		echo "<script>alert('$shortLengthMessage');</script>";
+// 	}
+//  }
+$type = $name = $email = $confirmEmail = $password = $confirmPassword = $checkboxErr = "";
+$typeErr = $usernameErr = $emailErr = $confirmEmailErr = $passwordErr = $confirmPasswordErr = "";
+$checkbox = false;
+$formValid = true;
+//SanitizeInput FUNCTION
+function sanitizeInput($input) {
+	$input = trim($input);
+	$input = stripslashes($input);
+	$input = htmlspecialchars($input);
+	return $input;
+}
+if (isset($_POST['submit'])){
+	//Validate the radio input for individuall and business
+	if (!isset($_POST["user_type"])) {
+		$typeErr = "Please select a type";
+		$formValid = false;
+	} else {
+		$type = sanitizeInput($_POST["user_type"]);
+	}
+
+	//Validate username
+	if (empty($_POST["name"])) {
+		$usernameErr = "Username is required";
+		$formValid = false;
+	} else {
+		$name = sanitizeInput($_POST["name"]);
+	}
+
+	// Validate email
+	if (empty($_POST["email"])) {
+		$emailErr = "Email is required";
+		$formValid = false;
+	} else {
+		$email = sanitizeInput($_POST["email"]);
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$emailErr = "Invalid email format";
+			$formValid = false;
+		}
+	}
+	// Validate confirm email
+	if (empty($_POST["email_confirm"])) {
+		$confirmEmailErr = "Please confirm your email";
+		$formValid = false;
+	} else {
+		$confirmEmail = sanitizeInput($_POST["email_confirm"]);
+		if ($confirmEmail !== $email) {
+			$confirmEmailErr = "Emails do not match";
+			$formValid = false;
+		}
+	}
+
+	// Validate password
+	if (empty($_POST["password"])) {
+		$passwordErr = "Password is required";
+		$formValid = false;
+	} else {
+		$password = sanitizeInput($_POST["password"]);
+	}
+
+	// Validate confirm password
+	if (empty($_POST["password_confirm"])) {
+		$confirmPasswordErr = "Please confirm your password";
+		$formValid = false;
+	} else {
+		$confirmPassword = sanitizeInput($_POST["password_confirm"]);
+		if ($confirmPassword !== $password) {
+			$confirmPasswordErr = "Passwords do not match";
+			$formValid = false;
+		}
+	}
+
+	// Validate checkbox
+	if (!isset($_POST["checkbox"])) {
+		$checkboxErr = "Please accept the terms and conditions";
+		$formValid = false;
+	} else {
+		$checkbox = true;
+	}
+	
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<title>Sign Up - TicketBooker</title>
 	<meta charset="UTF-8">
@@ -13,6 +110,7 @@
 	<script src="https://kit.fontawesome.com/26e97bbe8d.js" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 	<script src="js/app.js"></script>
+	
 </head>
 
 <body>
@@ -50,11 +148,11 @@
 				</p>
 			</div>
 
-			<form action="" method="">
+			<form action="signup.php" method="post">
 
 				<div class="user-type">
 					<label>
-						<input type="radio" name="user_type" value="INDIVIDUAL">
+						<input type="radio" name="user_type" value="INDIVIDUAL" required>
 						Individual
 					</label>
 					<label>
@@ -62,7 +160,7 @@
 						Business
 					</label>
 				</div>
-
+				<div class="error"><?php echo $typeErr; ?></div>
 				<input type="text" name="name" required="required" placeholder="Name" class="input">
 
 				<input type="email" name="email" required="required" placeholder="Email address" class="input">
@@ -80,11 +178,12 @@
 				</div>
 
 				<div id="checkbox">
-					<input type="checkbox" name="checkbox" id="check">
+					<input type="checkbox" name="checkbox" id="check" required="required">
 					<p>
 						I agree to the <a href="assets/extra/TERMS_AND_CONDITIONS.pdf">Terms of Use</a> & <a href="assets/extra/PRIVACY_POLICY.pdf">Privacy Policy</a>
 					</p>
 				</div>
+				<div class="error"><?php echo $checkboxErr; ?></div>
 				<input type="submit" name="submit" id="button" class="btn">
 			</form>
 		</div>
