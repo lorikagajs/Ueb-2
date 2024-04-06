@@ -1,5 +1,5 @@
-First Name:lorik
+First Name:Lorik 
 First Last:agaj
 Username:lorik
 Email:lorik@example.com
-Password:124
+Password:123

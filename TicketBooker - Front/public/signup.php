@@ -23,13 +23,25 @@ function sanitizeInput($input)
 	$input = trim($input);
 	$input = stripslashes($input);
 	$input = htmlspecialchars($input);
+	// $input = preg_replace('/\s+/', '', $input);
+	// $input = ucfirst($input);
 	return $input;
 }
-function capitalizeWord($input)
-{
-	$input = ucfirst($input);
-	return $input;
-}
+
+// function controllPasssword($input)
+// {
+// 	if (strlen($input) < 8) {
+// 		return false;
+// 	}
+// 	if (!preg_match('/[0-9]/', $input)) {
+// 		return false;
+// 	}
+// 	if (!preg_match('/[^a-zA-Z0-9]/', $input)) {
+// 		return false;
+// 	}
+// 	return true;
+// }
+
 if (isset($_POST['submit'])) {
 	//Validate the radio input for individuall and business
 	if (!isset($_POST["user_type"])) {
@@ -45,7 +57,6 @@ if (isset($_POST['submit'])) {
 		$formValid = false;
 	} else {
 		$first_name = sanitizeInput($_POST["first_name"]);
-		
 	}
 	//Validate Last Name
 	if (empty($_POST["last_name"])) {
@@ -53,7 +64,6 @@ if (isset($_POST['submit'])) {
 		$formValid = false;
 	} else {
 		$last_name = sanitizeInput($_POST["last_name"]);
-		
 	}
 
 	//Validate Username
@@ -129,6 +139,16 @@ fwrite($fp, 'Email:' . $email . "\n");
 fwrite($fp, 'Password:' . $password . "\n");
 fclose($fp);
 
+// var_dump()
+var_dump($first_name);
+
+require_once('dbconnect.php');
+$query = "insert into users(first_name, last_name, username, email, password)";
+$query .= "values ('$first_name', '$last_name','$username','$email' ,'$password')";
+$result = mysqli_query($connection, $query);
+if (!$result) {
+	die("Query failed" . mysqli_error($connection));
+}
 
 
 ?>
