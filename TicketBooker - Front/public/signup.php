@@ -1,4 +1,4 @@
-<?php 
+<?php
 //  if(isset($_POST['submit'])){
 // 	$passwordi = $_POST['password'];
 // 	$passordConfirmed =  $_POST['password_confirm'];
@@ -13,18 +13,24 @@
 // 		echo "<script>alert('$shortLengthMessage');</script>";
 // 	}
 //  }
-$type = $name = $email = $confirmEmail = $password = $confirmPassword = $checkboxErr = "";
-$typeErr = $usernameErr = $emailErr = $confirmEmailErr = $passwordErr = $confirmPasswordErr = "";
+$type = $first_name = $last_name = $username = $email = $confirmEmail = $password = $confirmPassword = $checkboxErr = "";
+$typeErr = $first_nameErr = $last_nameErr = $usernameErr = $emailErr = $confirmEmailErr = $passwordErr = $confirmPasswordErr = "";
 $checkbox = false;
 $formValid = true;
 //SanitizeInput FUNCTION
-function sanitizeInput($input) {
+function sanitizeInput($input)
+{
 	$input = trim($input);
 	$input = stripslashes($input);
 	$input = htmlspecialchars($input);
 	return $input;
 }
-if (isset($_POST['submit'])){
+function capitalizeWord($input)
+{
+	$input = ucfirst($input);
+	return $input;
+}
+if (isset($_POST['submit'])) {
 	//Validate the radio input for individuall and business
 	if (!isset($_POST["user_type"])) {
 		$typeErr = "Please select a type";
@@ -33,13 +39,31 @@ if (isset($_POST['submit'])){
 		$type = sanitizeInput($_POST["user_type"]);
 	}
 
-	//Validate username
-	if (empty($_POST["name"])) {
+	//Validate First Name
+	if (empty($_POST["first_name"])) {
+		$first_nameErr = "First Name is required";
+		$formValid = false;
+	} else {
+		$first_name = sanitizeInput($_POST["first_name"]);
+		
+	}
+	//Validate Last Name
+	if (empty($_POST["last_name"])) {
+		$last_nameErr = "Last Name is required";
+		$formValid = false;
+	} else {
+		$last_name = sanitizeInput($_POST["last_name"]);
+		
+	}
+
+	//Validate Username
+	if (empty($_POST["username"])) {
 		$usernameErr = "Username is required";
 		$formValid = false;
 	} else {
-		$name = sanitizeInput($_POST["name"]);
+		$username = sanitizeInput($_POST["username"]);
 	}
+
 
 	// Validate email
 	if (empty($_POST["email"])) {
@@ -91,18 +115,32 @@ if (isset($_POST['submit'])){
 	} else {
 		$checkbox = true;
 	}
-	
 }
+
+//test section
+extract($_REQUEST);
+$filename = 'test.txt';
+
+$fp = fopen($filename, 'w');
+fwrite($fp, 'First Name:' . $first_name . "\n");
+fwrite($fp, 'First Last:' . $last_name . "\n");
+fwrite($fp, 'Username:' . $username . "\n");
+fwrite($fp, 'Email:' . $email . "\n");
+fwrite($fp, 'Password:' . $password . "\n");
+fclose($fp);
+
+
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<title>Sign Up - TicketBooker</title>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta first_name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel='icon' type='image/x-icon' href="assets/icons/favicon.svg">
 	<link rel="stylesheet" href="css/palette-dark.css">
 	<link rel="stylesheet" href="css/general.css">
@@ -110,7 +148,7 @@ if (isset($_POST['submit'])){
 	<script src="https://kit.fontawesome.com/26e97bbe8d.js" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 	<script src="js/app.js"></script>
-	
+
 </head>
 
 <body>
@@ -161,7 +199,9 @@ if (isset($_POST['submit'])){
 					</label>
 				</div>
 				<div class="error"><?php echo $typeErr; ?></div>
-				<input type="text" name="name" required="required" placeholder="Name" class="input">
+				<input type="text" name="first_name" required="required" placeholder="First Name" class="input">
+				<input type="text" name="last_name" required="required" placeholder="Last Name" class="input">
+				<input type="text" name="username" required="required" placeholder="Username" class="input">
 
 				<input type="email" name="email" required="required" placeholder="Email address" class="input">
 
