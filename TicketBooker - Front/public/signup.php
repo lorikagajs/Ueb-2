@@ -1,7 +1,6 @@
-
 <?php
-include "./database/db.php";
-include "./database/userfunctions.php";
+include "db.php";
+include "userfunctions.php";
 
 $type = $name = $email = $confirmEmail = $password = $confirmPassword = $checkboxErr = "";
 $typeErr = $usernameErr = $emailErr = $confirmEmailErr = $passwordErr = $confirmPasswordErr = "";
@@ -205,5 +204,3 @@ if (isset($_POST['submit'])){
 	</footer>
 
 </body>
-
-</html>
