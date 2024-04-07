@@ -1,18 +1,8 @@
-<?php 
-//  if(isset($_POST['submit'])){
-// 	$passwordi = $_POST['password'];
-// 	$passordConfirmed =  $_POST['password_confirm'];
 
-// 	$notTheSameMessage = "Wrong! The Password and Password Confirmed Section should be the same";
-// 	$shortLengthMessage = "Wrong! It should be more than 4 characters";
-// 	if ($passwordi == $passordConfirmed){
+<?php
+include "./database/db.php";
+include "./database/userfunctions.php";
 
-// 	} else if($passwordi !== $passordConfirmed){
-// 		echo "<script>alert('$notTheSameMessage');</script>";
-// 	} else if ($passwordi<4 || $passordConfirmed<4 ){
-// 		echo "<script>alert('$shortLengthMessage');</script>";
-// 	}
-//  }
 $type = $name = $email = $confirmEmail = $password = $confirmPassword = $checkboxErr = "";
 $typeErr = $usernameErr = $emailErr = $confirmEmailErr = $passwordErr = $confirmPasswordErr = "";
 $checkbox = false;
@@ -91,10 +81,13 @@ if (isset($_POST['submit'])){
 	} else {
 		$checkbox = true;
 	}
-	
+	if($formValid){
+		createUser($name,$email,$password,$type);
+	}
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

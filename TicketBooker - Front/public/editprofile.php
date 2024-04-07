@@ -1,3 +1,87 @@
+<?php 
+include "./database/db.php";
+include "./database/userfunctions.php";
+
+$name = $email = $oldPassword = $newPassword = $confirmPassword = "";
+$usernameErr = $emailErr =  $oldPasswordErr = $newPasswordErr = $confirmPasswordErr = "";
+$formValid = true;
+
+if(isset($_POST['save'])){
+	//Validate username
+	if (empty($_POST["username"])) {
+		$usernameErr = "Username is required";
+		$formValid = false;
+	} else {
+		$name = sanitizeInput($_POST["username"]);
+	}
+
+	// Validate email
+	if (empty($_POST["email"])) {
+		$emailErr = "Email is required";
+		$formValid = false;
+	} else {
+		$email = sanitizeInput($_POST["email"]);
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$emailErr = "Invalid email format";
+			$formValid = false;
+		}
+	}
+
+	
+	// Validate oldpassword
+	if (empty($_POST["oldpassword"])) {
+		$passwordErr = "Old Password is required";
+		$formValid = false;
+	} else {
+		$oldpassword = $_POST["oldpassword"];
+	}
+
+	// Validate new password
+	if (empty($_POST["newpassword"])) {
+		$newPasswordErr = "New Password is required";
+		$formValid = false;
+	} else {
+		$newPassword = sanitizeInput($_POST["newpassword"]);
+	}
+
+	// Validate confirm new password
+	if (empty($_POST["confirmpassword"])) {
+		$confirmPasswordErr = "Please confirm your new password";
+		$formValid = false;
+	} else {
+		$confirmPassword = sanitizeInput($_POST["confirmpassword"]);
+		if ($confirmPassword !== $newPassword) {
+			$confirmPasswordErr = "Passwords do not match";
+			$formValid = false;
+		}
+	}
+
+	if($formValid){
+		// Check if the old password matches the logged-in user's password
+		$user = logInUser($email, $oldPassword);
+		if ($user) {
+			// User found, verify old password
+			if (password_verify($oldPassword, $user['password'])) {
+				// Old password is correct, update user info with new password
+				$hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+				updateUserInfos($email, $hashedNewPassword);
+				echo "User info updated successfully!";
+			} else {
+				// Old password is incorrect
+				$oldPasswordErr = "Incorrect old password";
+			}
+		} else {
+			// User not found
+			$emailErr = "User not found";
+		}
+	}
+
+	// if(logInUser($email,$password) && empty($usernameErr) && empty($emailErr) $$ empty($passwordErr) && empty($confirmPasswordErr)){
+	// 	updateUserInfos($email,$password);
+	// }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -147,11 +231,11 @@
 					<div class="inputs">
 						<div class="input-field">
 							<label>Username</label>
-							<input type="text" class="input" value="Gjonhajdari">
+							<input type="text" class="input" name="username">
 						</div>
 						<div class="input-field">
 							<label>Email address</label>
-							<input type="text" class="input" value="Gjonhajdari@gmail.com">
+							<input type="text" class="input" name="email">
 						</div>
 					</div>
 				</div>
@@ -189,7 +273,7 @@
 				</div>
 
 				<div class="buttons">
-					<div class="btn" id="btn-primary">Save Changes</div>
+					<div class="btn" id="btn-primary" name="save">Save Changes</div>
 					<div class="btn" id="btn-secondary">Discard</div>
 				</div>
 			</div>

@@ -1,3 +1,12 @@
+<?php 
+  include "./database/db.php";
+  include "./database/userfunctions.php";
+  if(isset($_POST['submit'])){
+	$email = $_POST['email'];
+	$password = $_POST['password'];
+	logInUser($email,$password);
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,7 +59,7 @@
 					</h2>
 			</div>
 
-			<form action="" method="">
+			<form action="index.php" method="post">
 				<input type="email" name="email" required="required" placeholder="Email address" class="input">
 				<div class="password">
 					<input type="password" name="password" required="required" placeholder="Password" class="input" id="passwordInput1">
