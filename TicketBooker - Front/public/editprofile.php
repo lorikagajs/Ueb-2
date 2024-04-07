@@ -1,7 +1,9 @@
+
 <?php 
 include "./database/db.php";
 include "./database/userfunctions.php";
-
+session_start();
+echo $_SESSION['user_name'];
 $name = $email = $oldPassword = $newPassword = $confirmPassword = "";
 $usernameErr = $emailErr =  $oldPasswordErr = $newPasswordErr = $confirmPasswordErr = "";
 $formValid = true;
@@ -224,14 +226,16 @@ if(isset($_POST['save'])){
 			</div>
 
 			<div class="right">
-				<div class="field">
+				<form action="editprofile.php" method="post">
+                 <div class="field">
+					
 					<div class="field-name">
 						<h1>User info</h1>
 					</div>
 					<div class="inputs">
 						<div class="input-field">
 							<label>Username</label>
-							<input type="text" class="input" name="username">
+							<input type="text" class="input" name="username" placeholder="<?php echo $_SESSION['user_name']?>">
 						</div>
 						<div class="input-field">
 							<label>Email address</label>
@@ -276,6 +280,8 @@ if(isset($_POST['save'])){
 					<div class="btn" id="btn-primary" name="save">Save Changes</div>
 					<div class="btn" id="btn-secondary">Discard</div>
 				</div>
+					</form>
+				
 			</div>
 		</div>
 

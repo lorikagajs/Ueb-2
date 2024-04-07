@@ -2,6 +2,7 @@
 <?php
 
 function createUser($username,$email,$password,$accountType){
+    echo "I'm here";
     if(isset($_POST['submit'])){
         global $connection;
         
@@ -14,6 +15,7 @@ function createUser($username,$email,$password,$accountType){
            die('Query FAILED' . mysqli_error());
         } else {
            echo "Record Created";
+           return true;
         }
     }
         
@@ -36,6 +38,12 @@ function createUser($username,$email,$password,$accountType){
             echo $user['password'];
             // User found, verify password
             if (password_verify($password, $user['password'])) {
+                session_start();
+            
+            // Store user information in the session
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_name'] = $user['username']; // Assuming you have a 'name' column
                 echo "Login successful"; 
             } else {
                 echo "Invalid password";
@@ -43,7 +51,6 @@ function createUser($username,$email,$password,$accountType){
         } else {
             echo "User not found";
         }
-
     }
 
     function updateUserInfos($email,$password){

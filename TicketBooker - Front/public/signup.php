@@ -84,8 +84,11 @@ if (isset($_POST['submit'])) {
 	}
 
 	if ($formValid) {
-		createUser($name, $email, $password, $type);
+		if(createUser($name, $email, $password, $type)){
+           header("Location: ./index.php");
+		}
 	}
+	
 }
 
 ?>
