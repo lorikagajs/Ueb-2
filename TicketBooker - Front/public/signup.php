@@ -1,11 +1,12 @@
 <?php
-include "db.php";
-include "userfunctions.php";
+include "./database/db.php";
+include "./database/userfunctions.php";
 
 $type = $name = $email = $confirmEmail = $password = $confirmPassword = $checkboxErr = "";
 $typeErr = $usernameErr = $emailErr = $confirmEmailErr = $passwordErr = $confirmPasswordErr = "";
 $checkbox = false;
 $formValid = true;
+
 //SanitizeInput FUNCTION
 function sanitizeInput($input) {
 	$input = trim($input);
@@ -13,8 +14,9 @@ function sanitizeInput($input) {
 	$input = htmlspecialchars($input);
 	return $input;
 }
-if (isset($_POST['submit'])){
-	//Validate the radio input for individuall and business
+
+if (isset($_POST['submit'])) {
+	//Validate the radio input for individual and business
 	if (!isset($_POST["user_type"])) {
 		$typeErr = "Please select a type";
 		$formValid = false;
@@ -80,16 +82,17 @@ if (isset($_POST['submit'])){
 	} else {
 		$checkbox = true;
 	}
-	if($formValid){
-		createUser($name,$email,$password,$type);
+
+	if ($formValid) {
+		createUser($name, $email, $password, $type);
 	}
 }
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<title>Sign Up - TicketBooker</title>
 	<meta charset="UTF-8">
@@ -102,7 +105,6 @@ if (isset($_POST['submit'])){
 	<script src="https://kit.fontawesome.com/26e97bbe8d.js" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 	<script src="js/app.js"></script>
-	
 </head>
 
 <body>
@@ -181,7 +183,6 @@ if (isset($_POST['submit'])){
 		</div>
 
 	</div>
-	</main>
 
 	<!-- Footer -->
 	<footer>
@@ -204,3 +205,4 @@ if (isset($_POST['submit'])){
 	</footer>
 
 </body>
+</html>
