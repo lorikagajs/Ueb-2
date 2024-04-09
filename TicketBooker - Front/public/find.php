@@ -10,14 +10,15 @@ function filterTickets($tickets)
 	if (isset($_GET['find'])) {
 		foreach ($tickets as $ticket) {
 			if (
-				$_GET['type'] == $ticket->getType() &&
+				($_GET['type'] == '' || $_GET['type'] == $ticket->getType()) &&
 				($_GET['when'] == '' || $_GET['when'] == $ticket->getDate()) &&
-				($_GET['location'] == 'All' || $_GET['location'] == $ticket->getLocation())
+				($_GET['location'] == '' || $_GET['location'] == $ticket->getLocation())
 			)
 				$filteredTickets[] = $ticket;
 		}
 		return $filteredTickets;
 	} else {
+
 		$filteredTickets = $tickets;
 		return $filteredTickets;
 	}
@@ -112,7 +113,7 @@ if (isset($_GET['find'])) {
 	<!-- Main content -->
 	<main class="container">
 		<div class="top">
-			<h1>All tickets</h1>
+			<h1>Available tickets</h1>
 			<div class="filters">
 				<p class="name">Filters</p>
 				<div class="labels">
@@ -126,7 +127,7 @@ if (isset($_GET['find'])) {
 		</div>
 		<div class="search">
 			<div class="results">
-				<p><span id="amount">6</span> results found</p>
+				<p><span id="amount"><?php echo count(filterTickets($tickets)); ?></span> results found</p>
 			</div>
 			<button id="search" class="btn">
 				<img src="assets/icons/search.svg" alt="">
@@ -177,20 +178,21 @@ if (isset($_GET['find'])) {
 		<form action="find.php" method="GET" class="modal-search">
 			<div class="options <?php echo $isDark ? '' : 'border-light'; ?>">
 				<select name="type" id="select-what">
+					<option value="">All</option>
 					<option value="Movie">Movie</option>
 					<option value="Travel">Travel</option>
 					<option value="Concert">Concert</option>
 				</select>
 				<input type="date" name="when" id="select-when">
 				<select name="location" id="select-where">
-					<option value="All">All</option>
-					<option value="prishtine">Prishtinë</option>
-					<option value="mitrovice">Mitrovicë</option>
-					<option value="peje">Pejë</option>
-					<option value="prizren">Prizren</option>
-					<option value="ferizaj">Ferizaj</option>
-					<option value="gjilan">Gjilan</option>
-					<option value="gjakove">Gjakovë</option>
+					<option value="">All</option>
+					<option value="Prishtinë">Prishtinë</option>
+					<option value="Mitrovicë">Mitrovicë</option>
+					<option value="Pejë">Pejë</option>
+					<option value="Prizren">Prizren</option>
+					<option value="Ferizaj">Ferizaj</option>
+					<option value="Gjilan">Gjilan</option>
+					<option value="Gjakovë">Gjakovë</option>
 				</select>
 			</div>
 			<a href="findBySearch.php">
