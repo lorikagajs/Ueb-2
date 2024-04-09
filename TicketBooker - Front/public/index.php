@@ -11,8 +11,7 @@
 	<link rel="stylesheet" href="css/general.css">
 	<link rel="stylesheet" href="css/index.css">
 	<script src="https://kit.fontawesome.com/26e97bbe8d.js" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.6.3.min.js"
-		integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 	<script src="js/app.js"></script>
 </head>
 
@@ -46,34 +45,34 @@
 				<br>anywhere, all in <span id="accent">one place</span>
 			</h1>
 
-			<div class="options">
+			<!-- <div class="options">
 				<p>What, when, where?</p>
-				<!-- <?php include "../src/modules/ticketfinder.php" ?> -->
-				<div class="selectors">
-					<select name="type" id="select-what" required>
-						<option value="" disabled selected>Type</option>
-						<option value="Movie">Movie</option>
-						<option value="Travel">Travel</option>
-						<option value="Concert">Concert</option>
-					</select>
-					<input type="date" name="date" id="select-when" required>
-					<select name="location" id="select-where" required>
-						<option value="" disabled selected>Location</option>
-						<option value="prishtine">Prishtinë</option>
-						<option value="mitrovice">Mitrovicë</option>
-						<option value="peje">Pejë</option>
-						<option value="prizren">Prizren</option>
-						<option value="ferizaj">Ferizaj</option>
-						<option value="gjilan">Gjilan</option>
-						<option value="gjakove">Gjakovë</option>
-					</select>
-				</div>
+			<div class="selectors">
+				<select name="type" id="select-what" required>
+					<option value="" disabled selected>Type</option>
+					<option value="Movie">Movie</option>
+					<option value="Travel">Travel</option>
+					<option value="Concert">Concert</option>
+				</select>
+				<input type="date" name="date" id="select-when" required>
+				<select name="location" id="select-where" required>
+					<option value="" disabled selected>Location</option>
+					<option value="prishtine">Prishtinë</option>
+					<option value="mitrovice">Mitrovicë</option>
+					<option value="peje">Pejë</option>
+					<option value="prizren">Prizren</option>
+					<option value="ferizaj">Ferizaj</option>
+					<option value="gjilan">Gjilan</option>
+					<option value="gjakove">Gjakovë</option>
+				</select>
 			</div>
-
-			<button class="btn" id="findTicketsbtn" name="submit">
-				Find tickets
-				<img src="assets/icons/arrow.svg" alt="">
-			</button>
+		</div> -->
+			<a href="find.php" style="text-decoration:none;">
+				<button class="btn" id="findTicketsbtn" name="submit">
+					Find tickets
+					<img src="assets/icons/arrow.svg" alt="">
+				</button>
+			</a>
 			<br>
 			<div>
 

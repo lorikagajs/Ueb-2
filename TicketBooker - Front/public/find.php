@@ -1,3 +1,43 @@
+<?php
+include("php/ticketinfo.php");
+
+
+function filterTickets($tickets)
+{
+	$filteredTickets = array();
+
+
+	if (isset($_GET['find'])) {
+		foreach ($tickets as $ticket) {
+			if (
+				$_GET['type'] == $ticket->getType() &&
+				($_GET['when'] == '' || $_GET['when'] == $ticket->getDate()) &&
+				($_GET['location'] == 'All' || $_GET['location'] == $ticket->getLocation())
+			)
+				$filteredTickets[] = $ticket;
+		}
+		return $filteredTickets;
+	} else {
+		$filteredTickets = $tickets;
+		return $filteredTickets;
+	}
+}
+
+if (isset($_GET['find'])) {
+	$filteredType = $_GET['type'];
+	$filteredDate = $_GET['when'];
+	$filteredLocation = $_GET['location'];
+} else {
+	$filteredType = 'All types';
+	$filteredDate = 'All dates';
+	$filteredLocation = 'All locations';
+}
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,8 +53,7 @@
 	<link rel="stylesheet" href="css/card.css">
 	<link rel="stylesheet" href="css/find.css">
 	<script src="https://kit.fontawesome.com/26e97bbe8d.js" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.6.3.min.js"
-		integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 	<script src="js/app.js"></script>
 </head>
 
@@ -33,16 +72,14 @@
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
 			<div class="right">
-				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
-					style="border-radius: 50%;">
+				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
 				<p class="name">Gjon Hajdari</p>
 			</div>
 
 			<div class="dropdown">
 				<div class="top">
 					<div class="info">
-						<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
-							style="border-radius: 50%;">
+						<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50" style="border-radius: 50%;">
 						Gjon Hajdari
 					</div>
 					<hr>
@@ -75,13 +112,15 @@
 	<!-- Main content -->
 	<main class="container">
 		<div class="top">
-			<h1>Find tickets</h1>
+			<h1>All tickets</h1>
 			<div class="filters">
 				<p class="name">Filters</p>
 				<div class="labels">
-					<p class="label">Movie</p>
-					<p class="label">23/08/2023</p>
-					<p class="label">Prishtinë</p>
+
+					<p class="label"><?php echo $filteredType; ?> </p>
+					<p class="label"><?php echo $filteredDate; ?></p>
+					<p class="label"><?php echo $filteredLocation; ?></p>
+					<?php ?>
 				</div>
 			</div>
 		</div>
@@ -95,169 +134,37 @@
 			</button>
 		</div>
 		<div class="tickets row g-4">
-			<div class="col-md-6 col-lg-4">
-				<div class="card">
-					<div class="card-body">
-						<h1 class="card-title">Title of event</h1>
-						<div class="date">
-							<img src="assets/icons/calendar.svg" alt="">
-							<div class="info">
-								<p class="primary">Date of event</p>
-								<p class="secondary">Time of event</p>
+			<?php foreach (filterTickets($tickets) as $ticket) : ?>
+				<div class="col-md-6 col-lg-4">
+					<div class="card">
+						<div class="card-body">
+							<h1 class="card-title"><?php echo $ticket->getTitle(); ?></h1>
+							<div class="date">
+								<img src="assets/icons/calendar.svg" alt="">
+								<div class="info">
+									<p class="primary"><?php echo $ticket->getDate(); ?></p>
+									<p class="secondary">Time of event</p>
+								</div>
+							</div>
+							<div class="location">
+								<img src="assets/icons/location.svg" alt="">
+								<div class="info">
+									<p class="primary"><?php echo $ticket->getLocation(); ?></p>
+								</div>
 							</div>
 						</div>
-						<div class="location">
-							<img src="assets/icons/location.svg" alt="">
-							<div class="info">
-								<p class="primary">Location of event</p>
-							</div>
+
+						<hr>
+
+						<div class="card-bottom">
+							<p class="type"><?php echo $ticket->getType(); ?></p>
+							<button class="card-button">Add</button>
 						</div>
-					</div>
-
-					<hr>
-
-					<div class="card-bottom">
-						<p class="type">Ticket type</p>
-						<button class="card-button">Add</button>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-6 col-lg-4">
-				<div class="card">
-					<div class="card-body">
-						<h1 class="card-title">Title of event</h1>
-						<div class="date">
-							<img src="assets/icons/calendar.svg" alt="">
-							<div class="info">
-								<p class="primary">Date of event</p>
-								<p class="secondary">Time of event</p>
-							</div>
-						</div>
-						<div class="location">
-							<img src="assets/icons/location.svg" alt="">
-							<div class="info">
-								<p class="primary">Location of event</p>
-							</div>
-						</div>
-					</div>
+			<?php endforeach; ?>
 
-					<hr>
 
-					<div class="card-bottom">
-						<p class="type">Ticket type</p>
-						<button class="card-button">Add</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-lg-4">
-				<div class="card">
-					<div class="card-body">
-						<h1 class="card-title">Title of event</h1>
-						<div class="date">
-							<img src="assets/icons/calendar.svg" alt="">
-							<div class="info">
-								<p class="primary">Date of event</p>
-								<p class="secondary">Time of event</p>
-							</div>
-						</div>
-						<div class="location">
-							<img src="assets/icons/location.svg" alt="">
-							<div class="info">
-								<p class="primary">Location of event</p>
-							</div>
-						</div>
-					</div>
-
-					<hr>
-
-					<div class="card-bottom">
-						<p class="type">Ticket type</p>
-						<button class="card-button">Add</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-lg-4">
-				<div class="card">
-					<div class="card-body">
-						<h1 class="card-title">Title of event</h1>
-						<div class="date">
-							<img src="assets/icons/calendar.svg" alt="">
-							<div class="info">
-								<p class="primary">Date of event</p>
-								<p class="secondary">Time of event</p>
-							</div>
-						</div>
-						<div class="location">
-							<img src="assets/icons/location.svg" alt="">
-							<div class="info">
-								<p class="primary">Location of event</p>
-							</div>
-						</div>
-					</div>
-
-					<hr>
-
-					<div class="card-bottom">
-						<p class="type">Ticket type</p>
-						<button class="card-button">Add</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-lg-4">
-				<div class="card">
-					<div class="card-body">
-						<h1 class="card-title">Title of event</h1>
-						<div class="date">
-							<img src="assets/icons/calendar.svg" alt="">
-							<div class="info">
-								<p class="primary">Date of event</p>
-								<p class="secondary">Time of event</p>
-							</div>
-						</div>
-						<div class="location">
-							<img src="assets/icons/location.svg" alt="">
-							<div class="info">
-								<p class="primary">Location of event</p>
-							</div>
-						</div>
-					</div>
-
-					<hr>
-
-					<div class="card-bottom">
-						<p class="type">Ticket type</p>
-						<button class="card-button">Add</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-lg-4">
-				<div class="card">
-					<div class="card-body">
-						<h1 class="card-title">Title of event</h1>
-						<div class="date">
-							<img src="assets/icons/calendar.svg" alt="">
-							<div class="info">
-								<p class="primary">Date of event</p>
-								<p class="secondary">Time of event</p>
-							</div>
-						</div>
-						<div class="location">
-							<img src="assets/icons/location.svg" alt="">
-							<div class="info">
-								<p class="primary">Location of event</p>
-							</div>
-						</div>
-					</div>
-
-					<hr>
-
-					<div class="card-bottom">
-						<p class="type">Ticket type</p>
-						<button class="card-button">Add</button>
-					</div>
-				</div>
-			</div>
-		</div>
 	</main>
 
 	<div class="modal" id="modal">
@@ -267,7 +174,7 @@
 				<img src="assets/icons/close.svg" alt="">
 			</button>
 		</div>
-		<form action="" class="modal-search">
+		<form action="find.php" method="GET" class="modal-search">
 			<div class="options <?php echo $isDark ? '' : 'border-light'; ?>">
 				<select name="type" id="select-what">
 					<option value="Movie">Movie</option>
@@ -276,6 +183,7 @@
 				</select>
 				<input type="date" name="when" id="select-when">
 				<select name="location" id="select-where">
+					<option value="All">All</option>
 					<option value="prishtine">Prishtinë</option>
 					<option value="mitrovice">Mitrovicë</option>
 					<option value="peje">Pejë</option>
@@ -285,7 +193,9 @@
 					<option value="gjakove">Gjakovë</option>
 				</select>
 			</div>
-			<input type="submit" name="find" value="Find tickets" id="find">
+			<a href="findBySearch.php">
+				<input type="submit" name="find" value="Find tickets" id="find">
+			</a>
 		</form>
 	</div>
 
