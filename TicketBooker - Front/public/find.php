@@ -144,6 +144,7 @@ if (isset($_GET['find'])) {
 								<img src="assets/icons/calendar.svg" alt="">
 								<div class="info">
 									<p class="primary"><?php echo $ticket->getDate(); ?></p>
+
 									<p class="secondary">Time of event</p>
 								</div>
 							</div>
@@ -151,6 +152,7 @@ if (isset($_GET['find'])) {
 								<img src="assets/icons/location.svg" alt="">
 								<div class="info">
 									<p class="primary"><?php echo $ticket->getLocation(); ?></p>
+
 								</div>
 							</div>
 						</div>
@@ -159,10 +161,18 @@ if (isset($_GET['find'])) {
 
 						<div class="card-bottom">
 							<p class="type"><?php echo $ticket->getType(); ?></p>
-							<button class="card-button">Add</button>
+							<form action="profile.php" method="post">
+								<input type="hidden" name="myTicketTitle" value="<?php echo $ticket->getTitle(); ?>">
+								<input type="hidden" name="myTicketDate" value="<?php echo $ticket->getDate(); ?>">
+								<input type="hidden" name="myTicketLocation" value="<?php echo $ticket->getLocation(); ?>">
+								<input type="hidden" name="myTicketType" value="<?php echo $ticket->getType(); ?>">
+								<button type="submit" class="card-button" name="myTicketAdder">Add</button>
+							</form>
+
 						</div>
 					</div>
 				</div>
+
 			<?php endforeach; ?>
 
 

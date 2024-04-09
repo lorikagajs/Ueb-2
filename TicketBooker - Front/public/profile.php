@@ -1,3 +1,20 @@
+<?php
+include("php/ticketinfo.php");
+
+if (isset($_POST["myTicketAdder"])) {
+	$myTickets = array();
+
+	$myTicketTitle = $_POST["myTicketTitle"];
+	$myTicketDate = $_POST["myTicketDate"];
+	$myTicketLocation = $_POST["myTicketLocation"];
+	$myTicketType = $_POST["myTicketType"];
+	$myTickets[] = new Tickets($myTicketTitle, $myTicketDate, $myTicketLocation, $myTicketType);
+}
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,8 +31,7 @@
 	<link rel="stylesheet" href="css/card.css">
 	<link rel="stylesheet" href="css/profile.css">
 	<script src="https://kit.fontawesome.com/26e97bbe8d.js" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.6.3.min.js"
-		integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 	<script src="js/app.js"></script>
 </head>
 
@@ -34,16 +50,14 @@
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
 			<div class="right">
-				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
-					style="border-radius: 50%;">
+				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
 				<p class="name">Gjon Hajdari</p>
 			</div>
 
 			<div class="dropdown">
 				<div class="top">
 					<div class="info">
-						<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
-							style="border-radius: 50%;">
+						<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50" style="border-radius: 50%;">
 						Gjon Hajdari
 					</div>
 
@@ -128,7 +142,38 @@
 		<hr class="divider">
 
 		<div class="tickets row g-4">
-			<div class="col-md-6 col-lg-4">
+			<?php foreach ($myTickets as $myTicket) : ?>
+				<div class="col-md-6 col-lg-4">
+					<div class="card">
+						<div class="card-body">
+							<h1 class="card-title"><?php echo $myTicket->getTitle(); ?></h1>
+							<div class="date">
+								<img src="assets/icons/calendar.svg" alt="">
+								<div class="info">
+									<p class="primary"><?php echo $myTicket->getDate(); ?></p>
+									<p class="secondary">Time of event</p>
+								</div>
+							</div>
+							<div class="location">
+								<img src="assets/icons/location.svg" alt="">
+								<div class="info">
+									<p class="primary"><?php echo $myTicket->getLocation(); ?></p>
+								</div>
+							</div>
+						</div>
+
+						<hr>
+
+						<div class="card-bottom">
+							<p class="type"><?php echo $myTicket->getType(); ?></p>
+							<button class="trash">
+								<img src="assets/icons/trash.svg" alt="">
+							</button>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+			<!-- <div class="col-md-6 col-lg-4">
 				<div class="card">
 					<div class="card-body">
 						<h1 class="card-title">Title of event</h1>
@@ -273,36 +318,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6 col-lg-4">
-				<div class="card">
-					<div class="card-body">
-						<h1 class="card-title">Title of event</h1>
-						<div class="date">
-							<img src="assets/icons/calendar.svg" alt="">
-							<div class="info">
-								<p class="primary">Date of event</p>
-								<p class="secondary">Time of event</p>
-							</div>
-						</div>
-						<div class="location">
-							<img src="assets/icons/location.svg" alt="">
-							<div class="info">
-								<p class="primary">Location of event</p>
-							</div>
-						</div>
-					</div>
-
-					<hr>
-
-					<div class="card-bottom">
-						<p class="type">Ticket type</p>
-						<button class="trash">
-							<img src="assets/icons/trash.svg" alt="">
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
+		</div> -->
 
 	</main>
 
