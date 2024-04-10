@@ -37,14 +37,12 @@ function logInUser($email, $password)
     if ($user) {
         echo $password;
         echo $user['password'];
-        // User found, verify password
+        
         if (password_verify($password, $user['password'])) {
             session_start();
-
-            // Store user information in the session
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_name'] = $user['username']; // Assuming you have a 'name' column
+            $_SESSION['user_name'] = $user['username']; 
             echo "Login successful";
         } else {
             echo "Invalid password";
