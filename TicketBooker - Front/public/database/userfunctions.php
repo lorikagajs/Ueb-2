@@ -1,76 +1,76 @@
-<?php include "db.php" ?>
+<?php //include "db.php" ?>
 <?php
 
-function createUser($username, $email, $password, $accountType)
-{
-    echo "I'm here";
-    if (isset($_POST['submit'])) {
-        global $connection;
+// function createUser($username, $email, $password, $accountType)
+// {
+//     echo "I'm here";
+//     if (isset($_POST['submit'])) {
+//         global $connection;
 
-        // Hash the password before storing it
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $query = "INSERT INTO users(username,email,password,accountType) ";
-        $query .= "VALUES ('$username','$email','$hashedPassword','$accountType')";
-        $result = mysqli_query($connection, $query);
-        if (!$result) {
-            die('Query FAILED' . mysqli_error());
-        } else {
-            echo "Record Created";
-            return true;
-        }
-    }
-}
+//         // Hash the password before storing it
+//         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+//         $query = "INSERT INTO users(username,email,password,accountType) ";
+//         $query .= "VALUES ('$username','$email','$hashedPassword','$accountType')";
+//         $result = mysqli_query($connection, $query);
+//         if (!$result) {
+//             die('Query FAILED' . mysqli_error());
+//         } else {
+//             echo "Record Created";
+//             return true;
+//         }
+//     }
+// }
 
-function logInUser($email, $password)
-{
-    global $connection;
+// function logInUser($email, $password)
+// {
+//     global $connection;
 
-    $query = "SELECT * FROM users WHERE email='$email'";
-    $result = mysqli_query($connection, $query);
+//     $query = "SELECT * FROM users WHERE email='$email'";
+//     $result = mysqli_query($connection, $query);
 
-    if (!$result) {
-        die('Query FAILED' . mysqli_error($connection));
-    }
+//     if (!$result) {
+//         die('Query FAILED' . mysqli_error($connection));
+//     }
 
-    $user = mysqli_fetch_assoc($result);
+//     $user = mysqli_fetch_assoc($result);
 
-    if ($user) {
-        echo $password;
-        echo $user['password'];
+//     if ($user) {
+//         echo $password;
+//         echo $user['password'];
         
-        if (password_verify($password, $user['password'])) {
-            session_start();
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_name'] = $user['username']; 
-            echo "Login successful";
-        } else {
-            echo "Invalid password";
-        }
-    } else {
-        echo "User not found";
-    }
-}
+//         if (password_verify($password, $user['password'])) {
+//             session_start();
+//             $_SESSION['user_id'] = $user['id'];
+//             $_SESSION['user_email'] = $user['email'];
+//             $_SESSION['user_name'] = $user['username']; 
+//             echo "Login successful";
+//         } else {
+//             echo "Invalid password";
+//         }
+//     } else {
+//         echo "User not found";
+//     }
+// }
 
-function updateUserInfos($email, $password)
-{
-    if (isset($_POST['save'])) {
-        global $connection;
+// function updateUserInfos($email, $password)
+// {
+//     if (isset($_POST['save'])) {
+//         global $connection;
 
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $query = "UPDATE users SET ";
-        $query .= "username = '$username', ";
-        $query .= "password = '$password' ";
-        $query .= "WHERE email = $email ";
+//         $username = $_POST['username'];
+//         $email = $_POST['email'];
+//         $password = $_POST['password'];
+//         $query = "UPDATE users SET ";
+//         $query .= "username = '$username', ";
+//         $query .= "password = '$password' ";
+//         $query .= "WHERE email = $email ";
 
-        $result = mysqli_query($connection, $query);
-        if (!$result) {
-            die('Query FAILED' . mysqli_error($connection));
-        } else {
-            echo "Record Updated";
-        }
-    }
-}
+//         $result = mysqli_query($connection, $query);
+//         if (!$result) {
+//             die('Query FAILED' . mysqli_error($connection));
+//         } else {
+//             echo "Record Updated";
+//         }
+//     }
+// }
 ?>

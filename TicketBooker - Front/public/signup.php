@@ -1,6 +1,7 @@
 <?php
-include "./database/db.php";
-include "./database/userfunctions.php";
+//include "./database/db.php";
+//include "./database/userfunctions.php";
+session_start();
 
 $type = $name = $email = $confirmEmail = $password = $confirmPassword = $checkboxErr = "";
 $typeErr = $usernameErr = $emailErr = $confirmEmailErr = $passwordErr = $confirmPasswordErr = "";
@@ -44,16 +45,16 @@ if (isset($_POST['submit'])) {
 		}
 	}
 	// Validate confirm email
-	if (empty($_POST["email_confirm"])) {
-		$confirmEmailErr = "Please confirm your email";
-		$formValid = false;
-	} else {
-		$confirmEmail = sanitizeInput($_POST["email_confirm"]);
-		if ($confirmEmail !== $email) {
-			$confirmEmailErr = "Emails do not match";
-			$formValid = false;
-		}
-	}
+	// if (empty($_POST["email_confirm"])) {
+	// 	$confirmEmailErr = "Please confirm your email";
+	// 	$formValid = false;
+	// } else {
+	// 	$confirmEmail = sanitizeInput($_POST["email_confirm"]);
+	// 	if ($confirmEmail !== $email) {
+	// 		$confirmEmailErr = "Emails do not match";
+	// 		$formValid = false;
+	// 	}
+	// }
 
 	// Validate password
 	if (empty($_POST["password"])) {
@@ -83,12 +84,26 @@ if (isset($_POST['submit'])) {
 		$checkbox = true;
 	}
 
+	// if ($formValid) {
+	// 	if(createUser($name, $email, $password, $type)){
+    //        header("Location: ./index.php");
+	// 	}
+	// }
 	if ($formValid) {
-		if(createUser($name, $email, $password, $type)){
-           header("Location: ./index.php");
-		}
-	}
-	
+        // Create an array to store user data
+        $user_data = array(
+            'name' => $name,
+            'email' => $email,
+			'password' => $password,
+            'user_type' => $type
+        );
+
+        // Store user data in session
+        $_SESSION['user'] = $user_data;
+
+        header("Location: index.php");
+        exit();
+    }
 }
 
 ?>
@@ -162,7 +177,7 @@ if (isset($_POST['submit'])) {
 
 				<input type="email" name="email" required="required" placeholder="Email address" class="input">
 
-				<input type="email" name="email_confirm" required="required" placeholder="Confirm email" class="input">
+				
 
 				<div class="password">
 					<input type="password" name="password" required="required" placeholder="Password" class="input" id="passwordInput1">

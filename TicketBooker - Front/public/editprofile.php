@@ -1,87 +1,99 @@
 
 <?php 
-include "./database/db.php";
-include "./database/userfunctions.php";
+//include "./database/db.php";
+//include "./database/userfunctions.php";
 session_start();
-echo $_SESSION['user_name'];
-$name = $email = $oldPassword = $newPassword = $confirmPassword = "";
+
+
+
+// Set initial values for form fields
+$username = $_SESSION['user_name'];
+$email = $_SESSION['user_email'];
+$oldPassword = $newPassword = $confirmPassword = "";
 $usernameErr = $emailErr =  $oldPasswordErr = $newPasswordErr = $confirmPasswordErr = "";
 $formValid = true;
 
-if(isset($_POST['save'])){
-	//Validate username
-	if (empty($_POST["username"])) {
-		$usernameErr = "Username is required";
-		$formValid = false;
-	} else {
-		$name = sanitizeInput($_POST["username"]);
-	}
-
-	// Validate email
-	if (empty($_POST["email"])) {
-		$emailErr = "Email is required";
-		$formValid = false;
-	} else {
-		$email = sanitizeInput($_POST["email"]);
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			$emailErr = "Invalid email format";
-			$formValid = false;
-		}
-	}
-
-	
-	// Validate oldpassword
-	if (empty($_POST["oldpassword"])) {
-		$passwordErr = "Old Password is required";
-		$formValid = false;
-	} else {
-		$oldpassword = $_POST["oldpassword"];
-	}
-
-	// Validate new password
-	if (empty($_POST["newpassword"])) {
-		$newPasswordErr = "New Password is required";
-		$formValid = false;
-	} else {
-		$newPassword = sanitizeInput($_POST["newpassword"]);
-	}
-
-	// Validate confirm new password
-	if (empty($_POST["confirmpassword"])) {
-		$confirmPasswordErr = "Please confirm your new password";
-		$formValid = false;
-	} else {
-		$confirmPassword = sanitizeInput($_POST["confirmpassword"]);
-		if ($confirmPassword !== $newPassword) {
-			$confirmPasswordErr = "Passwords do not match";
-			$formValid = false;
-		}
-	}
-
-	if($formValid){
-		// Check if the old password matches the logged-in user's password
-		$user = logInUser($email, $oldPassword);
-		if ($user) {
-			// User found, verify old password
-			if (password_verify($oldPassword, $user['password'])) {
-				// Old password is correct, update user info with new password
-				$hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-				updateUserInfos($email, $hashedNewPassword);
-				echo "User info updated successfully!";
-			} else {
-				// Old password is incorrect
-				$oldPasswordErr = "Incorrect old password";
-			}
-		} else {
-			// User not found
-			$emailErr = "User not found";
-		}
-	}
-
-	// if(logInUser($email,$password) && empty($usernameErr) && empty($emailErr) $$ empty($passwordErr) && empty($confirmPasswordErr)){
-	// 	updateUserInfos($email,$password);
-	// }
+// Check if user is logged in
+if (!isset($_SESSION['user_name'])) {
+    header("Location: login.php");
+    exit();
 }
+
+if (isset($_POST['save'])) {
+    // Validate username
+    if (empty($_POST["username"])) {
+        $usernameErr = "Username is required";
+        $formValid = false;
+    } else {
+        $username = sanitizeInput($_POST["username"]);
+    }
+
+    // Validate email
+    if (empty($_POST["email"])) {
+        $emailErr = "Email is required";
+        $formValid = false;
+    } else {
+        $email = sanitizeInput($_POST["email"]);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $emailErr = "Invalid email format";
+            $formValid = false;
+        }
+    }
+
+    // Validate old password
+    if (empty($_POST["oldpassword"])) {
+        $oldPasswordErr = "Old Password is required";
+        $formValid = false;
+    } else {
+        $oldPassword = $_POST["oldpassword"];
+    }
+
+    // Validate new password
+    if (empty($_POST["newpassword"])) {
+        $newPasswordErr = "New Password is required";
+        $formValid = false;
+    } else {
+        $newPassword = sanitizeInput($_POST["newpassword"]);
+    }
+
+    // Validate confirm new password
+    if (empty($_POST["confirmpassword"])) {
+        $confirmPasswordErr = "Please confirm your new password";
+        $formValid = false;
+    } else {
+        $confirmPassword = sanitizeInput($_POST["confirmpassword"]);
+        if ($confirmPassword !== $newPassword) {
+            $confirmPasswordErr = "Passwords do not match";
+            $formValid = false;
+        }
+    }
+
+    if ($formValid) {
+        // Here you would handle updating the user information in your database
+        // For demonstration purposes, we're just updating the session values
+        $_SESSION['user_name'] = $username;
+        $_SESSION['user_email'] = $email;
+        // You should also handle updating the password, similar to how you did in signup.php
+        // For security, it's recommended to hash the new password before storing
+        // $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        // Update the password in the database
+        // updateUserPassword($_SESSION['user_email'], $hashedNewPassword);
+
+        // Redirect to a success page or display a success message
+        // header("Location: profile.php");
+        // exit();
+        echo "User info updated successfully!";
+    }
+}
+
+// Sanitize input function
+function sanitizeInput($input) {
+    $input = trim($input);
+    $input = stripslashes($input);
+    $input = htmlspecialchars($input);
+    return $input;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -161,7 +173,7 @@ if(isset($_POST['save'])){
 	<!-- Main content -->
 	<div class="container">
 		<h1 class="path">
-			<span>Gjon Hajdari /</span> Edit profile
+			<span><?php echo $_SESSION['user_name']; ?></span> Edit profile
 		</h1>
 		<div class="main">
 			<div class="left">
@@ -235,11 +247,13 @@ if(isset($_POST['save'])){
 					<div class="inputs">
 						<div class="input-field">
 							<label>Username</label>
-							<input type="text" class="input" name="username" placeholder="<?php echo $_SESSION['user_name']?>">
+							<input type="text" class="input" name="username" value="<?php echo $username; ?>">
+                                <span class="error"><?php echo $usernameErr; ?></span>
 						</div>
 						<div class="input-field">
 							<label>Email address</label>
-							<input type="text" class="input" name="email">
+							<input type="text" class="input" name="email" value="<?php echo $email; ?>">
+                                <span class="error"><?php echo $emailErr; ?></span>
 						</div>
 					</div>
 				</div>
@@ -252,14 +266,17 @@ if(isset($_POST['save'])){
 						<div class="input-field">
 							<label>Old password</label>
 							<input type="password" class="input" name="oldpassword">
+                                <span class="error"><?php echo $oldPasswordErr; ?></span>
 						</div>
 						<div class="input-field">
 							<label>New password</label>
 							<input type="password" class="input" name="newpassword">
+							<span class="error"><?php echo $newPasswordErr; ?></span>
 						</div>
 						<div class="input-field">
 							<label>Confirm new password</label>
 							<input type="password" class="input" name="confirmpassword">
+							<span class="error"><?php echo $confirmPasswordErr; ?></span>
 						</div>
 					</div>
 				</div>

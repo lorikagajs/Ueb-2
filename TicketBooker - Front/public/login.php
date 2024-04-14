@@ -1,10 +1,34 @@
 <?php 
-  include "./database/db.php";
-  include "./database/userfunctions.php";
+  //include "./database/db.php";
+  //include "./database/userfunctions.php";
+
+  session_start();
+
+  if (isset($_SESSION['user'])) {
+    $user_data = $_SESSION['user'];
+    $valid_email = $user_data['email'];
+    // For now, let's assume password is stored in plain text (for demonstration purposes)
+    $valid_password = $user_data['password'];
+} else {
+    // If user data is not set, redirect back to signup page
+    header("Location: signup.php");
+    exit();
+}
+
   if(isset($_POST['submit'])){
 	$email = $_POST['email'];
 	$password = $_POST['password'];
-	logInUser($email,$password);
+	// logInUser($email,$password);
+	if ($email === $valid_email && $password === $valid_password) {
+        // Store email in session
+        $_SESSION['email'] = $email;
+        // Redirect to index.php
+        header("Location: index.php");
+        exit();
+    } else {
+        // Invalid login, show error
+        $error = "Invalid email or password. Please try again.";
+    }
   }
 ?>
 <!DOCTYPE html>
@@ -59,7 +83,7 @@
 					</h2>
 			</div>
 
-			<form action="index.php" method="post">
+			<form action="login.php" method="post">
 				<input type="email" name="email" required="required" placeholder="Email address" class="input">
 				<div class="password">
 					<input type="password" name="password" required="required" placeholder="Password" class="input" id="passwordInput1">
@@ -70,6 +94,9 @@
 				<div id="checkbox">
 					<input type="checkbox" name="checkbox" id="check" name="remember_checkbox"> Remember me
 				</div>
+				<?php if (isset($error)) : ?>
+                    <div class="error"><?php echo $error; ?></div>
+                <?php endif; ?>
 				<input type="submit" name="submit" id="button" class="btn" value="Login">
 			</form>
 		</div>
