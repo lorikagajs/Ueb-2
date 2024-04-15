@@ -60,3 +60,18 @@ $tickets[] = new Tickets("Zoo Visit", "2025-10-30", "Prizren", "Travel");
 $tickets[] = new Tickets("Indie Movie Screening", "2025-11-05", "Mitrovicë", "Movie");
 $tickets[] = new Tickets("Pop-Up Restaurant", "2025-12-10", "Ferizaj", "Concert");
 
+$organizedTickets = array();
+foreach ($tickets as $ticket) {
+    $type = $ticket->getType();
+    $organizedTickets[$type][] = array(
+        "title" => $ticket->getTitle(),
+        "date" => $ticket->getDate(),
+        "location" => $ticket->getLocation(),
+        "type" => $type
+    );
+}
+
+echo "<pre>";
+print_r($organizedTickets);
+echo "</pre>";
+?>
