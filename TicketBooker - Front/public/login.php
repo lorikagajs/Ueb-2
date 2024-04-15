@@ -21,7 +21,9 @@
 	// logInUser($email,$password);
 	if ($email === $valid_email && $password === $valid_password) {
         // Store email in session
-        $_SESSION['email'] = $email;
+		$_SESSION['user_name'] = $user_data['name'];
+        $_SESSION['user_email'] = $user_data['email'];
+        // $_SESSION['email'] = $email;
         // Redirect to index.php
         header("Location: index.php");
         exit();

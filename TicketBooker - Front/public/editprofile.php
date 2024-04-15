@@ -6,12 +6,7 @@ session_start();
 
 
 
-// Set initial values for form fields
-$username = $_SESSION['user_name'];
-$email = $_SESSION['user_email'];
-$oldPassword = $newPassword = $confirmPassword = "";
-$usernameErr = $emailErr =  $oldPasswordErr = $newPasswordErr = $confirmPasswordErr = "";
-$formValid = true;
+
 
 // Check if user is logged in
 if (!isset($_SESSION['user_name'])) {
@@ -19,7 +14,13 @@ if (!isset($_SESSION['user_name'])) {
     exit();
 }
 
-if (isset($_POST['save'])) {
+$username = $_SESSION['user_name'] ?? '';
+$email = $_SESSION['user_email'] ?? '';
+$oldPassword = $newPassword = $confirmPassword = "";
+$usernameErr = $emailErr = $oldPasswordErr = $newPasswordErr = $confirmPasswordErr = "";
+$formValid = true;
+
+if (isset($_POST['submit'])) {
     // Validate username
     if (empty($_POST["username"])) {
         $usernameErr = "Username is required";
@@ -46,6 +47,11 @@ if (isset($_POST['save'])) {
         $formValid = false;
     } else {
         $oldPassword = $_POST["oldpassword"];
+		$hashedOldPasswordFromSession = $_SESSION['user_password'];
+        if (!$hashedOldPasswordFromSession || $oldPassword !== $hashedOldPasswordFromSession) {
+            $oldPasswordErr = "Incorrect old password";
+            $formValid = false;
+        }
     }
 
     // Validate new password
@@ -54,6 +60,10 @@ if (isset($_POST['save'])) {
         $formValid = false;
     } else {
         $newPassword = sanitizeInput($_POST["newpassword"]);
+		if (strlen($newPassword) < 8) {
+            $newPasswordErr = "Password must be at least 8 characters long";
+            $formValid = false;
+        }
     }
 
     // Validate confirm new password
@@ -71,8 +81,11 @@ if (isset($_POST['save'])) {
     if ($formValid) {
         // Here you would handle updating the user information in your database
         // For demonstration purposes, we're just updating the session values
+		
+
         $_SESSION['user_name'] = $username;
         $_SESSION['user_email'] = $email;
+		$_SESSION['user_password'] = $newPassword;
         // You should also handle updating the password, similar to how you did in signup.php
         // For security, it's recommended to hash the new password before storing
         // $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -294,8 +307,11 @@ function sanitizeInput($input) {
 				</div>
 
 				<div class="buttons">
-					<div class="btn" id="btn-primary" name="save">Save Changes</div>
-					<div class="btn" id="btn-secondary">Discard</div>
+					<!-- <div class="btn" id="btn-primary" name="save">Save Changes</div>
+					<div class="btn" id="btn-secondary">Discard</div> -->
+					<button type="submit" class="btn" name="submit">Save Changes</button>
+    <div class="btn" id="btn-secondary">Discard</div>
+
 				</div>
 					</form>
 				

@@ -101,6 +101,9 @@ if (isset($_POST['submit'])) {
         // Store user data in session
         $_SESSION['user'] = $user_data;
 
+		$_SESSION['user_name'] = $name;
+        $_SESSION['user_email'] = $email;
+
         header("Location: index.php");
         exit();
     }
