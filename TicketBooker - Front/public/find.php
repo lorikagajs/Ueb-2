@@ -33,16 +33,16 @@ if (isset($_GET['find'])) {
 	$filteredDate = 'All dates';
 	$filteredLocation = 'All locations';
 }
-switch (true) {
-    case isset($_GET['find']):
-        $filteredType = $_GET['type'] ?: 'All types';
-        $filteredDate = $_GET['when'] ?: 'All dates';
-        $filteredLocation = $_GET['location'] ?: 'All locations';
-        break;
-    default:
-      
-        break;
-}
+// switch (true) {
+//     case isset($_GET['find']):
+//         $filteredType = $_GET['type'] ?: 'All types';
+//         $filteredDate = $_GET['when'] ?: 'All dates';
+//         $filteredLocation = $_GET['location'] ?: 'All locations';
+//         break;
+//     default:
+
+//         break;
+// }
 
 ?>
 
