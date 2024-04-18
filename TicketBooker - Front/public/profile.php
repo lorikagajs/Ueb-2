@@ -142,9 +142,9 @@ if (isset($_POST["myTicketAdder"])) {
 		<hr class="divider">
 
 		<div class="tickets row g-4">
-			<?php foreach ($myTickets as $myTicket) : ?>
+			<?php foreach ($myTickets as $index => $myTicket) : ?>
 				<div class="col-md-6 col-lg-4">
-					<div class="card">
+					<div class="card" id="card-<?php echo $index; ?>">
 						<div class="card-body">
 							<h1 class="card-title"><?php echo $myTicket->getTitle(); ?></h1>
 							<div class="date">
@@ -166,13 +166,23 @@ if (isset($_POST["myTicketAdder"])) {
 
 						<div class="card-bottom">
 							<p class="type"><?php echo $myTicket->getType(); ?></p>
-							<button class="trash">
+							<button class="trash" onclick="deleteCard(<?php echo $index; ?>)">
 								<img src="assets/icons/trash.svg" alt="">
 							</button>
 						</div>
 					</div>
 				</div>
 			<?php endforeach; ?>
+		</div>
+
+		<script>
+			function deleteCard(index) {
+				var cardId = 'card-' + index;
+				var card = document.getElementById(cardId);
+				card.parentNode.removeChild(card);
+				// Here, you can add additional logic to perform deletion on the server-side using AJAX or form submission.
+			}
+		</script>
 			<!-- <div class="col-md-6 col-lg-4">
 				<div class="card">
 					<div class="card-body">
