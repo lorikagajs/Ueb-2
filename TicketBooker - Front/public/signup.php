@@ -31,6 +31,11 @@ if (isset($_POST['submit'])) {
 		$formValid = false;
 	} else {
 		$name = sanitizeInput($_POST["name"]);
+		// RegEx for username
+		if (!preg_match('/^\w{5,15}$/', $name)) {
+				$usernameErr = "Username must be 5-15 characters long and contain only letters, numbers, and underscores.";
+				$formValid = false;
+		}
 	}
 
 	// Validate email
@@ -62,6 +67,11 @@ if (isset($_POST['submit'])) {
 		$formValid = false;
 	} else {
 		$password = sanitizeInput($_POST["password"]);
+		// RegEx for password
+		if (!preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/', $password)) {
+				$passwordErr = "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.";
+				$formValid = false;
+		}
 	}
 
 	// Validate confirm password
@@ -119,6 +129,25 @@ if (isset($_POST['submit'])) {
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+
+
+.error { 
+    color: red; 
+    font-size: 0.8em;
+}
+
+.input{
+	margin-bottom: 14px
+}
+.fa-solid{
+	height: 64px
+}
+.user-type{
+	margin-bottom: 14px
+}
+
+</style>
 	<link rel='icon' type='image/x-icon' href="assets/icons/favicon.svg">
 	<link rel="stylesheet" href="css/palette-dark.css">
 	<link rel="stylesheet" href="css/general.css">
@@ -164,7 +193,7 @@ if (isset($_POST['submit'])) {
 			</div>
 
 			<form action="signup.php" method="post">
-
+				<div>
 				<div class="user-type">
 					<label>
 						<input type="radio" name="user_type" value="INDIVIDUAL" required>
@@ -176,16 +205,20 @@ if (isset($_POST['submit'])) {
 					</label>
 				</div>
 				<div class="error"><?php echo $typeErr; ?></div>
-				<input type="text" name="name" required="required" placeholder="Name" class="input">
+				<input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>" required="required" placeholder="Name" class="input">
+        <div class="error"><?php echo $usernameErr; ?></div>
+
 
 				<input type="email" name="email" required="required" placeholder="Email address" class="input">
 
 				
 
 				<div class="password">
-					<input type="password" name="password" required="required" placeholder="Password" class="input" id="passwordInput1">
-					<i class="fa-solid fa-eye-slash toggle-visibility" id="toggle-visibility-1"></i>
-				</div>
+        <input type="password" name="password" required="required" placeholder="Password" class="input" id="passwordInput1">
+        <i class="fa-solid fa-eye-slash toggle-visibility" id="toggle-visibility-1"></i>
+        </div>
+        <div class="error"><?php echo $passwordErr; ?></div>
+
 
 				<div class="password">
 					<input type="password" name="password_confirm" required="required" placeholder="Confirm password" class="input" id="passwordInput2">
@@ -200,6 +233,7 @@ if (isset($_POST['submit'])) {
 				</div>
 				<div class="error"><?php echo $checkboxErr; ?></div>
 				<input type="submit" name="submit" id="button" class="btn">
+				</div>
 			</form>
 		</div>
 
