@@ -138,6 +138,7 @@ if (isset($_POST['submit'])) {
 .error { 
     color: red; 
     font-size: 0.8em;
+		margin-bottom: 5px
 }
 
 .input{
@@ -225,9 +226,10 @@ if (isset($_POST['submit'])) {
 
 
 				<div class="password">
-					<input type="password" name="password_confirm" required="required" placeholder="Confirm password" class="input" id="passwordInput2">
-					<i class="fa-solid fa-eye-slash toggle-visibility" id="toggle-visibility-2"></i>
-				</div>
+        <input type="password" name="password_confirm" required="required" placeholder="Confirm password" class="input" id="passwordInput2">
+        <i class="fa-solid fa-eye-slash toggle-visibility" id="toggle-visibility-2"></i>
+        </div>
+        <div class="error"><?php echo $confirmPasswordErr; ?></div>
 
 				<div id="checkbox">
 					<input type="checkbox" name="checkbox" id="check" required="required">
