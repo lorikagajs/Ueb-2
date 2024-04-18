@@ -18,20 +18,20 @@
 if(isset($_POST['submit'])){
 	$email = $_POST['email'];
 	$password = $_POST['password'];
-
-	$emailPattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
-
-	if (!preg_match($emailPattern, $email)) {
-			$error = "Invalid email format.";
-	} else if ($email === $valid_email && $password === $valid_password) {
-			$_SESSION['user_name'] = $user_data['name'];
-			$_SESSION['user_email'] = $user_data['email'];
-			header("Location: index.php");
-			exit();
-	} else {
-			$error = "Invalid email or password. Please try again.";
-	}
-}
+	// logInUser($email,$password);
+	if ($email === $valid_email && $password === $valid_password) {
+        // Store email in session
+		$_SESSION['user_name'] = $user_data['name'];
+        $_SESSION['user_email'] = $user_data['email'];
+        // $_SESSION['email'] = $email;
+        // Redirect to index.php
+        header("Location: index.php");
+        exit();
+    } else {
+        // Invalid login, show error
+        $error = "Invalid email or password. Please try again.";
+    }
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -39,15 +39,18 @@ if (isset($_POST['submit'])) {
 	}
 
 	// Validate email
+
+	$emailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+
 	if (empty($_POST["email"])) {
 		$emailErr = "Email is required";
 		$formValid = false;
 	} else {
 		$email = sanitizeInput($_POST["email"]);
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!preg_match($emailPattern, $email)) {
 			$emailErr = "Invalid email format";
 			$formValid = false;
-		}
+	}
 	}
 	// Validate confirm email
 	// if (empty($_POST["email_confirm"])) {
@@ -209,7 +212,8 @@ if (isset($_POST['submit'])) {
         <div class="error"><?php echo $usernameErr; ?></div>
 
 
-				<input type="email" name="email" required="required" placeholder="Email address" class="input">
+				<input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required="required" placeholder="Email address" class="input">
+        <div class="error"><?php echo $emailErr; ?></div>
 
 				
 
