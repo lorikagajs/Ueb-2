@@ -1,7 +1,12 @@
 <?php 
 session_start();
-$username = $_SESSION['user_name'] ?? '';
-$loggedIn = !empty($username); // Check if user is logged in
+$firstName = $_SESSION['firstName'] ?? '';
+$lastName = $_SESSION['lastName'] ?? '';
+$loggedIn = !empty($firstName) && !empty($lastName);
+
+function logOut(){
+	$loggedIn = false;
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,22 +41,21 @@ $loggedIn = !empty($username); // Check if user is logged in
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
 			<?php if ($loggedIn) : ?> 
-			<div class="right">
-				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
-					style="border-radius: 50%;">
-				<p class="name"><?php echo $username; ?></p>
-			</div>
+            <div class="right">
+              <img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
+              style="border-radius: 50%;">
+              <?php echo $firstName . ' ' . $lastName;?>
+            </div>
 
-			<div class="dropdown">
-				<div class="top">
-					<div class="info">
-						<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
-							style="border-radius: 50%;">
-							<?php echo $username; ?>
-					</div>
-
-					<hr>
-				</div>
+    <div class="dropdown">
+        <div class="top">
+            <div class="info">
+                <img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
+                     style="border-radius: 50%;">
+                     <?php echo $firstName. ' ' .$lastName; ?>
+            </div>
+            <hr>
+        </div>
 
 				<div class="options">
 					<a href="profile.php" class="option">
@@ -66,7 +70,7 @@ $loggedIn = !empty($username); // Check if user is logged in
 						<img src="assets/icons/settings.svg" alt="">
 						<p>Settings</p>
 					</a>
-					<a href="#" class="option">
+					<a href="signup.php" class="option" onclick="logOut()">
 						<img src="assets/icons/logout.svg" alt="">
 						<p>Log out</p>
 					</a>
@@ -78,6 +82,7 @@ $loggedIn = !empty($username); // Check if user is logged in
                 <a href="login.php" class="link" id="login">Log In</a>
             </div>
 			<?php endif; ?>
+
 			<i class="fa-solid fa-bars-staggered" id="burger-menu"></i>
 		</div>
 	</nav>

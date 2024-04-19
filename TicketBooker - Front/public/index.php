@@ -1,7 +1,8 @@
 <?php 
 session_start();
-$username = $_SESSION['user_name'] ?? '';
-$loggedIn = !empty($username); // Check if user is logged in
+$firstName = $_SESSION['firstName'] ?? '';
+$lastName = $_SESSION['lastName'] ?? '';
+$loggedIn = !empty($firstName) && !empty($lastName);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,22 +36,21 @@ $loggedIn = !empty($username); // Check if user is logged in
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
 			<?php if ($loggedIn) : ?> 
-			<div class="right">
-				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
-					style="border-radius: 50%;">
-				<p class="name"><?php echo $username; ?></p>
-			</div>
+            <div class="right">
+              <img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
+              style="border-radius: 50%;">
+              <?php echo $firstName . ' ' . $lastName;?>
+            </div>
 
-			<div class="dropdown">
-				<div class="top">
-					<div class="info">
-						<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
-							style="border-radius: 50%;">
-							<?php echo $username; ?>
-					</div>
-
-					<hr>
-				</div>
+    <div class="dropdown">
+        <div class="top">
+            <div class="info">
+                <img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
+                     style="border-radius: 50%;">
+                     <?php echo $firstName. ' ' .$lastName; ?>
+            </div>
+            <hr>
+        </div>
 
 				<div class="options">
 					<a href="profile.php" class="option">

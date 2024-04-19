@@ -41,7 +41,7 @@ $loggedIn = !empty($username); // Check if user is logged in
 			<div class="right">
 				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
 					style="border-radius: 50%;">
-				<p class="name"><?php echo $username; ?></p>
+				<p class="name"><?php echo $firstName . ' ' . $lastName;?></p>
 			</div>
 
 			<div class="dropdown">
