@@ -3,8 +3,8 @@
 //include "./database/userfunctions.php";
 session_start();
 
-$type = $name = $email = $confirmEmail = $password = $confirmPassword = $checkboxErr = "";
-$typeErr = $usernameErr = $emailErr = $confirmEmailErr = $passwordErr = $confirmPasswordErr = "";
+$type = $firstName=$lastName=$name = $email = $confirmEmail = $password = $confirmPassword = $checkboxErr = "";
+$typeErr =$firstNameErr=$lastNameErr= $usernameErr = $emailErr = $confirmEmailErr = $passwordErr = $confirmPasswordErr = "";
 $checkbox = false;
 $formValid = true;
 
@@ -24,7 +24,32 @@ if (isset($_POST['submit'])) {
 	} else {
 		$type = sanitizeInput($_POST["user_type"]);
 	}
-
+	//Validate FirstName
+	if (empty($_POST["firstName"])) {
+		$usernameErr = "First Name is required";
+		$formValid = false;
+	}
+	else {
+        $firstName = sanitizeInput($_POST["firstName"]);
+        // Check if the first name contains only letters and spaces
+        if (!preg_match("/^[a-zA-Z ]*$/", $firstName)) {
+            $firstNameErr = "Only letters and white space allowed";
+			$formValid = false;
+        }
+	}
+	
+	//Validate lastName
+	if (empty($_POST["lastName"])) {
+		$usernameErr = "Last Name is required";
+		$formValid = false;
+	}else {
+        $lastName = sanitizeInput($_POST["lastName"]);
+        // Check if the first name contains only letters and spaces
+        if (!preg_match("/^[a-zA-Z ]*$/", $lastName)) {
+            $lastNameErr = "Only letters and white space allowed";
+        }
+	}
+	
 	//Validate username
 	if (empty($_POST["name"])) {
 		$usernameErr = "Username is required";
@@ -209,9 +234,15 @@ if (isset($_POST['submit'])) {
 					</label>
 				</div>
 				<div class="error"><?php echo $typeErr; ?></div>
-				<input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>" required="required" placeholder="Name" class="input">
-        <div class="error"><?php echo $usernameErr; ?></div>
+				
+				<input type="text" name="firstName" value="<?php echo htmlspecialchars($firstName); ?>" required="required" placeholder="First Name" class="input">
+        <div class="error"><?php echo $firstNameErr; ?></div>
 
+		<input type="text" name="lastName" value="<?php echo htmlspecialchars($lastName); ?>" required="required" placeholder="Last Name" class="input">
+        <div class="error"><?php echo $lastNameErr; ?></div>
+
+		<input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>" required="required" placeholder="Username" class="input">
+        <div class="error"><?php echo $usernameErr; ?></div>
 
 				<input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required="required" placeholder="Email address" class="input">
         <div class="error"><?php echo $emailErr; ?></div>

@@ -52,5 +52,11 @@
         "date": "2024-05-02",
         "location": "prishtine",
         "type": "Movie"
+    },
+    {
+        "title": "Action Movie Premiere",
+        "date": "2024-01-15",
+        "location": "Pej\u00eb",
+        "type": "Movie"
     }
 ]
