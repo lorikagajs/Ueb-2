@@ -1,27 +1,35 @@
 <?php
-
+session_start();
+$firstName = $_SESSION['firstName'] ?? '';
+$lastName = $_SESSION['lastName'] ?? '';
+$loggedIn =  !empty($firstName) && !empty($lastName);
 // Define the Ticket class
-class Ticket {
-    public $title;
-    public $date;
-    public $location;
-    public $type;
+class Ticket
+{
+	public $title;
+	public $date;
+	public $location;
+	public $type;
 
-    public function getTitle() {
-        return $this->title;
-    }
+	public function getTitle()
+	{
+		return $this->title;
+	}
 
-    public function getDate() {
-        return $this->date;
-    }
+	public function getDate()
+	{
+		return $this->date;
+	}
 
-    public function getLocation() {
-        return $this->location;
-    }
+	public function getLocation()
+	{
+		return $this->location;
+	}
 
-    public function getType() {
-        return $this->type;
-    }
+	public function getType()
+	{
+		return $this->type;
+	}
 }
 
 // Read ticket data from JSON file
@@ -31,23 +39,24 @@ $ticketsData = file_get_contents("ticketinfo.json");
 $tickets = json_decode($ticketsData);
 
 // Function to filter tickets
-function filterTickets($tickets) {
-    $filteredTickets = array();
+function filterTickets($tickets)
+{
+	$filteredTickets = array();
 
-    if (isset($_GET['find'])) {
-        foreach ($tickets as $ticket) {
-            if (
-                ($_GET['type'] == '' || $_GET['type'] == $ticket->type) &&
-                ($_GET['when'] == '' || $_GET['when'] == $ticket->date) &&
-                ($_GET['location'] == '' || $_GET['location'] == $ticket->location)
-            ) {
-                $filteredTickets[] = $ticket;
-            }
-        }
-        return $filteredTickets;
-    } else {
-        return $tickets; // Return all tickets if no filters applied
-    }
+	if (isset($_GET['find'])) {
+		foreach ($tickets as $ticket) {
+			if (
+				($_GET['type'] == '' || $_GET['type'] == $ticket->type) &&
+				($_GET['when'] == '' || $_GET['when'] == $ticket->date) &&
+				($_GET['location'] == '' || $_GET['location'] == $ticket->location)
+			) {
+				$filteredTickets[] = $ticket;
+			}
+		}
+		return $filteredTickets;
+	} else {
+		return $tickets; // Return all tickets if no filters applied
+	}
 }
 
 // switch (true) {
@@ -89,7 +98,7 @@ function filterTickets($tickets) {
 
 	<!-- Navigation Bar -->
 	<nav class="navbar navbar-logged">
-		<div class="navbar-content">
+		<div class="navbar-content" style="height: 128px">
 			<a class="navbar-logo" href="index.php">
 				<img src="assets/icons/logo.svg" alt="">
 			</a>
@@ -99,43 +108,49 @@ function filterTickets($tickets) {
 				<a href="contact.php" class="link">Contact</a>
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
-			<div class="right">
-				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
-				<p class="name">Gjon Hajdari</p>
-			</div>
+			<?php if ($loggedIn) : ?>
+				<div class="right">
+					<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
+				</div>
 
-			<div class="dropdown">
-				<div class="top">
-					<div class="info">
-						<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50" style="border-radius: 50%;">
-						Gjon Hajdari
+				<div class="dropdown">
+					<div class="top">
+						<div class="info">
+							<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50" style="border-radius: 50%;">
+							<?php echo $firstName . ' ' . $lastName; ?>
+						</div>
+						<hr>
 					</div>
-					<hr>
-				</div>
 
-				<div class="options">
-					<a href="profile.php" class="option">
-						<img src="assets/icons/profile.svg" alt="">
-						<p>Profile</p>
-					</a>
-					<a href="createTicket.php" class="option">
-						<img src="assets/icons/create.svg" alt="">
-						<p>Create Ticket</p>
-					</a>
-					<a href="editProfile.php" class="option">
-						<img src="assets/icons/settings.svg" alt="">
-						<p>Settings</p>
-					</a>
-					<a href="#" class="option">
-						<img src="assets/icons/logout.svg" alt="">
-						<p>Log out</p>
-					</a>
+					<div class="options">
+						<a href="profile.php" class="option">
+							<img src="assets/icons/profile.svg" alt="">
+							<p>Profile</p>
+						</a>
+						<a href="createTicket.php" class="option">
+							<img src="assets/icons/create.svg" alt="">
+							<p>Create Ticket</p>
+						</a>
+						<a href="editProfile.php" class="option">
+							<img src="assets/icons/settings.svg" alt="">
+							<p>Settings</p>
+						</a>
+						<a href="logout.php" class="option">
+							<img src="assets/icons/logout.svg" alt="">
+							<p>Log out</p>
+						</a>
+					</div>
 				</div>
-			</div>
-
+			<?php else : ?> <!-- Show if user is not logged in -->
+				<div class="right">
+					<a href="signup.php" class="link">Sign Up</a>
+					<a href="login.php" class="link" id="login">Log In</a>
+				</div>
+			<?php endif; ?>
 			<i class="fa-solid fa-bars-staggered" id="burger-menu"></i>
 		</div>
 	</nav>
+
 
 	<!-- Main content -->
 	<main class="container">
@@ -145,7 +160,7 @@ function filterTickets($tickets) {
 				<p class="name">Filters</p>
 				<div class="labels">
 
-					<p class="label"><?php echo isset($_GET['type']) ? $_GET['type'] : 'All' ; ?> </p>
+					<p class="label"><?php echo isset($_GET['type']) ? $_GET['type'] : 'All'; ?> </p>
 					<p class="label"><?php echo isset($_GET['when']) ? $_GET['when'] : 'All'; ?></p>
 					<p class="label"><?php echo isset($_GET['location']) ? $_GET['location'] : 'All'; ?></p>
 					<?php ?>

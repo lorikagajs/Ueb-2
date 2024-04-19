@@ -1,37 +1,39 @@
-<?php 
-  //include "./database/db.php";
-  //include "./database/userfunctions.php";
+<?php
+//include "./database/db.php";
+//include "./database/userfunctions.php";
 
-  session_start();
+session_start();
 
-  if (isset($_SESSION['user'])) {
-    $user_data = $_SESSION['user'];
-    $valid_email = $user_data['email'];
-    // For now, let's assume password is stored in plain text (for demonstration purposes)
-    $valid_password = $user_data['password'];
+if (isset($_SESSION['user'])) {
+	$user_data = $_SESSION['user'];
+	$valid_email = $user_data['email'];
+	// For now, let's assume password is stored in plain text (for demonstration purposes)
+	$valid_password = $user_data['password'];
 } else {
-    // If user data is not set, redirect back to signup page
-    header("Location: signup.php");
-    exit();
+	// If user data is not set, redirect back to signup page
+	header("Location: signup.php");
+	exit();
 }
 
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
 	$email = $_POST['email'];
 	$password = $_POST['password'];
 	// logInUser($email,$password);
 	if ($email === $valid_email && $password === $valid_password) {
-        // Store email in session
+		// Store email in session
 		$_SESSION['user_name'] = $user_data['name'];
-        $_SESSION['user_email'] = $user_data['email'];
-        // $_SESSION['email'] = $email;
-        // Redirect to index.php
-        header("Location: index.php");
-        exit();
-    } else {
-        // Invalid login, show error
-        $error = "Invalid email or password. Please try again.";
-    }
-  }
+		$_SESSION['user_email'] = $user_data['email'];
+		// $_SESSION['email'] = $email;
+		// Redirect to index.php
+		header("Location: index.php");
+		exit();
+	} else {
+		// Invalid login, show error
+		$error = "Invalid email or password. Please try again.";
+	}
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,8 +99,8 @@ if(isset($_POST['submit'])){
 					<input type="checkbox" name="checkbox" id="check" name="remember_checkbox"> Remember me
 				</div>
 				<?php if (isset($error)) : ?>
-                    <div class="error"><?php echo $error; ?></div>
-                <?php endif; ?>
+					<div class="error"><?php echo $error; ?></div>
+				<?php endif; ?>
 				<input type="submit" name="submit" id="button" class="btn" value="Login">
 			</form>
 		</div>
