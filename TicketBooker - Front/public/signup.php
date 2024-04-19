@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
 	}
 	//Validate FirstName
 	if (empty($_POST["firstName"])) {
-		$usernameErr = "First Name is required";
+		$firstNameErr = "First Name is required";
 		$formValid = false;
 	}
 	else {
@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
 	
 	//Validate lastName
 	if (empty($_POST["lastName"])) {
-		$usernameErr = "Last Name is required";
+		$lastNameErr = "Last Name is required";
 		$formValid = false;
 	}else {
         $lastName = sanitizeInput($_POST["lastName"]);
