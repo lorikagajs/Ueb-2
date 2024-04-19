@@ -26,7 +26,7 @@ $loggedIn = !empty($firstName) && !empty($lastName);
 <body>
 	<!-- Navigation Bar -->
 	<nav class="navbar navbar-logged">
-		<div class="navbar-content">
+		<div class="navbar-content" style="height: 128px">
 			<a class="navbar-logo" href="index.php">
 				<img src="assets/icons/logo.svg" alt="">
 			</a>
@@ -37,22 +37,21 @@ $loggedIn = !empty($firstName) && !empty($lastName);
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
 			<?php if ($loggedIn) : ?> 
-			<div class="right">
-				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
-					style="border-radius: 50%;">
-				<p class="name"><?php echo $username;?></p>
-			</div>
+            <div class="right">
+              <img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
+              style="border-radius: 50%;">
+              <?php echo $firstName . ' ' . $lastName;?>
+            </div>
 
-			<div class="dropdown">
-				<div class="top">
-					<div class="info">
-						<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
-							style="border-radius: 50%;">
-							<?php echo $firstName. ' ' .$lastName; ?>
-					</div>
-
-					<hr>
-				</div>
+    <div class="dropdown">
+        <div class="top">
+            <div class="info">
+                <img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
+                     style="border-radius: 50%;">
+                     <?php echo $firstName. ' ' .$lastName; ?>
+            </div>
+            <hr>
+        </div>
 
 				<div class="options">
 					<a href="profile.php" class="option">
