@@ -1,12 +1,16 @@
 <?php
 // Check if the form is submitted
+session_start();
+$firstName = $_SESSION['firstName'] ?? '';
+$lastName = $_SESSION['lastName'] ?? '';
+$loggedIn =  !empty($firstName) && !empty($lastName);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $title = $_POST["title"];
     $date = $_POST["when_date"];
     $location = $_POST["where"];
     $type = $_POST["what"];
-    
+
     // Create ticket object
     $ticket = array(
         "title" => $title,
@@ -14,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "location" => $location,
         "type" => $type
     );
-    
+
     try {
         // Read existing JSON data
         $jsonFile = 'ticketinfo.json';
@@ -50,8 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/createTicket.css">
     <script src="https://kit.fontawesome.com/26e97bbe8d.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="js/app.js"></script>
 </head>
 
@@ -59,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Navigation bar -->
     <nav class="navbar navbar-logged">
-        <div class="navbar-content">
+        <div class="navbar-content" style="height: 128px">
             <a class="navbar-logo" href="index.php">
                 <img src="assets/icons/logo.svg" alt="">
             </a>
@@ -69,46 +72,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a href="contact.php" class="link">Contact</a>
                 <a href="faq.php" class="link">FAQ</a>
             </div>
-            <div class="right">
-                <img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40"
-                    height="40" style="border-radius: 50%;">
-                <p class="name">Gjon Hajdari</p>
-            </div>
+            <?php if ($loggedIn) : ?>
+                <div class="right">
+                    <img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
+                </div>
 
-            <div class="dropdown">
-                <div class="top">
-                    <div class="info">
-                        <img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
-                            style="border-radius: 50%;">
-                        Gjon Hajdari
+                <div class="dropdown">
+                    <div class="top">
+                        <div class="info">
+                            <img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50" style="border-radius: 50%;">
+                            <?php echo $firstName . ' ' . $lastName; ?>
+                        </div>
+                        <hr>
                     </div>
 
-                    <hr>
+                    <div class="options">
+                        <a href="profile.php" class="option">
+                            <img src="assets/icons/profile.svg" alt="">
+                            <p>Profile</p>
+                        </a>
+                        <a href="createTicket.php" class="option">
+                            <img src="assets/icons/create.svg" alt="">
+                            <p>Create Ticket</p>
+                        </a>
+                        <a href="editProfile.php" class="option">
+                            <img src="assets/icons/settings.svg" alt="">
+                            <p>Settings</p>
+                        </a>
+                        <a href="#" class="option">
+                            <img src="assets/icons/logout.svg" alt="">
+                            <p>Log out</p>
+                        </a>
+                    </div>
                 </div>
-
-                <div class="options">
-                    <a href="profile.php" class="option">
-                        <img src="assets/icons/profile.svg" alt="">
-                        <p>Profile</p>
-                    </a>
-                    <a href="createTicket.php" class="option">
-                        <img src="assets/icons/create.svg" alt="">
-                        <p>Create Ticket</p>
-                    </a>
-                    <a href="editProfile.php" class="option">
-                        <img src="assets/icons/settings.svg" alt="">
-                        <p>Settings</p>
-                    </a>
-                    <a href="#" class="option">
-                        <img src="assets/icons/logout.svg" alt="">
-                        <p>Log out</p>
-                    </a>
+            <?php else : ?> <!-- Show if user is not logged in -->
+                <div class="right">
+                    <a href="signup.php" class="link">Sign Up</a>
+                    <a href="login.php" class="link" id="login">Log In</a>
                 </div>
-            </div>
-
+            <?php endif; ?>
             <i class="fa-solid fa-bars-staggered" id="burger-menu"></i>
         </div>
     </nav>
+
+
 
     <!-- Main content -->
     <div class="container">
@@ -159,25 +166,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
-	<!-- Footer -->
-	<footer>
-		<p id="copyright">Copyright &copy; 2023 TicketBooker. All rights reserved</p>
-		<div class="icons">
-			<a href="https://www.instagram.com" target="_blank">
-				<img src="assets/icons/instagram.svg" alt="">
-			</a>
-			<a href="https://www.twitter.com" target="_blank">
-				<img src="assets/icons/twitter.svg" alt="">
-			</a>
-			<a href="https://www.linkedin.com" target="_blank">
-				<img src="assets/icons/linkedin.svg" alt="">
-			</a>
-		</div>
-		<div class="links">
-			<a href="assets/extra/PRIVACY_POLICY.pdf" target="_blank" class="footer-link">Privacy Policy</a>
-			<a href="assets/extra/TERMS_AND_CONDITIONS.pdf" target="_blank" class="footer-link">Terms of Use</a>
-		</div>
-	</footer>
+    <!-- Footer -->
+    <footer>
+        <p id="copyright">Copyright &copy; 2023 TicketBooker. All rights reserved</p>
+        <div class="icons">
+            <a href="https://www.instagram.com" target="_blank">
+                <img src="assets/icons/instagram.svg" alt="">
+            </a>
+            <a href="https://www.twitter.com" target="_blank">
+                <img src="assets/icons/twitter.svg" alt="">
+            </a>
+            <a href="https://www.linkedin.com" target="_blank">
+                <img src="assets/icons/linkedin.svg" alt="">
+            </a>
+        </div>
+        <div class="links">
+            <a href="assets/extra/PRIVACY_POLICY.pdf" target="_blank" class="footer-link">Privacy Policy</a>
+            <a href="assets/extra/TERMS_AND_CONDITIONS.pdf" target="_blank" class="footer-link">Terms of Use</a>
+        </div>
+    </footer>
 </body>
 
 </html>
