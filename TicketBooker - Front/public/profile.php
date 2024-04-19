@@ -1,4 +1,8 @@
 <?php
+
+session_start();
+$username = $_SESSION['user_name'] ?? '';
+
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["myTicketAdder"])) {
     // Retrieve ticket details from the form
@@ -120,7 +124,7 @@ if (file_exists("profiletickets.json")) {
 	<main class="container">
 
 		<div class="top">
-			<h1>Welcome back, Gjon</h1>
+			<h1>Welcome back, <?php echo $username; ?></h1>
 			<p>Take a look at all your tickets.</p>
 		</div>
 

@@ -1,3 +1,8 @@
+<?php 
+session_start();
+$username = $_SESSION['user_name'] ?? '';
+$loggedIn = !empty($username); // Check if user is logged in
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,10 +35,11 @@
 				<a href="contact.php" class="link">Contact</a>
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
+			<?php if ($loggedIn) : ?> 
 			<div class="right">
 				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
 					style="border-radius: 50%;">
-				<p class="name">Gjon Hajdari</p>
+				<p class="name"><?php echo $username; ?></p>
 			</div>
 
 			<div class="dropdown">
@@ -41,7 +47,7 @@
 					<div class="info">
 						<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
 							style="border-radius: 50%;">
-						Gjon Hajdari
+							<?php echo $username; ?>
 					</div>
 
 					<hr>
@@ -66,7 +72,12 @@
 					</a>
 				</div>
 			</div>
-
+			<?php else : ?> <!-- Show if user is not logged in -->
+            <div class="right">
+                <a href="signup.php" class="link">Sign Up</a>
+                <a href="login.php" class="link" id="login">Log In</a>
+            </div>
+			<?php endif; ?>
 			<i class="fa-solid fa-bars-staggered" id="burger-menu"></i>
 		</div>
 	</nav>
