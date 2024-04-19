@@ -1,47 +1,48 @@
 <?php
 
 session_start();
+$firstName = $_SESSION['firstName'] ?? '';
 $username = $_SESSION['user_name'] ?? '';
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["myTicketAdder"])) {
-    // Retrieve ticket details from the form
-    $myTicketTitle = $_POST["myTicketTitle"];
-    $myTicketDate = $_POST["myTicketDate"];
-    $myTicketLocation = $_POST["myTicketLocation"];
-    $myTicketType = $_POST["myTicketType"];
+	// Retrieve ticket details from the form
+	$myTicketTitle = $_POST["myTicketTitle"];
+	$myTicketDate = $_POST["myTicketDate"];
+	$myTicketLocation = $_POST["myTicketLocation"];
+	$myTicketType = $_POST["myTicketType"];
 
-    // Create an associative array representing the ticket
-    $ticket = array(
-        "title" => $myTicketTitle,
-        "date" => $myTicketDate,
-        "location" => $myTicketLocation,
-        "type" => $myTicketType
-    );
+	// Create an associative array representing the ticket
+	$ticket = array(
+		"title" => $myTicketTitle,
+		"date" => $myTicketDate,
+		"location" => $myTicketLocation,
+		"type" => $myTicketType
+	);
 
-    // Load existing tickets from JSON file if it exists
-    if (file_exists("profiletickets.json")) {
-        $json = file_get_contents("profiletickets.json");
-        $existingTickets = json_decode($json, true);
-        // Append the new ticket to existing tickets
-        $existingTickets[] = $ticket;
-        // Save the updated tickets to JSON file
-        file_put_contents("profiletickets.json", json_encode($existingTickets, JSON_PRETTY_PRINT));
-    } else {
-        // If JSON file doesn't exist, create a new one with the new ticket
-        file_put_contents("profiletickets.json", json_encode(array($ticket), JSON_PRETTY_PRINT));
-    }
+	// Load existing tickets from JSON file if it exists
+	if (file_exists("profiletickets.json")) {
+		$json = file_get_contents("profiletickets.json");
+		$existingTickets = json_decode($json, true);
+		// Append the new ticket to existing tickets
+		$existingTickets[] = $ticket;
+		// Save the updated tickets to JSON file
+		file_put_contents("profiletickets.json", json_encode($existingTickets, JSON_PRETTY_PRINT));
+	} else {
+		// If JSON file doesn't exist, create a new one with the new ticket
+		file_put_contents("profiletickets.json", json_encode(array($ticket), JSON_PRETTY_PRINT));
+	}
 }
 
 // Check if profiletickets.json exists
 if (file_exists("profiletickets.json")) {
-    // Load the ticket information from the JSON file
-    $json = file_get_contents("profiletickets.json");
-    // Decode the JSON data into an array of tickets
-    $myTickets = json_decode($json, true);
+	// Load the ticket information from the JSON file
+	$json = file_get_contents("profiletickets.json");
+	// Decode the JSON data into an array of tickets
+	$myTickets = json_decode($json, true);
 } else {
-    // If the JSON file doesn't exist or is empty, initialize an empty array
-    $myTickets = array();
+	// If the JSON file doesn't exist or is empty, initialize an empty array
+	$myTickets = array();
 }
 ?>
 
@@ -124,7 +125,7 @@ if (file_exists("profiletickets.json")) {
 	<main class="container">
 
 		<div class="top">
-			<h1>Welcome back, <?php echo $username; ?></h1>
+			<h1>Welcome back, <?php echo $firstName; ?></h1>
 			<p>Take a look at all your tickets.</p>
 		</div>
 
@@ -175,36 +176,36 @@ if (file_exists("profiletickets.json")) {
 
 		<div class="tickets row g-4">
 			<?php foreach ($myTickets as $index => $myTicket) : ?>
-					<div class="col-md-6 col-lg-4">
-						<div class="card" id="card-<?php echo $index; ?>">
-							<div class="card-body">
-								<h1 class="card-title"><?php echo $myTicket['title']; ?></h1>
-								<div class="date">
-									<img src="assets/icons/calendar.svg" alt="">
-									<div class="info">
-										<p class="primary"><?php echo $myTicket['date']; ?></p>
-										<p class="secondary">Time of event</p>
-									</div>
-								</div>
-								<div class="location">
-									<img src="assets/icons/location.svg" alt="">
-									<div class="info">
-										<p class="primary"><?php echo $myTicket['location']; ?></p>
-									</div>
+				<div class="col-md-6 col-lg-4">
+					<div class="card" id="card-<?php echo $index; ?>">
+						<div class="card-body">
+							<h1 class="card-title"><?php echo $myTicket['title']; ?></h1>
+							<div class="date">
+								<img src="assets/icons/calendar.svg" alt="">
+								<div class="info">
+									<p class="primary"><?php echo $myTicket['date']; ?></p>
+									<p class="secondary">Time of event</p>
 								</div>
 							</div>
-
-							<hr>
-
-							<div class="card-bottom">
-								<p class="type"><?php echo $myTicket['type']; ?></p>
-								<button class="trash" onclick="deleteCard(<?php echo $index; ?>)">
-									<img src="assets/icons/trash.svg" alt="">
-								</button>
+							<div class="location">
+								<img src="assets/icons/location.svg" alt="">
+								<div class="info">
+									<p class="primary"><?php echo $myTicket['location']; ?></p>
+								</div>
 							</div>
 						</div>
+
+						<hr>
+
+						<div class="card-bottom">
+							<p class="type"><?php echo $myTicket['type']; ?></p>
+							<button class="trash" onclick="deleteCard(<?php echo $index; ?>)">
+								<img src="assets/icons/trash.svg" alt="">
+							</button>
+						</div>
 					</div>
-				<?php endforeach; ?>
+				</div>
+			<?php endforeach; ?>
 		</div>
 
 		<script>
@@ -215,7 +216,7 @@ if (file_exists("profiletickets.json")) {
 				// Here, you can add additional logic to perform deletion on the server-side using AJAX or form submission.
 			}
 		</script>
-			<!-- <div class="col-md-6 col-lg-4">
+		<!-- <div class="col-md-6 col-lg-4">
 				<div class="card">
 					<div class="card-body">
 						<h1 class="card-title">Title of event</h1>

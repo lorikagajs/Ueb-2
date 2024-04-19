@@ -130,6 +130,8 @@ if (isset($_POST['submit'])) {
 	if ($formValid) {
         // Create an array to store user data
         $user_data = array(
+			'firstName'=>$firstName,
+			'lastName'=>$lastName,
             'name' => $name,
             'email' => $email,
 			'password' => $password,
@@ -141,7 +143,8 @@ if (isset($_POST['submit'])) {
 
 		$_SESSION['user_name'] = $name;
         $_SESSION['user_email'] = $email;
-
+		$_SESSION['firstName'] =$firstName;
+		$_SESSION['lastName']= $lastName;
         header("Location: index.php");
         exit();
     }

@@ -13,7 +13,8 @@ if (!isset($_SESSION['user_name'])) {
     header("Location: login.php");
     exit();
 }
-
+$firstName= $_SESSION['firstName'] ?? '';
+$lastName =$_SESSION['lastName'] ?? '';
 $username = $_SESSION['user_name'] ?? '';
 $email = $_SESSION['user_email'] ?? '';
 $oldPassword = $newPassword = $confirmPassword = "";
@@ -186,7 +187,7 @@ function sanitizeInput($input) {
 	<!-- Main content -->
 	<div class="container">
 		<h1 class="path">
-			<span><?php echo $_SESSION['user_name']; ?></span> Edit profile
+			<span><?php echo $firstName ." ". $lastName ; ?></span> Edit profile
 		</h1>
 		<div class="main">
 			<div class="left">
