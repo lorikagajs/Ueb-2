@@ -209,9 +209,8 @@ if (isset($_POST['submit'])) {
 					</label>
 				</div>
 				<div class="error"><?php echo $typeErr; ?></div>
-				<input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>" required="required" placeholder="Name" class="input">
+				<input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>" required="required" placeholder="Username" class="input">
         <div class="error"><?php echo $usernameErr; ?></div>
-
 
 				<input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required="required" placeholder="Email address" class="input">
         <div class="error"><?php echo $emailErr; ?></div>
