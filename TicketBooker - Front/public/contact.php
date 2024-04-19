@@ -46,6 +46,7 @@ if ($loggedIn) {
 				<a href="contact.php" class="link">Contact</a>
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
+
 			<?php if ($loggedIn) : ?>
 				<div class="right">
 					<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">

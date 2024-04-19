@@ -76,6 +76,8 @@ if ($loggedIn) {
 
     <!-- Navigation bar -->
     <nav class="navbar navbar-logged">
+
+
 		<div class="navbar-content" style="height: 128px">
 			<a class="navbar-logo" href="index.php">
 				<img src="assets/icons/logo.svg" alt="">

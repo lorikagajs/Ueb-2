@@ -61,6 +61,7 @@ if (isset($_REQUEST['logout'])) {
 				<a href="contact.php" class="link">Contact</a>
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
+
 			<?php if ($loggedIn) : ?>
 				<div class="right">
 					<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
@@ -147,7 +148,7 @@ if (isset($_REQUEST['logout'])) {
 			</div>
 		</div>
 
-		<img src="assets/images/tickets.png" alt="Tickets" id="tickets" height="500">
+		<img src="assets/images/tickets.png" alt="Tickets" id="tickets" height="500" style="z-index: -1">
 	</main>
 
 
