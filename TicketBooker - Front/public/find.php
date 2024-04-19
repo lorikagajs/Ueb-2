@@ -1,38 +1,55 @@
 <?php
-include("php/ticketinfo.php");
 
+// Define the Ticket class
+class Ticket {
+    public $title;
+    public $date;
+    public $location;
+    public $type;
 
-function filterTickets($tickets)
-{
-	$filteredTickets = array();
+    public function getTitle() {
+        return $this->title;
+    }
 
+    public function getDate() {
+        return $this->date;
+    }
 
-	if (isset($_GET['find'])) {
-		foreach ($tickets as $ticket) {
-			if (
-				($_GET['type'] == '' || $_GET['type'] == $ticket->getType()) &&
-				($_GET['when'] == '' || $_GET['when'] == $ticket->getDate()) &&
-				($_GET['location'] == '' || $_GET['location'] == $ticket->getLocation())
-			)
-				$filteredTickets[] = $ticket;
-		}
-		return $filteredTickets;
-	} else {
+    public function getLocation() {
+        return $this->location;
+    }
 
-		$filteredTickets = $tickets;
-		return $filteredTickets;
-	}
+    public function getType() {
+        return $this->type;
+    }
 }
 
-if (isset($_GET['find'])) {
-	$filteredType = $_GET['type'];
-	$filteredDate = $_GET['when'];
-	$filteredLocation = $_GET['location'];
-} else {
-	$filteredType = 'All types';
-	$filteredDate = 'All dates';
-	$filteredLocation = 'All locations';
+// Read ticket data from JSON file
+$ticketsData = file_get_contents("ticketinfo.json");
+
+// Decode JSON data into an array of Ticket objects
+$tickets = json_decode($ticketsData);
+
+// Function to filter tickets
+function filterTickets($tickets) {
+    $filteredTickets = array();
+
+    if (isset($_GET['find'])) {
+        foreach ($tickets as $ticket) {
+            if (
+                ($_GET['type'] == '' || $_GET['type'] == $ticket->type) &&
+                ($_GET['when'] == '' || $_GET['when'] == $ticket->date) &&
+                ($_GET['location'] == '' || $_GET['location'] == $ticket->location)
+            ) {
+                $filteredTickets[] = $ticket;
+            }
+        }
+        return $filteredTickets;
+    } else {
+        return $tickets; // Return all tickets if no filters applied
+    }
 }
+
 // switch (true) {
 //     case isset($_GET['find']):
 //         $filteredType = $_GET['type'] ?: 'All types';
@@ -149,42 +166,36 @@ if (isset($_GET['find'])) {
 				<div class="col-md-6 col-lg-4">
 					<div class="card">
 						<div class="card-body">
-							<h1 class="card-title"><?php echo $ticket->getTitle(); ?></h1>
+							<h1 class="card-title"><?php echo $ticket->title; ?></h1>
 							<div class="date">
 								<img src="assets/icons/calendar.svg" alt="">
 								<div class="info">
-									<p class="primary"><?php echo $ticket->getDate(); ?></p>
-
+									<p class="primary"><?php echo $ticket->date; ?></p>
 									<p class="secondary">Time of event</p>
 								</div>
 							</div>
 							<div class="location">
 								<img src="assets/icons/location.svg" alt="">
 								<div class="info">
-									<p class="primary"><?php echo $ticket->getLocation(); ?></p>
-
+									<p class="primary"><?php echo $ticket->location; ?></p>
 								</div>
 							</div>
 						</div>
-
 						<hr>
-
 						<div class="card-bottom">
-							<p class="type"><?php echo $ticket->getType(); ?></p>
+							<p class="type"><?php echo $ticket->type; ?></p>
 							<form action="profile.php" method="post">
-								<input type="hidden" name="myTicketTitle" value="<?php echo $ticket->getTitle(); ?>">
-								<input type="hidden" name="myTicketDate" value="<?php echo $ticket->getDate(); ?>">
-								<input type="hidden" name="myTicketLocation" value="<?php echo $ticket->getLocation(); ?>">
-								<input type="hidden" name="myTicketType" value="<?php echo $ticket->getType(); ?>">
+								<input type="hidden" name="myTicketTitle" value="<?php echo $ticket->title; ?>">
+								<input type="hidden" name="myTicketDate" value="<?php echo $ticket->date; ?>">
+								<input type="hidden" name="myTicketLocation" value="<?php echo $ticket->location; ?>">
+								<input type="hidden" name="myTicketType" value="<?php echo $ticket->type; ?>">
 								<button type="submit" class="card-button" name="myTicketAdder">Add</button>
 							</form>
-
 						</div>
 					</div>
 				</div>
-
 			<?php endforeach; ?>
-
+		</div>
 
 	</main>
 

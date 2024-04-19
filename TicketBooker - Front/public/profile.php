@@ -1,18 +1,46 @@
 <?php
-include("php/ticketinfo.php");
+// Check if the form was submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["myTicketAdder"])) {
+    // Retrieve ticket details from the form
+    $myTicketTitle = $_POST["myTicketTitle"];
+    $myTicketDate = $_POST["myTicketDate"];
+    $myTicketLocation = $_POST["myTicketLocation"];
+    $myTicketType = $_POST["myTicketType"];
 
-if (isset($_POST["myTicketAdder"])) {
-	$myTickets = array();
+    // Create an associative array representing the ticket
+    $ticket = array(
+        "title" => $myTicketTitle,
+        "date" => $myTicketDate,
+        "location" => $myTicketLocation,
+        "type" => $myTicketType
+    );
 
-	$myTicketTitle = $_POST["myTicketTitle"];
-	$myTicketDate = $_POST["myTicketDate"];
-	$myTicketLocation = $_POST["myTicketLocation"];
-	$myTicketType = $_POST["myTicketType"];
-	$myTickets[] = new Tickets($myTicketTitle, $myTicketDate, $myTicketLocation, $myTicketType);
+    // Load existing tickets from JSON file if it exists
+    if (file_exists("profiletickets.json")) {
+        $json = file_get_contents("profiletickets.json");
+        $existingTickets = json_decode($json, true);
+        // Append the new ticket to existing tickets
+        $existingTickets[] = $ticket;
+        // Save the updated tickets to JSON file
+        file_put_contents("profiletickets.json", json_encode($existingTickets, JSON_PRETTY_PRINT));
+    } else {
+        // If JSON file doesn't exist, create a new one with the new ticket
+        file_put_contents("profiletickets.json", json_encode(array($ticket), JSON_PRETTY_PRINT));
+    }
 }
 
-
+// Check if profiletickets.json exists
+if (file_exists("profiletickets.json")) {
+    // Load the ticket information from the JSON file
+    $json = file_get_contents("profiletickets.json");
+    // Decode the JSON data into an array of tickets
+    $myTickets = json_decode($json, true);
+} else {
+    // If the JSON file doesn't exist or is empty, initialize an empty array
+    $myTickets = array();
+}
 ?>
+
 
 
 <!DOCTYPE html>
@@ -143,36 +171,36 @@ if (isset($_POST["myTicketAdder"])) {
 
 		<div class="tickets row g-4">
 			<?php foreach ($myTickets as $index => $myTicket) : ?>
-				<div class="col-md-6 col-lg-4">
-					<div class="card" id="card-<?php echo $index; ?>">
-						<div class="card-body">
-							<h1 class="card-title"><?php echo $myTicket->getTitle(); ?></h1>
-							<div class="date">
-								<img src="assets/icons/calendar.svg" alt="">
-								<div class="info">
-									<p class="primary"><?php echo $myTicket->getDate(); ?></p>
-									<p class="secondary">Time of event</p>
+					<div class="col-md-6 col-lg-4">
+						<div class="card" id="card-<?php echo $index; ?>">
+							<div class="card-body">
+								<h1 class="card-title"><?php echo $myTicket['title']; ?></h1>
+								<div class="date">
+									<img src="assets/icons/calendar.svg" alt="">
+									<div class="info">
+										<p class="primary"><?php echo $myTicket['date']; ?></p>
+										<p class="secondary">Time of event</p>
+									</div>
+								</div>
+								<div class="location">
+									<img src="assets/icons/location.svg" alt="">
+									<div class="info">
+										<p class="primary"><?php echo $myTicket['location']; ?></p>
+									</div>
 								</div>
 							</div>
-							<div class="location">
-								<img src="assets/icons/location.svg" alt="">
-								<div class="info">
-									<p class="primary"><?php echo $myTicket->getLocation(); ?></p>
-								</div>
+
+							<hr>
+
+							<div class="card-bottom">
+								<p class="type"><?php echo $myTicket['type']; ?></p>
+								<button class="trash" onclick="deleteCard(<?php echo $index; ?>)">
+									<img src="assets/icons/trash.svg" alt="">
+								</button>
 							</div>
-						</div>
-
-						<hr>
-
-						<div class="card-bottom">
-							<p class="type"><?php echo $myTicket->getType(); ?></p>
-							<button class="trash" onclick="deleteCard(<?php echo $index; ?>)">
-								<img src="assets/icons/trash.svg" alt="">
-							</button>
 						</div>
 					</div>
-				</div>
-			<?php endforeach; ?>
+				<?php endforeach; ?>
 		</div>
 
 		<script>
