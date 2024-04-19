@@ -1,9 +1,8 @@
 <?php 
 session_start();
-$username = $_SESSION['user_name'] ?? '';
-$firstName=$_SESSION['firstName'] ?? '';
-$lastName=$_SESSION['lastName'] ?? '';
-$loggedIn = !empty($username); // Check if user is logged in
+$firstName = $_SESSION['firstName'] ?? '';
+$lastName = $_SESSION['lastName'] ?? '';
+$loggedIn = !empty($firstName) && !empty($lastName);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +40,7 @@ $loggedIn = !empty($username); // Check if user is logged in
 			<div class="right">
 				<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40"
 					style="border-radius: 50%;">
-				<p class="name"><?php echo $username; ?></p>
+				<p class="name"><?php echo $username;?></p>
 			</div>
 
 			<div class="dropdown">
@@ -49,7 +48,7 @@ $loggedIn = !empty($username); // Check if user is logged in
 					<div class="info">
 						<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
 							style="border-radius: 50%;">
-							<?php echo $username; ?>
+							<?php echo $firstName. ' ' .$lastName; ?>
 					</div>
 
 					<hr>
