@@ -1,11 +1,35 @@
 <?php
 session_start();
+
+// Set a cookie if username exists in session
+if (isset($_SESSION['user_name'])) {
+    setcookie('username', $_SESSION['user_name'], time() + 3600, "/", "", false, true);
+}
+
+// Initialize an array to store cookie information
+$cookieData = [];
+
+// Check if the cookie exists
+if(isset($_COOKIE['username'])) {
+    // Add cookie data to array
+    $cookieData['username'] = $_COOKIE['username'];
+    echo "<script>console.log('Cookie Found: " . $_COOKIE['username'] . "');</script>";
+} else {
+    echo "<script>console.log('No cookie found');</script>";
+}
+
 $username = $_SESSION['user_name'] ?? '';
 $firstName = $_SESSION['firstName'] ?? '';
 $lastName = $_SESSION['lastName'] ?? '';
-$loggedIn =  !empty($firstName) && !empty($lastName);
 $loggedIn = !empty($username); // Check if user is logged in
+
+// Deleting a cookie by setting its expiration time in the past
+if (isset($_REQUEST['logout'])) {
+    setcookie('username', '', time() - 3600, "/");
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

@@ -1,8 +1,16 @@
 <?php
 session_start();
+
 $firstName = $_SESSION['firstName'] ?? '';
 $lastName = $_SESSION['lastName'] ?? '';
-$loggedIn =  !empty($firstName) && !empty($lastName);
+$loggedIn = !empty($firstName) && !empty($lastName);
+
+if ($loggedIn) {
+    // Refresh or set the cookie for another hour
+    setcookie('firstName', $firstName, time() + 3600, "/");
+    setcookie('lastName', $lastName, time() + 3600, "/");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

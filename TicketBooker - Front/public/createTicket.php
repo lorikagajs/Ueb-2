@@ -1,42 +1,56 @@
 <?php
-// Check if the form is submitted
 session_start();
+
+if (!isset($_SESSION['user_name']) && isset($_COOKIE['username'])) {
+    $_SESSION['user_name'] = $_COOKIE['username'];
+    $_SESSION['firstName'] = $_COOKIE['firstName']; 
+    $_SESSION['lastName'] = $_COOKIE['lastName'];
+}
+
 $firstName = $_SESSION['firstName'] ?? '';
 $lastName = $_SESSION['lastName'] ?? '';
-$loggedIn =  !empty($firstName) && !empty($lastName);
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$loggedIn = !empty($firstName) && !empty($lastName);
+
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $loggedIn) {  // Ensure only logged-in users can submit
     // Retrieve form data
     $title = $_POST["title"];
     $date = $_POST["when_date"];
     $location = $_POST["where"];
     $type = $_POST["what"];
+    $description = $_POST['description'] ?? '';  // Retrieve the description if provided
 
     // Create ticket object
     $ticket = array(
         "title" => $title,
         "date" => $date,
         "location" => $location,
-        "type" => $type
+        "type" => $type,
+        "description" => $description
     );
 
     try {
         // Read existing JSON data
         $jsonFile = 'ticketinfo.json';
         $jsonData = file_get_contents($jsonFile);
-        $tickets = json_decode($jsonData, true);
+        $tickets = json_decode($jsonData, true) ?? [];  // Ensure this is an array even if the file is empty
 
         // Append new ticket to existing data
         $tickets[] = $ticket;
 
         // Write updated JSON data back to file
         if (file_put_contents($jsonFile, json_encode($tickets, JSON_PRETTY_PRINT)) !== false) {
-            echo "Ticket added successfully.";
+            echo "<p>Ticket added successfully.</p>";
         } else {
-            echo "Error writing to JSON file.";
+            echo "<p>Error writing to JSON file.</p>";
         }
     } catch (Exception $e) {
-        echo "An error occurred: " . $e->getMessage();
+        echo "<p>An error occurred: " . $e->getMessage() . "</p>";
     }
+}
+
+if ($loggedIn) {
+    setcookie('username', $_SESSION['user_name'], time() + 3600, "/");
 }
 ?>
 

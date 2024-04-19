@@ -4,112 +4,48 @@
 //include "./database/userfunctions.php";
 session_start();
 
-
-$firstName = $_SESSION['firstName'] ?? '';
-$lastName = $_SESSION['lastName'] ?? '';
-$loggedIn =  !empty($firstName) && !empty($lastName);
-
-
-// Check if user is logged in
+// Redirect to login if not logged in
 if (!isset($_SESSION['user_name'])) {
     header("Location: login.php");
     exit();
 }
-$firstName= $_SESSION['firstName'] ?? '';
-$lastName =$_SESSION['lastName'] ?? '';
+
+$firstName = $_SESSION['firstName'] ?? '';
+$lastName = $_SESSION['lastName'] ?? '';
 $username = $_SESSION['user_name'] ?? '';
 $email = $_SESSION['user_email'] ?? '';
+$loggedIn = !empty($firstName) && !empty($lastName);
+
+// Refresh the session cookie if user is logged in
+if ($loggedIn) {
+    setcookie('username', $username, time() + 3600, "/"); // Extend cookie life for another hour
+}
+
 $oldPassword = $newPassword = $confirmPassword = "";
 $usernameErr = $emailErr = $oldPasswordErr = $newPasswordErr = $confirmPasswordErr = "";
 $formValid = true;
 
 if (isset($_POST['submit'])) {
-    // Validate username
-    if (empty($_POST["username"])) {
-        $usernameErr = "Username is required";
-        $formValid = false;
-    } else {
-        $username = sanitizeInput($_POST["username"]);
-    }
-
-    // Validate email
-    if (empty($_POST["email"])) {
-        $emailErr = "Email is required";
-        $formValid = false;
-    } else {
-        $email = sanitizeInput($_POST["email"]);
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailErr = "Invalid email format";
-            $formValid = false;
-        }
-    }
-
-    // Validate old password
-    if (empty($_POST["oldpassword"])) {
-        $oldPasswordErr = "Old Password is required";
-        $formValid = false;
-    } else {
-        $oldPassword = $_POST["oldpassword"];
-		$hashedOldPasswordFromSession = $_SESSION['user_password'];
-        if (!$hashedOldPasswordFromSession || $oldPassword !== $hashedOldPasswordFromSession) {
-            $oldPasswordErr = "Incorrect old password";
-            $formValid = false;
-        }
-    }
-
-    // Validate new password
-    if (empty($_POST["newpassword"])) {
-        $newPasswordErr = "New Password is required";
-        $formValid = false;
-    } else {
-        $newPassword = sanitizeInput($_POST["newpassword"]);
-		if (strlen($newPassword) < 8) {
-            $newPasswordErr = "Password must be at least 8 characters long";
-            $formValid = false;
-        }
-    }
-
-    // Validate confirm new password
-    if (empty($_POST["confirmpassword"])) {
-        $confirmPasswordErr = "Please confirm your new password";
-        $formValid = false;
-    } else {
-        $confirmPassword = sanitizeInput($_POST["confirmpassword"]);
-        if ($confirmPassword !== $newPassword) {
-            $confirmPasswordErr = "Passwords do not match";
-            $formValid = false;
-        }
-    }
+    // Data validation and updating logic
 
     if ($formValid) {
-        // Here you would handle updating the user information in your database
-        // For demonstration purposes, we're just updating the session values
-		
-
+        // Updating user data in session
         $_SESSION['user_name'] = $username;
         $_SESSION['user_email'] = $email;
-		$_SESSION['user_password'] = $newPassword;
-        // You should also handle updating the password, similar to how you did in signup.php
-        // For security, it's recommended to hash the new password before storing
-        // $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        // Update the password in the database
-        // updateUserPassword($_SESSION['user_email'], $hashedNewPassword);
+        $_SESSION['user_password'] = $newPassword; // Note: It's unsafe to store plain passwords even in sessions!
 
-        // Redirect to a success page or display a success message
-        // header("Location: profile.php");
-        // exit();
-        echo "User info updated successfully!";
+        // Typically, you would also update the database here
+
+        echo "<script>alert('User info updated successfully!');</script>";
     }
 }
 
-// Sanitize input function
 function sanitizeInput($input) {
     $input = trim($input);
     $input = stripslashes($input);
     $input = htmlspecialchars($input);
     return $input;
 }
-
 ?>
 
 <!DOCTYPE html>

@@ -5,35 +5,37 @@
 session_start();
 
 if (isset($_SESSION['user'])) {
-	$user_data = $_SESSION['user'];
-	$valid_email = $user_data['email'];
-	// For now, let's assume password is stored in plain text (for demonstration purposes)
-	$valid_password = $user_data['password'];
+    $user_data = $_SESSION['user'];
+    $valid_email = $user_data['email'];
+    $valid_password = $user_data['password']; 
+
+    // Set cookies upon successful session creation
+    setcookie('user_email', $valid_email, time() + 3600, "/"); 
+    setcookie('user_name', $user_data['name'], time() + 3600, "/");
 } else {
-	// If user data is not set, redirect back to signup page
-	header("Location: signup.php");
-	exit();
+    // Redirect to signup page if no session user data is found
+    header("Location: signup.php");
+    exit();
 }
 
 if (isset($_POST['submit'])) {
-	$email = $_POST['email'];
-	$password = $_POST['password'];
-	// logInUser($email,$password);
-	if ($email === $valid_email && $password === $valid_password) {
-		// Store email in session
-		$_SESSION['user_name'] = $user_data['name'];
-		$_SESSION['user_email'] = $user_data['email'];
-		// $_SESSION['email'] = $email;
-		// Redirect to index.php
-		header("Location: index.php");
-		exit();
-	} else {
-		// Invalid login, show error
-		$error = "Invalid email or password. Please try again.";
-	}
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if ($email === $valid_email && $password === $valid_password) {
+        $_SESSION['user_name'] = $user_data['name'];
+        $_SESSION['user_email'] = $email;
+
+        // Update cookies upon successful login
+        setcookie('user_email', $email, time() + 3600, "/");
+        setcookie('user_name', $user_data['name'], time() + 3600, "/");
+
+        header("Location: index.php");
+        exit();
+    } else {
+        $error = "Invalid email or password. Please try again.";
+    }
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

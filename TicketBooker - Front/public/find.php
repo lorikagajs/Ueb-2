@@ -1,75 +1,51 @@
 <?php
 session_start();
+
 $firstName = $_SESSION['firstName'] ?? '';
 $lastName = $_SESSION['lastName'] ?? '';
-$loggedIn =  !empty($firstName) && !empty($lastName);
-// Define the Ticket class
+$loggedIn = !empty($firstName) && !empty($lastName);
+
+
+if ($loggedIn) {
+    setcookie('firstName', $firstName, time() + 3600, "/", "", false, true); 
+    setcookie('lastName', $lastName, time() + 3600, "/", "", false, true);
+}
+
 class Ticket
 {
-	public $title;
-	public $date;
-	public $location;
-	public $type;
+    public $title;
+    public $date;
+    public $location;
+    public $type;
 
-	public function getTitle()
-	{
-		return $this->title;
-	}
-
-	public function getDate()
-	{
-		return $this->date;
-	}
-
-	public function getLocation()
-	{
-		return $this->location;
-	}
-
-	public function getType()
-	{
-		return $this->type;
-	}
+    public function getTitle() { return $this->title; }
+    public function getDate() { return $this->date; }
+    public function getLocation() { return $this->location; }
+    public function getType() { return $this->type; }
 }
 
 // Read ticket data from JSON file
 $ticketsData = file_get_contents("ticketinfo.json");
-
-// Decode JSON data into an array of Ticket objects
 $tickets = json_decode($ticketsData);
 
-// Function to filter tickets
 function filterTickets($tickets)
 {
-	$filteredTickets = array();
-
-	if (isset($_GET['find'])) {
-		foreach ($tickets as $ticket) {
-			if (
-				($_GET['type'] == '' || $_GET['type'] == $ticket->type) &&
-				($_GET['when'] == '' || $_GET['when'] == $ticket->date) &&
-				($_GET['location'] == '' || $_GET['location'] == $ticket->location)
-			) {
-				$filteredTickets[] = $ticket;
-			}
-		}
-		return $filteredTickets;
-	} else {
-		return $tickets; // Return all tickets if no filters applied
-	}
+    $filteredTickets = [];
+    if (isset($_GET['find'])) {
+        foreach ($tickets as $ticket) {
+            if (
+                ($_GET['type'] === '' || $_GET['type'] === $ticket->type) &&
+                ($_GET['when'] === '' || $_GET['when'] === $ticket->date) &&
+                ($_GET['location'] === '' || $_GET['location'] === $ticket->location)
+            ) {
+                $filteredTickets[] = $ticket;
+            }
+        }
+        return $filteredTickets;
+    } else {
+        return $tickets; // Return all tickets if no filters are applied
+    }
 }
-
-// switch (true) {
-//     case isset($_GET['find']):
-//         $filteredType = $_GET['type'] ?: 'All types';
-//         $filteredDate = $_GET['when'] ?: 'All dates';
-//         $filteredLocation = $_GET['location'] ?: 'All locations';
-//         break;
-//     default:
-
-//         break;
-// }
-
 ?>
 
 
