@@ -111,7 +111,7 @@ if (file_exists("profiletickets.json")) {
 							<img src="assets/icons/settings.svg" alt="">
 							<p>Settings</p>
 						</a>
-						<a href="#" class="option">
+						<a href="logout.php" class="option">
 							<img src="assets/icons/logout.svg" alt="">
 							<p>Log out</p>
 						</a>
@@ -126,7 +126,6 @@ if (file_exists("profiletickets.json")) {
 			<i class="fa-solid fa-bars-staggered" id="burger-menu"></i>
 		</div>
 	</nav>
-
 	<!-- Main content -->
 	<main class="container">
 

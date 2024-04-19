@@ -62,59 +62,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Navigation bar -->
     <nav class="navbar navbar-logged">
-        <div class="navbar-content" style="height: 128px">
-            <a class="navbar-logo" href="index.php">
-                <img src="assets/icons/logo.svg" alt="">
-            </a>
-            <div class="middle">
-                <a href="index.php" class="link">Home</a>
-                <a href="about.php" class="link">About</a>
-                <a href="contact.php" class="link">Contact</a>
-                <a href="faq.php" class="link">FAQ</a>
-            </div>
-            <?php if ($loggedIn) : ?>
-                <div class="right">
-                    <img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
-                </div>
+		<div class="navbar-content" style="height: 128px">
+			<a class="navbar-logo" href="index.php">
+				<img src="assets/icons/logo.svg" alt="">
+			</a>
+			<div class="middle">
+				<a href="index.php" class="link">Home</a>
+				<a href="about.php" class="link">About</a>
+				<a href="contact.php" class="link">Contact</a>
+				<a href="faq.php" class="link">FAQ</a>
+			</div>
+			<?php if ($loggedIn) : ?>
+				<div class="right">
+					<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
+				</div>
 
-                <div class="dropdown">
-                    <div class="top">
-                        <div class="info">
-                            <img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50" style="border-radius: 50%;">
-                            <?php echo $firstName . ' ' . $lastName; ?>
-                        </div>
-                        <hr>
-                    </div>
+				<div class="dropdown">
+					<div class="top">
+						<div class="info">
+							<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50" style="border-radius: 50%;">
+							<?php echo $firstName . ' ' . $lastName; ?>
+						</div>
+						<hr>
+					</div>
 
-                    <div class="options">
-                        <a href="profile.php" class="option">
-                            <img src="assets/icons/profile.svg" alt="">
-                            <p>Profile</p>
-                        </a>
-                        <a href="createTicket.php" class="option">
-                            <img src="assets/icons/create.svg" alt="">
-                            <p>Create Ticket</p>
-                        </a>
-                        <a href="editProfile.php" class="option">
-                            <img src="assets/icons/settings.svg" alt="">
-                            <p>Settings</p>
-                        </a>
-                        <a href="#" class="option">
-                            <img src="assets/icons/logout.svg" alt="">
-                            <p>Log out</p>
-                        </a>
-                    </div>
-                </div>
-            <?php else : ?> <!-- Show if user is not logged in -->
-                <div class="right">
-                    <a href="signup.php" class="link">Sign Up</a>
-                    <a href="login.php" class="link" id="login">Log In</a>
-                </div>
-            <?php endif; ?>
-            <i class="fa-solid fa-bars-staggered" id="burger-menu"></i>
-        </div>
-    </nav>
-
+					<div class="options">
+						<a href="profile.php" class="option">
+							<img src="assets/icons/profile.svg" alt="">
+							<p>Profile</p>
+						</a>
+						<a href="createTicket.php" class="option">
+							<img src="assets/icons/create.svg" alt="">
+							<p>Create Ticket</p>
+						</a>
+						<a href="editProfile.php" class="option">
+							<img src="assets/icons/settings.svg" alt="">
+							<p>Settings</p>
+						</a>
+						<a href="logout.php" class="option">
+							<img src="assets/icons/logout.svg" alt="">
+							<p>Log out</p>
+						</a>
+					</div>
+				</div>
+			<?php else : ?> <!-- Show if user is not logged in -->
+				<div class="right">
+					<a href="signup.php" class="link">Sign Up</a>
+					<a href="login.php" class="link" id="login">Log In</a>
+				</div>
+			<?php endif; ?>
+			<i class="fa-solid fa-bars-staggered" id="burger-menu"></i>
+		</div>
+	</nav>
 
 
     <!-- Main content -->

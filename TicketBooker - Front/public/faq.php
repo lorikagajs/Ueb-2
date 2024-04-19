@@ -62,7 +62,7 @@ $loggedIn =  !empty($firstName) && !empty($lastName);
 							<img src="assets/icons/settings.svg" alt="">
 							<p>Settings</p>
 						</a>
-						<a href="#" class="option">
+						<a href="logout.php" class="option">
 							<img src="assets/icons/logout.svg" alt="">
 							<p>Log out</p>
 						</a>

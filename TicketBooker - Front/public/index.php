@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 $username = $_SESSION['user_name'] ?? '';
 $firstName = $_SESSION['firstName'] ?? '';
@@ -64,7 +64,7 @@ $loggedIn = !empty($username); // Check if user is logged in
 							<img src="assets/icons/settings.svg" alt="">
 							<p>Settings</p>
 						</a>
-						<a href="#" class="option">
+						<a href="php/logout.php" class="option">
 							<img src="assets/icons/logout.svg" alt="">
 							<p>Log out</p>
 						</a>
