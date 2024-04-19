@@ -5,7 +5,7 @@ $username = $_SESSION['user_name'] ?? '';
 $firstName = $_SESSION['firstName'] ?? '';
 $lastName = $_SESSION['lastName'] ?? '';
 $loggedIn =  !empty($firstName) && !empty($lastName);
-$loggedIn = !empty($username); // Check if user is logged in
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -125,7 +125,7 @@ $loggedIn = !empty($username); // Check if user is logged in
 			</div>
 		</div>
 
-		<img src="assets/images/tickets.png" alt="Tickets" id="tickets" height="500">
+		<img src="assets/images/tickets.png" alt="Tickets" id="tickets" height="500" style="z-index: -1">
 	</main>
 
 
