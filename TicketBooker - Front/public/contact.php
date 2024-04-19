@@ -1,6 +1,9 @@
 <?php 
 session_start();
 $username = $_SESSION['user_name'] ?? '';
+$firstName=$_SESSION['firstName'] ?? '';
+$lastName=$_SESSION['lastName'] ?? '';
+
 $loggedIn = !empty($username); // Check if user is logged in
 ?>
 <!DOCTYPE html>
@@ -46,7 +49,7 @@ $loggedIn = !empty($username); // Check if user is logged in
 					<div class="info">
 						<img src="assets/images/profiles/profile-picture-4.jpg" alt="" width="50" height="50"
 							style="border-radius: 50%;">
-							<?php echo $username; ?>
+							<?php echo $firstName ." ".$lastName; ?>
 					</div>
 
 					<hr>

@@ -1,6 +1,8 @@
 <?php 
 session_start();
 $username = $_SESSION['user_name'] ?? '';
+$firstName=$_SESSION['firstName'] ?? '';
+$lastName=$_SESSION['lastName'] ?? '';
 $loggedIn = !empty($username); // Check if user is logged in
 ?>
 <!DOCTYPE html>
