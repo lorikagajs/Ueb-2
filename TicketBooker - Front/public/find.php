@@ -145,9 +145,9 @@ function filterTickets($tickets) {
 				<p class="name">Filters</p>
 				<div class="labels">
 
-					<p class="label"><?php echo $filteredType; ?> </p>
-					<p class="label"><?php echo $filteredDate; ?></p>
-					<p class="label"><?php echo $filteredLocation; ?></p>
+					<p class="label"><?php echo isset($_GET['type']) ? $_GET['type'] : 'All' ; ?> </p>
+					<p class="label"><?php echo isset($_GET['when']) ? $_GET['when'] : 'All'; ?></p>
+					<p class="label"><?php echo isset($_GET['location']) ? $_GET['location'] : 'All'; ?></p>
 					<?php ?>
 				</div>
 			</div>
