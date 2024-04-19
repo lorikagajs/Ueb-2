@@ -1,3 +1,9 @@
+<?php 
+session_start();
+$username = $_SESSION['user_name'] ?? '';
+$loggedIn = !empty($username); // Check if user is logged in
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
