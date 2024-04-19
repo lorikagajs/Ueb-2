@@ -72,6 +72,11 @@ $loggedIn = !empty($username); // Check if user is logged in
 					</a>
 				</div>
 			</div>
+			<?php else : ?> <!-- Show if user is not logged in -->
+            <div class="right">
+                <a href="signup.php" class="link">Sign Up</a>
+                <a href="login.php" class="link" id="login">Log In</a>
+            </div>
 			<?php endif; ?>
 			<i class="fa-solid fa-bars-staggered" id="burger-menu"></i>
 		</div>
