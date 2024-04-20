@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 
 $firstName = $_SESSION['firstName'] ?? '';
@@ -83,7 +83,7 @@ $loggedIn = !empty($firstName) && !empty($lastName);
 							<img src="assets/icons/settings.svg" alt="">
 							<p>Settings</p>
 						</a>
-						<a href="php/logout.php" class="option">
+						<a href="logout.php" class="option">
 							<img src="assets/icons/logout.svg" alt="">
 							<p>Log out</p>
 						</a>
