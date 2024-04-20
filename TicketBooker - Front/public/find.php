@@ -35,8 +35,17 @@ class Ticket
 // Read ticket data from JSON file
 $ticketsData = file_get_contents("ticketinfo.json");
 
-// Decode JSON data into an array of Ticket objects
-$tickets = json_decode($ticketsData);
+// Decode JSON data into an array of associative arrays
+$ticketsArray = json_decode($ticketsData, true);
+
+$tickets = array_map(function ($ticketData) {
+    $ticket = new Ticket();
+    $ticket->title = $ticketData['title'];
+    $ticket->date = $ticketData['date'];
+    $ticket->location = $ticketData['location'];
+    $ticket->type = $ticketData['type'];
+    return $ticket;
+}, $ticketsArray);
 
 // Function to filter tickets
 function filterTickets($tickets)
@@ -59,6 +68,14 @@ function filterTickets($tickets)
 	}
 }
 
+
+// switch (true) {
+//     case isset($_GET['find']):
+//         $filteredType = $_GET['type'] ?: 'All types';
+//         $filteredDate = $_GET['when'] ?: 'All dates';
+//         $filteredLocation = $_GET['location'] ?: 'All locations';
+//         break;
+//     default:
 
 
 ?>
@@ -171,36 +188,35 @@ function filterTickets($tickets)
 				<div class="col-md-6 col-lg-4">
 					<div class="card">
 						<div class="card-body">
-							<h1 class="card-title"><?php echo $ticket->title; ?></h1>
+							<h1 class="card-title"><?php echo $ticket->getTitle(); ?></h1>
 							<div class="date">
 								<img src="assets/icons/calendar.svg" alt="">
 								<div class="info">
-									<p class="primary"><?php echo $ticket->date; ?></p>
+									<p class="primary"><?php echo $ticket->getDate(); ?></p>
 									<p class="secondary">Time of event</p>
 								</div>
 							</div>
 							<div class="location">
 								<img src="assets/icons/location.svg" alt="">
 								<div class="info">
-									<p class="primary"><?php echo $ticket->location; ?></p>
+									<p class="primary"><?php echo $ticket->getLocation(); ?></p>
 								</div>
 							</div>
 						</div>
 						<hr>
 						<div class="card-bottom">
-							<p class="type"><?php echo $ticket->type; ?></p>
+							<p class="type"><?php echo $ticket->getType(); ?></p>
 							<form action="profile.php" method="post">
-								<input type="hidden" name="myTicketTitle" value="<?php echo $ticket->title; ?>">
-								<input type="hidden" name="myTicketDate" value="<?php echo $ticket->date; ?>">
-								<input type="hidden" name="myTicketLocation" value="<?php echo $ticket->location; ?>">
-								<input type="hidden" name="myTicketType" value="<?php echo $ticket->type; ?>">
+								<input type="hidden" name="myTicketTitle" value="<?php echo $ticket->getTitle(); ?>">
+								<input type="hidden" name="myTicketDate" value="<?php echo $ticket->getDate(); ?>">
+								<input type="hidden" name="myTicketLocation" value="<?php echo $ticket->getLocation(); ?>">
+								<input type="hidden" name="myTicketType" value="<?php echo $ticket->getType(); ?>">
 								<button type="submit" class="card-button" name="myTicketAdder">Add</button>
 							</form>
 						</div>
 					</div>
 				</div>
 			<?php endforeach; ?>
-		</div>
 
 	</main>
 
