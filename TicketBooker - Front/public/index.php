@@ -6,17 +6,17 @@ $lastName = $_SESSION['lastName'] ?? '';
 $loggedIn = !empty($firstName) && !empty($lastName);
 
 
-// if ($loggedIn) {
-// 	setcookie('bgColor', '#333', time() + 3600, "/", "", false, true);
-// } else {
-// 	setcookie('bgColor', '#222222', time() + 3600, "/", "", false, true);
-// }
+if ($loggedIn) {
+	setcookie('bgColor', '#222222', time() + 3600, "/", "", false, true);
+} else {
+	setcookie('bgColor', '#333', time() + 3600, "/", "", false, true);
+}
 
-// if (isset($_REQUEST['logout'])) {
-// 	setcookie('bgColor', '#222222', time() - 3600, "/");
-// }
+if (isset($_REQUEST['logout'])) {
+	setcookie('bgColor', '#333', time() - 3600, "/");
+}
 
-// $backgroundColor = $_COOKIE['bgColor'] ?? '#222222';
+$backgroundColor = $_COOKIE['bgColor'] ?? '#333';
 ?>
 
 <!DOCTYPE html>
