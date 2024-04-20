@@ -59,16 +59,7 @@ function filterTickets($tickets)
 	}
 }
 
-// switch (true) {
-//     case isset($_GET['find']):
-//         $filteredType = $_GET['type'] ?: 'All types';
-//         $filteredDate = $_GET['when'] ?: 'All dates';
-//         $filteredLocation = $_GET['location'] ?: 'All locations';
-//         break;
-//     default:
 
-//         break;
-// }
 
 ?>
 
@@ -172,7 +163,7 @@ function filterTickets($tickets)
 			</div>
 			<button id="search" class="btn">
 				<img src="assets/icons/search.svg" alt="">
-				<p>Search again</p>
+				<p>Search</p>
 			</button>
 		</div>
 		<div class="tickets row g-4">

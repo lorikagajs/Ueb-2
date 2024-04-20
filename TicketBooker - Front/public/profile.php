@@ -56,27 +56,27 @@ if (file_exists("profiletickets.json")) {
 }
 // include('find.php');
 
-var_dump($_GET['type']);
-var_dump($_GET);
-function filterTickets($tickets)
-{
-	$filteredTickets = [];
-	if (isset($_GET['type'])) {
-		foreach ($tickets as $ticket) {
-			if (
-				$_GET['type'] == '' || $_GET['type'] == $ticket['type']
-				// ($_GET['type'] === '' || $_GET['type'] === $ticket->type) &&
-				// ($_GET['when'] === '' || $_GET['when'] === $ticket->date) &&
-				// ($_GET['location'] === '' || $_GET['location'] === $ticket->location)
-			) {
-				$filteredTickets[] = $ticket;
-			}
-		}
-		return $filteredTickets;
-	} else {
-		return $tickets; // Return all tickets if no filters are applied
-	}
-}
+// var_dump($_GET['type']);
+// var_dump($_GET);
+// function filterTickets($tickets)
+// {
+// 	$filteredTickets = [];
+// 	if (isset($_GET['type'])) {
+// 		foreach ($tickets as $ticket) {
+// 			if (
+// 				$_GET['type'] == '' || $_GET['type'] == $ticket['type']
+// 				// ($_GET['type'] === '' || $_GET['type'] === $ticket->type) &&
+// 				// ($_GET['when'] === '' || $_GET['when'] === $ticket->date) &&
+// 				// ($_GET['location'] === '' || $_GET['location'] === $ticket->location)
+// 			) {
+// 				$filteredTickets[] = $ticket;
+// 			}
+// 		}
+// 		return $filteredTickets;
+// 	} else {
+// 		return $tickets; // Return all tickets if no filters are applied
+// 	}
+// }
 
 ?>
 
@@ -167,7 +167,7 @@ function filterTickets($tickets)
 		</div>
 
 
-		<form action="profile.php" method="get" class="tabs row g-4">
+		<!-- <form action="profile.php" method="get" class="tabs row g-4">
 
 			<label class="tab col-md-6 col-lg-3">
 				<input type="radio" name="type" value="" checked>
@@ -222,13 +222,13 @@ function filterTickets($tickets)
 				</div>
 			</label>
 
-		</form>
+		</form> -->
 
 
 		<hr class="divider">
 
 		<div class="tickets row g-4">
-			<?php foreach (filterTickets($myTickets) as $index => $myTicket) : ?>
+			<?php foreach ($myTickets as $index => $myTicket) : ?>
 				<div class="col-md-6 col-lg-4">
 					<div class="card" id="card-<?php echo $index; ?>">
 						<div class="card-body">
