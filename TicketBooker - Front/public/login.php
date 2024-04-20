@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$valid_email = $valid_password = "";
+
 if (isset($_SESSION['user'])) {
     $user_data = $_SESSION['user'];
     $valid_email = $user_data['email'];
@@ -15,9 +17,7 @@ if (isset($_POST['submit'])) {
     $password = $_POST['password'];
 
     if ($email === $valid_email && $password === $valid_password) {
-        $_SESSION['user_name'] = $user_data['name'];
-        $_SESSION['user_email'] = $user_data['email'];
-
+        $_SESSION['user'] = $user_data; // Save user data in session
         header("Location: index.php");
         exit();
     } else {
@@ -25,6 +25,7 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

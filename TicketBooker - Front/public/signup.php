@@ -145,7 +145,7 @@ if (isset($_POST['submit'])) {
         $_SESSION['user_email'] = $email;
 		$_SESSION['firstName'] =$firstName;
 		$_SESSION['lastName']= $lastName;
-        header("Location: index.php");
+        header("Location: login.php");
         exit();
     }
 }
