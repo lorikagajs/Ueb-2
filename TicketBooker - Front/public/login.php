@@ -5,20 +5,22 @@
 session_start();
 
 if (isset($_SESSION['user'])) {
+	
     $user_data = $_SESSION['user'];
     $valid_email = $user_data['email'];
     $valid_password = $user_data['password']; 
+    header("Location: index.php");
 
     // Set cookies upon successful session creation
-    setcookie('user_email', $valid_email, time() + 3600, "/"); 
-    setcookie('user_name', $user_data['name'], time() + 3600, "/");
-} else {
-    // Redirect to signup page if no session user data is found
-    header("Location: signup.php");
-    exit();
-}
+    // setcookie('user_email', $valid_email, time() + 3600, "/"); 
+    // setcookie('user_name', $user_data['name'], time() + 3600, "/");
+} 
 
 if (isset($_POST['submit'])) {
+	$user_data = json_decode($_COOKIE['user_data'], true);
+    $valid_email = $user_data['email'];
+    $valid_password = $user_data['password'];
+	
     $email = $_POST['email'];
     $password = $_POST['password'];
 

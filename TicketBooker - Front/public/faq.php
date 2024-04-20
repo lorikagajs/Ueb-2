@@ -1,16 +1,19 @@
-<?php
+<?php 
 session_start();
 
-$firstName = $_SESSION['firstName'] ?? '';
-$lastName = $_SESSION['lastName'] ?? '';
-$loggedIn = !empty($firstName) && !empty($lastName);
-
-if ($loggedIn) {
-    // Refresh or set the cookie for another hour
-    setcookie('firstName', $firstName, time() + 3600, "/");
-    setcookie('lastName', $lastName, time() + 3600, "/");
+if (!isset($_SESSION['user_name']) && isset($_COOKIE['username'])) {
+    $_SESSION['user_name'] = $_COOKIE['username'];
 }
 
+$username = $_SESSION['user_name'] ?? '';
+$firstName = $_SESSION['firstName'] ?? '';
+$lastName = $_SESSION['lastName'] ?? '';
+
+$loggedIn = !empty($username); // Check if user is logged in
+
+if ($loggedIn) {
+    setcookie('username', $username, time() + 3600, "/");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
