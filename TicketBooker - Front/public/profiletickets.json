@@ -76,5 +76,11 @@
         "date": "2024-01-15",
         "location": "Pej\u00eb",
         "type": "Movie"
+    },
+    {
+        "title": "Pop Music Festival",
+        "date": "2024-02-20",
+        "location": "Prishtin\u00eb",
+        "type": "Concert"
     }
 ]
