@@ -1,33 +1,22 @@
 <?php
 session_start();
 
-// Set a cookie if username exists in session
-if (isset($_SESSION['user_name'])) {
+// Check if the user is logged in
+$loggedIn = isset($_SESSION['user_name']);
+
+if ($loggedIn) {
     setcookie('username', $_SESSION['user_name'], time() + 3600, "/", "", false, true);
-}
-
-// Initialize an array to store cookie information
-$cookieData = [];
-
-// Check if the cookie exists
-if(isset($_COOKIE['username'])) {
-    // Add cookie data to array
-    $cookieData['username'] = $_COOKIE['username'];
-    echo "<script>console.log('Cookie Found: " . $_COOKIE['username'] . "');</script>";
+    setcookie('bgColor', '#333', time() + 3600, "/", "", false, true);
 } else {
-    echo "<script>console.log('No cookie found');</script>";
+    setcookie('bgColor', '#222222', time() + 3600, "/", "", false, true);
 }
 
-$username = $_SESSION['user_name'] ?? '';
-$firstName = $_SESSION['firstName'] ?? '';
-$lastName = $_SESSION['lastName'] ?? '';
-$loggedIn = !empty($username); // Check if user is logged in
-
-// Deleting a cookie by setting its expiration time in the past
 if (isset($_REQUEST['logout'])) {
     setcookie('username', '', time() - 3600, "/");
+    setcookie('bgColor', '#222222', time() - 3600, "/");
 }
 
+$backgroundColor = $_COOKIE['bgColor'] ?? '#222222'; 
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +31,9 @@ if (isset($_REQUEST['logout'])) {
 	<link rel="stylesheet" href="css/palette-dark.css">
 	<link rel="stylesheet" href="css/general.css">
 	<link rel="stylesheet" href="css/index.css">
+	<style>
+        body { background-color: <?php echo $backgroundColor; ?>; }
+    </style>
 	<script src="https://kit.fontawesome.com/26e97bbe8d.js" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 	<script src="js/app.js"></script>
