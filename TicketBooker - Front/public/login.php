@@ -1,18 +1,13 @@
 <?php
-//include "./database/db.php";
-//include "./database/userfunctions.php";
-
 session_start();
 
 if (isset($_SESSION['user'])) {
-	
     $user_data = $_SESSION['user'];
     $valid_email = $user_data['email'];
     $valid_password = $user_data['password']; 
-} else{
-	// if user data is not set redirect back to signup page
-	header("Location: signup.php");
-	exit();
+} else {
+    // if user data is not set, do not redirect to signup page
+    $user_data = null;
 }
 
 if (isset($_POST['submit'])) {
