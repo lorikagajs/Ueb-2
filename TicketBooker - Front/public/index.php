@@ -1,24 +1,22 @@
-<?php
+<?php 
 session_start();
+
 $firstName = $_SESSION['firstName'] ?? '';
 $lastName = $_SESSION['lastName'] ?? '';
 $loggedIn = !empty($firstName) && !empty($lastName);
-// Check if the user is logged in
-$loggedIn = isset($_SESSION['user_name']);
 
-if ($loggedIn) {
-	setcookie('username', $_SESSION['user_name'], time() + 3600, "/", "", false, true);
-	setcookie('bgColor', '#333', time() + 3600, "/", "", false, true);
-} else {
-	setcookie('bgColor', '#222222', time() + 3600, "/", "", false, true);
-}
 
-if (isset($_REQUEST['logout'])) {
-	setcookie('username', '', time() - 3600, "/");
-	setcookie('bgColor', '#222222', time() - 3600, "/");
-}
+// if ($loggedIn) {
+// 	setcookie('bgColor', '#333', time() + 3600, "/", "", false, true);
+// } else {
+// 	setcookie('bgColor', '#222222', time() + 3600, "/", "", false, true);
+// }
 
-$backgroundColor = $_COOKIE['bgColor'] ?? '#222222';
+// if (isset($_REQUEST['logout'])) {
+// 	setcookie('bgColor', '#222222', time() - 3600, "/");
+// }
+
+// $backgroundColor = $_COOKIE['bgColor'] ?? '#222222';
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +83,7 @@ $backgroundColor = $_COOKIE['bgColor'] ?? '#222222';
 							<img src="assets/icons/settings.svg" alt="">
 							<p>Settings</p>
 						</a>
-						<a href="logout.php" class="option">
+						<a href="php/logout.php" class="option">
 							<img src="assets/icons/logout.svg" alt="">
 							<p>Log out</p>
 						</a>

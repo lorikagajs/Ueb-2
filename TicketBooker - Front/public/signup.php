@@ -138,11 +138,15 @@ if (isset($_POST['submit'])) {
             'user_type' => $type
         );
 
-        $user_data_json = json_encode($user_data);
+        // Store user data in session
+        $_SESSION['user'] = $user_data;
 
-        // Set the cookie with user data
-        setcookie('user_data', $user_data_json, time() + (86400 * 30), "/"); // 86400 = 1 day
-        header("Location: login.php");
+		$_SESSION['user_name'] = $name;
+        $_SESSION['user_email'] = $email;
+		$_SESSION['firstName'] =$firstName;
+		$_SESSION['lastName']= $lastName;
+        header("Location: index.php");
+        exit();
     }
 }
 

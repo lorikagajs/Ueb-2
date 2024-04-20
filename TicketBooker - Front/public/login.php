@@ -9,28 +9,19 @@ if (isset($_SESSION['user'])) {
     $user_data = $_SESSION['user'];
     $valid_email = $user_data['email'];
     $valid_password = $user_data['password']; 
-    header("Location: index.php");
-
-    // Set cookies upon successful session creation
-    // setcookie('user_email', $valid_email, time() + 3600, "/"); 
-    // setcookie('user_name', $user_data['name'], time() + 3600, "/");
-} 
+} else{
+	// if user data is not set redirect back to signup page
+	header("Location: signup.php");
+	exit();
+}
 
 if (isset($_POST['submit'])) {
-	$user_data = json_decode($_COOKIE['user_data'], true);
-    $valid_email = $user_data['email'];
-    $valid_password = $user_data['password'];
-	
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     if ($email === $valid_email && $password === $valid_password) {
         $_SESSION['user_name'] = $user_data['name'];
-        $_SESSION['user_email'] = $email;
-
-        // Update cookies upon successful login
-        setcookie('user_email', $email, time() + 3600, "/");
-        setcookie('user_name', $user_data['name'], time() + 3600, "/");
+        $_SESSION['user_email'] = $user_data['email'];
 
         header("Location: index.php");
         exit();
