@@ -75,7 +75,15 @@ function sortTicketsAZ($tickets){
 	});
 	return $tickets;
 }
-
+// Determine which sorting opting was selected
+if (isset ($_GET['sort'])) {
+	$sortType = $_GET['sort'];
+	if ($sortType === 'asc') {
+		$myTickets = sortTicketsAZ($myTickets);
+	} else if ($sortType === 'desc') {
+		rsort($myTickets); // Use rsort() for descending order
+	}
+	}
 // include('find.php');
 
 // var_dump($_GET['type']);
