@@ -68,6 +68,13 @@ if (file_exists("profiletickets.json")) {
 	$myTickets = array();
 }
 
+function sortTicketsAZ($tickets){
+	usort($tickets, function($a, $b) {
+		return strcmp($a['title'], $b['title']);
+
+	});
+	return $tickets;
+}
 
 // include('find.php');
 
