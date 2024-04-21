@@ -97,7 +97,8 @@ if (isset($_POST['submit'])) {
 		$password = sanitizeInput($_POST["password"]);
 		// RegEx for password
 		if (!preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/', $password)) {
-				$passwordErr = "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.";
+				$passwordErr = "Password must be at least 8 characters long and include at least one uppercase letter,
+				one lowercase letter, one digit, and one special character.";
 				$formValid = false;
 		}
 	}

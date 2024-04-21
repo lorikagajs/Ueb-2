@@ -1,6 +1,5 @@
 
-User
-now add it here:
+
 
 <?php 
 //include "./database/db.php";

@@ -6,16 +6,16 @@
         "type": "Movie"
     },
     {
-        "title": "Pop Music Festival",
-        "date": "2024-02-20",
-        "location": "Prishtin\u00eb",
-        "type": "Concert"
-    },
-    {
         "title": "Sightseeing Tour",
         "date": "2024-03-05",
         "location": "Gjakov\u00eb",
         "type": "Travel"
+    },
+    {
+        "title": "Comedy Show",
+        "date": "2024-04-10",
+        "location": "Prizren",
+        "type": "Concert"
     },
     {
         "title": "Beach Vacation",
@@ -24,9 +24,9 @@
         "type": "Travel"
     },
     {
-        "title": "Drama Play",
-        "date": "2024-09-05",
-        "location": "Gjakov\u00eb",
-        "type": "Concert"
+        "title": "Classic Movie Night",
+        "date": "2024-06-20",
+        "location": "Ferizaj",
+        "type": "Movie"
     }
 ]
