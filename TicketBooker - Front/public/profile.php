@@ -83,7 +83,7 @@ if (isset ($_GET['sort'])) {
 	} else if ($sortType === 'desc') {
 		rsort($myTickets); // Use rsort() for descending order
 	}
-	}
+}
 // include('find.php');
 
 // var_dump($_GET['type']);
@@ -195,6 +195,18 @@ if (isset ($_GET['sort'])) {
 			<h1>Welcome back, <?php echo $firstName; ?></h1>
 			<p>Take a look at all your tickets.</p>
 		</div>
+		<div class="search">
+            <div class="results">
+                <p style="display: inline-block;"><span id="amount"> </p>
+                <div class="sort-buttons" style="display: inline-block;">
+                    <form action="" method="GET">
+                        <button type="submit" name="sort" value="asc" class="btn" style="display: inline-block;">Sort A to Z</button>
+                        <button type="submit" name="sort" value="desc" class="btn" style="display: inline-block;">Sort Z to A</button>
+                    </form>
+                </div>
+            </div>
+		</div>
+
 
 
 		<!-- <form action="profile.php" method="get" class="tabs row g-4">
