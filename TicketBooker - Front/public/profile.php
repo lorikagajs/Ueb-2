@@ -16,33 +16,45 @@ if ($loggedIn) {
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["myTicketAdder"])) {
-	// Retrieve ticket details from the form
-	$myTicketTitle = $_POST["myTicketTitle"];
-	$myTicketDate = $_POST["myTicketDate"];
-	$myTicketLocation = $_POST["myTicketLocation"];
-	$myTicketType = $_POST["myTicketType"];
+    // Retrieve ticket details from the form
+    $myTicketTitle = $_POST["myTicketTitle"];
+    $myTicketDate = $_POST["myTicketDate"];
+    $myTicketLocation = $_POST["myTicketLocation"];
+    $myTicketType = $_POST["myTicketType"];
 
-	// Create an associative array representing the ticket
-	$ticket = array(
-		"title" => $myTicketTitle,
-		"date" => $myTicketDate,
-		"location" => $myTicketLocation,
-		"type" => $myTicketType
-	);
+    // Create an associative array representing the ticket
+    $ticket = array(
+        "title" => $myTicketTitle,
+        "date" => $myTicketDate,
+        "location" => $myTicketLocation,
+        "type" => $myTicketType
+    );
 
-	// Load existing tickets from JSON file if it exists
-	if (file_exists("profiletickets.json")) {
-		$json = file_get_contents("profiletickets.json");
-		$existingTickets = json_decode($json, true);
-		// Append the new ticket to existing tickets
-		$existingTickets[] = $ticket;
-		// Save the updated tickets to JSON file
-		file_put_contents("profiletickets.json", json_encode($existingTickets, JSON_PRETTY_PRINT));
-	} else {
-		// If JSON file doesn't exist, create a new one with the new ticket
-		file_put_contents("profiletickets.json", json_encode(array($ticket), JSON_PRETTY_PRINT));
-	}
+    // Load existing tickets from JSON file if it exists
+    if (file_exists("profiletickets.json")) {
+        $json = file_get_contents("profiletickets.json");
+        $existingTickets = json_decode($json, true);
+
+        // Check if the ticket already exists
+        $ticketExists = false;
+        foreach ($existingTickets as $existingTicket) {
+            if ($existingTicket['title'] == $myTicketTitle && $existingTicket['date'] == $myTicketDate && $existingTicket['location'] == $myTicketLocation && $existingTicket['type'] == $myTicketType) {
+                $ticketExists = true;
+                break;
+            }
+        }
+
+        // If the ticket doesn't exist, add it
+        if (!$ticketExists) {
+            $existingTickets[] = $ticket;
+            file_put_contents("profiletickets.json", json_encode($existingTickets, JSON_PRETTY_PRINT));
+        }
+    } else {
+        // If JSON file doesn't exist, create a new one with the new ticket
+        file_put_contents("profiletickets.json", json_encode(array($ticket), JSON_PRETTY_PRINT));
+    }
 }
+
 
 // Check if profiletickets.json exists
 if (file_exists("profiletickets.json")) {
@@ -54,6 +66,8 @@ if (file_exists("profiletickets.json")) {
 	// If the JSON file doesn't exist or is empty, initialize an empty array
 	$myTickets = array();
 }
+
+
 // include('find.php');
 
 // var_dump($_GET['type']);
