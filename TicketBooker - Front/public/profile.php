@@ -56,27 +56,29 @@ if (file_exists("profiletickets.json")) {
 }
 // include('find.php');
 
-// var_dump($_GET['type']);
+var_dump($_GET['type']);
 // var_dump($_GET);
-// function filterTickets($tickets)
-// {
-// 	$filteredTickets = [];
-// 	if (isset($_GET['type'])) {
-// 		foreach ($tickets as $ticket) {
-// 			if (
-// 				$_GET['type'] == '' || $_GET['type'] == $ticket['type']
-// 				// ($_GET['type'] === '' || $_GET['type'] === $ticket->type) &&
-// 				// ($_GET['when'] === '' || $_GET['when'] === $ticket->date) &&
-// 				// ($_GET['location'] === '' || $_GET['location'] === $ticket->location)
-// 			) {
-// 				$filteredTickets[] = $ticket;
-// 			}
-// 		}
-// 		return $filteredTickets;
-// 	} else {
-// 		return $tickets; // Return all tickets if no filters are applied
-// 	}
-// }
+function filterTickets($tickets)
+{
+	$filteredTickets = [];
+	if (isset($_GET['type'])) {
+		foreach ($tickets as $ticket) {
+			if (
+				$_GET['type'] == '' || $_GET['type'] == $ticket['type']
+				// ($_GET['type'] === '' || $_GET['type'] === $ticket->type) &&
+				// ($_GET['when'] === '' || $_GET['when'] === $ticket->date) &&
+				// ($_GET['location'] === '' || $_GET['location'] === $ticket->location)
+			) {
+				$filteredTickets[] = $ticket;
+			}
+		}
+		return $filteredTickets;
+	} else {
+		return $tickets; // Return all tickets if no filters are applied
+	}
+}
+
+
 
 ?>
 
@@ -100,6 +102,40 @@ if (file_exists("profiletickets.json")) {
 	<script src="https://kit.fontawesome.com/26e97bbe8d.js" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 	<script src="js/app.js"></script>
+
+	<script>
+		const submitBtn = document.getElementById('submitBtn');
+
+		submitBtn.addEventListener('click', function() {
+			this.classList.add('submitted');
+		});
+	</script>
+	<style>
+		.tab input[type="submit"] {
+			position: absolute;
+			opacity: 0;
+			width: 0;
+			height: 0;
+		}
+
+		.tab input[type="submit"]+.content {
+			cursor: pointer;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 1.15rem;
+			background-color: var(--foreground);
+			padding: 1rem 1.25rem;
+			border-radius: 0.75rem;
+		}
+
+		/* .tab input[type="submit"]:checked + .content {
+  background-color: var(--accent);
+} */
+		#submitBtn.submitted {
+			background-color: var(--accent);
+		}
+	</style>
 </head>
 
 <body>
@@ -167,20 +203,21 @@ if (file_exists("profiletickets.json")) {
 		</div>
 
 
-		<!-- <form action="profile.php" method="get" class="tabs row g-4">
+		<form action="profile.php" method="get" class="tabs row g-4">
 
 			<label class="tab col-md-6 col-lg-3">
-				<input type="radio" name="type" value="" checked>
+				<input type="submit" name="type" value="" id="submitBtn">
 				<div class="content">
 					<div class="left">
 						<img src="assets/icons/all.svg" alt="">
 						<p>All</p>
 					</div>
-					<p class="right">6</p>
+					<p class="right"><?php ?></p>
 				</div>
+
 			</label>
 			<label class="tab col-md-6 col-lg-3">
-				<input type="radio" name="type" value="Travel">
+				<input type="submit" name="type" value="Travel">
 				<div class="content">
 					<div class="left">
 						<img src="assets/icons/travel.svg" alt="">
@@ -188,47 +225,36 @@ if (file_exists("profiletickets.json")) {
 						<p>Travels</p>
 
 					</div>
-					<p class="right">2</p>
+					<p class="right"><?php   ?></p>
 				</div>
 			</label>
 			<label class="tab col-md-6 col-lg-3">
-				<input type="radio" name="type" value="Movie">
+				<input type="submit" name="type" value="Movie">
 				<div class="content">
 					<div class="left">
 						<img src="assets/icons/movie.svg" alt="">
 						<p>Movies</p>
 					</div>
-					<p class="right">1</p>
+					<p class="right"><?php  ?></p>
 				</div>
 			</label>
 			<label class="tab col-md-6 col-lg-3">
-				<input type="radio" name="type" value="Concert">
+				<input type="submit" name="type" value="Concert">
 				<div class="content">
 					<div class="left">
 						<img src="assets/icons/concert.svg" alt="">
 						<p>Concerts</p>
 					</div>
-					<p class="right">3</p>
+					<p class="right">  </p>
 				</div>
 			</label>
-			<label class="tab col-md-6 col-lg-3">
-				<input type="radio" name="type" value="Concert">
-				<div class="content">
-					<div class="left">
-						<img src="assets/icons/concert.svg" alt="">
-						<p>Concerts</p>
-					</div>
-					<p class="right">3</p>
-				</div>
-			</label>
-
-		</form> -->
+		</form>
 
 
 		<hr class="divider">
 
 		<div class="tickets row g-4">
-			<?php foreach ($myTickets as $index => $myTicket) : ?>
+			<?php foreach (filterTickets($myTickets) as $index => $myTicket) : ?>
 				<div class="col-md-6 col-lg-4">
 					<div class="card" id="card-<?php echo $index; ?>">
 						<div class="card-body">
