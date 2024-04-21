@@ -68,6 +68,32 @@ function filterTickets($tickets)
 	}
 }
 
+// Function to sort tickets by title in ascending order
+function sortTicketsAZ($tickets) {
+    usort($tickets, function($a, $b) {
+        return strcmp($a->getTitle(), $b->getTitle());
+    });
+    return $tickets;
+}
+
+// Function to sort tickets by title in descending order
+function sortTicketsZA($tickets) {
+    usort($tickets, function($a, $b) {
+        return strcmp($b->getTitle(), $a->getTitle());
+    });
+    return $tickets;
+}
+
+// Determine which sorting option was selected
+if (isset($_GET['sort'])) {
+    $sortType = $_GET['sort'];
+    if ($sortType === 'az') {
+        $tickets = sortTicketsAZ($tickets);
+    } elseif ($sortType === 'za') {
+        $tickets = sortTicketsZA($tickets);
+    }
+}
+
 
 // switch (true) {
 //     case isset($_GET['find']):
@@ -182,6 +208,12 @@ function filterTickets($tickets)
 				<img src="assets/icons/search.svg" alt="">
 				<p>Search</p>
 			</button>
+		</div>
+		<div class="sort-buttons">
+			<form action="" method="GET">
+				<button type="submit" name="sort" value="az">Sort A to Z</button>
+				<button type="submit" name="sort" value="za">Sort Z to A</button>
+			</form>
 		</div>
 		<div class="tickets row g-4">
 			<?php foreach (filterTickets($tickets) as $ticket) : ?>
