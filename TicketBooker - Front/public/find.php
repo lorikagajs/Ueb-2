@@ -202,19 +202,21 @@ if (isset($_GET['sort'])) {
 		</div>
 		<div class="search">
 			<div class="results">
-				<p><span id="amount"><?php echo count(filterTickets($tickets)); ?></span> results found</p>
+				<p style="display: inline-block;"><span id="amount"><?php echo count(filterTickets($tickets)); ?></span> results found </p>
+				<div class="sort-buttons" style="display: inline-block;">
+			<form action="" method="GET">
+				<button type="submit" name="sort" value="az" class="btn" style="display: inline-block;">Sort A to Z</button>
+				<button type="submit" name="sort" value="za" class="btn" style="display: inline-block;">Sort Z to A</button>
+			</form>
+		</div>
 			</div>
+		
 			<button id="search" class="btn">
 				<img src="assets/icons/search.svg" alt="">
 				<p>Search</p>
 			</button>
 		</div>
-		<div class="sort-buttons">
-			<form action="" method="GET">
-				<button type="submit" name="sort" value="az">Sort A to Z</button>
-				<button type="submit" name="sort" value="za">Sort Z to A</button>
-			</form>
-		</div>
+		
 		<div class="tickets row g-4">
 			<?php foreach (filterTickets($tickets) as $ticket) : ?>
 				<div class="col-md-6 col-lg-4">
