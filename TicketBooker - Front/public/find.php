@@ -208,7 +208,7 @@ if (isset($_GET['sort'])) {
 				<p>Search</p>
 			</button>
 		</div>
-
+		
 		<div class="tickets row g-4">
 			<?php foreach (filterTickets($tickets) as $ticket) : ?>
 				<div class="col-md-6 col-lg-4">
