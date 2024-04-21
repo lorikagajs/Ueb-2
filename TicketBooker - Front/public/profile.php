@@ -278,11 +278,24 @@ if (file_exists("profiletickets.json")) {
 
 		<script>
 			function deleteCard(index) {
-				var cardId = 'card-' + index;
-				var card = document.getElementById(cardId);
-				card.parentNode.removeChild(card);
-				// Here, you can add additional logic to perform deletion on the server-side using AJAX or form submission.
+				// Send an AJAX request to delete the ticket
+				$.ajax({
+					url: 'delete_ticket.php',
+					type: 'POST',
+					data: { index: index },
+					success: function(response) {
+						// Remove the card from the DOM if deletion is successful
+						var cardId = 'card-' + index;
+						$('#' + cardId).remove();
+						alert('Ticket deleted successfully!');
+					},
+					error: function(xhr, status, error) {
+						console.error(xhr.responseText);
+						alert('An error occurred while deleting the ticket.');
+					}
+				});
 			}
+
 		</script>
 
 
