@@ -68,7 +68,7 @@ function filterTickets($tickets)
 	}
 }
 
-// Function to sort tickets by title in ascending order
+// Function to sort tickets by title in descending order
 function sortTicketsAZ($tickets) {
     usort($tickets, function($a, $b) {
         return strcmp($a->getTitle(), $b->getTitle());
@@ -76,24 +76,16 @@ function sortTicketsAZ($tickets) {
     return $tickets;
 }
 
-// Function to sort tickets by title in descending order
-function sortTicketsZA($tickets) {
-    usort($tickets, function($a, $b) {
-        return strcmp($b->getTitle(), $a->getTitle());
-    });
-    return $tickets;
-}
-
+// Determine which sorting option was selected
 // Determine which sorting option was selected
 if (isset($_GET['sort'])) {
     $sortType = $_GET['sort'];
-    if ($sortType === 'az') {
+    if ($sortType === 'asc') {
         $tickets = sortTicketsAZ($tickets);
-    } elseif ($sortType === 'za') {
-        $tickets = sortTicketsZA($tickets);
+    } elseif ($sortType === 'desc') {
+        rsort($tickets); // Use rsort() for descending order
     }
 }
-
 
 // switch (true) {
 //     case isset($_GET['find']):
@@ -102,7 +94,7 @@ if (isset($_GET['sort'])) {
 //         $filteredLocation = $_GET['location'] ?: 'All locations';
 //         break;
 //     default:
-
+ // Display sorted tickets
 
 ?>
 
@@ -201,20 +193,22 @@ if (isset($_GET['sort'])) {
 			</div>
 		</div>
 		<div class="search">
-			<div class="results">
-				<p><span id="amount"><?php echo count(filterTickets($tickets)); ?></span> results found</p>
-			</div>
+        <div class="results">
+            <p style="display: inline-block;"><span id="amount"><?php echo count(filterTickets($tickets)); ?></span> results found </p>
+            <div class="sort-buttons" style="display: inline-block;">
+                <form action="" method="GET">
+                    <button type="submit" name="sort" value="asc" class="btn" style="display: inline-block;">Sort A to Z</button>
+                    <button type="submit" name="sort" value="desc" class="btn" style="display: inline-block;">Sort Z to A</button>
+                </form>
+            </div>
+        </div>
+		
 			<button id="search" class="btn">
 				<img src="assets/icons/search.svg" alt="">
 				<p>Search</p>
 			</button>
 		</div>
-		<div class="sort-buttons">
-			<form action="" method="GET">
-				<button type="submit" name="sort" value="az">Sort A to Z</button>
-				<button type="submit" name="sort" value="za">Sort Z to A</button>
-			</form>
-		</div>
+
 		<div class="tickets row g-4">
 			<?php foreach (filterTickets($tickets) as $ticket) : ?>
 				<div class="col-md-6 col-lg-4">
