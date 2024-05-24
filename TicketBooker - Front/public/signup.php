@@ -1,15 +1,16 @@
 <?php
-//include "./database/db.php";
-//include "./database/userfunctions.php";
+include "./database/db.php";
+include "./database/userfunctions.php";
 session_start();
 
-$type = $firstName=$lastName=$name = $email = $confirmEmail = $password = $confirmPassword = $checkboxErr = "";
-$typeErr =$firstNameErr=$lastNameErr= $usernameErr = $emailErr = $confirmEmailErr = $passwordErr = $confirmPasswordErr = "";
+$type = $firstName = $lastName = $name = $email = $confirmEmail = $password = $confirmPassword = $checkboxErr = "";
+$typeErr = $firstNameErr = $lastNameErr = $usernameErr = $emailErr = $confirmEmailErr = $passwordErr = $confirmPasswordErr = "";
 $checkbox = false;
 $formValid = true;
 
 //SanitizeInput FUNCTION
-function sanitizeInput($input) {
+function sanitizeInput($input)
+{
 	$input = trim($input);
 	$input = stripslashes($input);
 	$input = htmlspecialchars($input);
@@ -28,28 +29,27 @@ if (isset($_POST['submit'])) {
 	if (empty($_POST["firstName"])) {
 		$firstNameErr = "First Name is required";
 		$formValid = false;
-	}
-	else {
-        $firstName = sanitizeInput($_POST["firstName"]);
-        // Check if the first name contains only letters and spaces
-        if (!preg_match("/^[a-zA-Z ]*$/", $firstName)) {
-            $firstNameErr = "Only letters and white space allowed";
+	} else {
+		$firstName = sanitizeInput($_POST["firstName"]);
+		// Check if the first name contains only letters and spaces
+		if (!preg_match("/^[a-zA-Z ]*$/", $firstName)) {
+			$firstNameErr = "Only letters and white space allowed";
 			$formValid = false;
-        }
+		}
 	}
-	
+
 	//Validate lastName
 	if (empty($_POST["lastName"])) {
 		$lastNameErr = "Last Name is required";
 		$formValid = false;
-	}else {
-        $lastName = sanitizeInput($_POST["lastName"]);
-        // Check if the first name contains only letters and spaces
-        if (!preg_match("/^[a-zA-Z ]*$/", $lastName)) {
-            $lastNameErr = "Only letters and white space allowed";
-        }
+	} else {
+		$lastName = sanitizeInput($_POST["lastName"]);
+		// Check if the first name contains only letters and spaces
+		if (!preg_match("/^[a-zA-Z ]*$/", $lastName)) {
+			$lastNameErr = "Only letters and white space allowed";
+		}
 	}
-	
+
 	//Validate username
 	if (empty($_POST["name"])) {
 		$usernameErr = "Username is required";
@@ -58,8 +58,8 @@ if (isset($_POST['submit'])) {
 		$name = sanitizeInput($_POST["name"]);
 		// RegEx for username
 		if (!preg_match('/^\w{5,15}$/', $name)) {
-				$usernameErr = "Username must be 5-15 characters long and contain only letters, numbers, and underscores.";
-				$formValid = false;
+			$usernameErr = "Username must be 5-15 characters long and contain only letters, numbers, and underscores.";
+			$formValid = false;
 		}
 	}
 
@@ -72,10 +72,10 @@ if (isset($_POST['submit'])) {
 		$formValid = false;
 	} else {
 		$email = sanitizeInput($_POST["email"]);
-    if (!preg_match($emailPattern, $email)) {
+		if (!preg_match($emailPattern, $email)) {
 			$emailErr = "Invalid email format";
 			$formValid = false;
-	}
+		}
 	}
 	// Validate confirm email
 	// if (empty($_POST["email_confirm"])) {
@@ -97,9 +97,9 @@ if (isset($_POST['submit'])) {
 		$password = sanitizeInput($_POST["password"]);
 		// RegEx for password
 		if (!preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/', $password)) {
-				$passwordErr = "Password must be at least 8 characters long and include at least one uppercase letter,
+			$passwordErr = "Password must be at least 8 characters long and include at least one uppercase letter,
 				one lowercase letter, one digit, and one special character.";
-				$formValid = false;
+			$formValid = false;
 		}
 	}
 
@@ -125,31 +125,47 @@ if (isset($_POST['submit'])) {
 
 	// if ($formValid) {
 	// 	if(createUser($name, $email, $password, $type)){
-    //        header("Location: ./index.php");
+	//        header("Location: ./index.php");
 	// 	}
 	// }
 	if ($formValid) {
-        // Create an array to store user data
-        $user_data = array(
-			'firstName'=>$firstName,
-			'lastName'=>$lastName,
-            'name' => $name,
-            'email' => $email,
+		// Create an array to store user data
+		$user_data = array(
+			'firstName' => $firstName,
+			'lastName' => $lastName,
+			'name' => $name,
+			'email' => $email,
 			'password' => $password,
-            'user_type' => $type
-        );
+			'user_type' => $type
+		);
 
-        // Store user data in session
-        $_SESSION['user'] = $user_data;
+		// // Store user data in session
+		// $_SESSION['user'] = $user_data;
 
-		$_SESSION['user_name'] = $name;
-        $_SESSION['user_email'] = $email;
-		$_SESSION['firstName'] =$firstName;
-		$_SESSION['lastName']= $lastName;
-        header("Location: login.php");
-        exit();
-    }
+		// $_SESSION['user_name'] = $name;
+		// $_SESSION['user_email'] = $email;
+		// $_SESSION['firstName'] = $firstName;
+		// $_SESSION['lastName'] = $lastName;
+		// header("Location: login.php");
+		// exit();
+	}
+
+
+	// If form validation passes, call the createUser function
+	if ($formValid) {
+		if (createUser($firstName, $lastName, $name, $email, $password, $type)) {
+			header("Location: ./login.php");
+		} else {
+			echo "Error creating user";
+		}
+	}
 }
+// if (isset($_POST['submit'])) {
+//     // Your existing form validation code
+
+
+// }
+
 
 ?>
 
@@ -162,25 +178,24 @@ if (isset($_POST['submit'])) {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
+		.error {
+			color: red;
+			font-size: 0.8em;
+			margin-bottom: 5px
+		}
 
+		.input {
+			margin-bottom: 14px
+		}
 
-.error { 
-    color: red; 
-    font-size: 0.8em;
-		margin-bottom: 5px
-}
+		.fa-solid {
+			height: 64px
+		}
 
-.input{
-	margin-bottom: 14px
-}
-.fa-solid{
-	height: 64px
-}
-.user-type{
-	margin-bottom: 14px
-}
-
-</style>
+		.user-type {
+			margin-bottom: 14px
+		}
+	</style>
 	<link rel='icon' type='image/x-icon' href="assets/icons/favicon.svg">
 	<link rel="stylesheet" href="css/palette-dark.css">
 	<link rel="stylesheet" href="css/general.css">
@@ -227,56 +242,56 @@ if (isset($_POST['submit'])) {
 
 			<form action="signup.php" method="post">
 				<div>
-				<div class="user-type">
-					<label>
-						<input type="radio" name="user_type" value="INDIVIDUAL" required>
-						Individual
-					</label>
-					<label>
-						<input type="radio" name="user_type" value="BUSINESS">
-						Business
-					</label>
-				</div>
-				<div class="error"><?php echo $typeErr; ?></div>
-
-				
-				<input type="text" name="firstName" value="<?php echo htmlspecialchars($firstName); ?>" required="required" placeholder="First Name" class="input">
-        <div class="error"><?php echo $firstNameErr; ?></div>
-
-		<input type="text" name="lastName" value="<?php echo htmlspecialchars($lastName); ?>" required="required" placeholder="Last Name" class="input">
-        <div class="error"><?php echo $lastNameErr; ?></div>
-
-		<input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>" required="required" placeholder="Username" class="input">
-        <div class="error"><?php echo $usernameErr; ?></div>
+					<div class="user-type">
+						<label>
+							<input type="radio" name="user_type" value="INDIVIDUAL" required>
+							Individual
+						</label>
+						<label>
+							<input type="radio" name="user_type" value="BUSINESS">
+							Business
+						</label>
+					</div>
+					<div class="error"><?php echo $typeErr; ?></div>
 
 
-	
-				<input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required="required" placeholder="Email address" class="input">
-        <div class="error"><?php echo $emailErr; ?></div>
+					<input type="text" name="firstName" value="<?php echo htmlspecialchars($firstName); ?>" required="required" placeholder="First Name" class="input">
+					<div class="error"><?php echo $firstNameErr; ?></div>
 
-				
+					<input type="text" name="lastName" value="<?php echo htmlspecialchars($lastName); ?>" required="required" placeholder="Last Name" class="input">
+					<div class="error"><?php echo $lastNameErr; ?></div>
 
-				<div class="password">
-        <input type="password" name="password" required="required" placeholder="Password" class="input" id="passwordInput1">
-        <i class="fa-solid fa-eye-slash toggle-visibility" id="toggle-visibility-1"></i>
-        </div>
-        <div class="error"><?php echo $passwordErr; ?></div>
+					<input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>" required="required" placeholder="Username" class="input">
+					<div class="error"><?php echo $usernameErr; ?></div>
 
 
-				<div class="password">
-        <input type="password" name="password_confirm" required="required" placeholder="Confirm password" class="input" id="passwordInput2">
-        <i class="fa-solid fa-eye-slash toggle-visibility" id="toggle-visibility-2"></i>
-        </div>
-        <div class="error"><?php echo $confirmPasswordErr; ?></div>
 
-				<div id="checkbox">
-					<input type="checkbox" name="checkbox" id="check" required="required">
-					<p>
-						I agree to the <a href="assets/extra/TERMS_AND_CONDITIONS.pdf">Terms of Use</a> & <a href="assets/extra/PRIVACY_POLICY.pdf">Privacy Policy</a>
-					</p>
-				</div>
-				<div class="error"><?php echo $checkboxErr; ?></div>
-				<input type="submit" name="submit" id="button" class="btn">
+					<input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required="required" placeholder="Email address" class="input">
+					<div class="error"><?php echo $emailErr; ?></div>
+
+
+
+					<div class="password">
+						<input type="password" name="password" required="required" placeholder="Password" class="input" id="passwordInput1">
+						<i class="fa-solid fa-eye-slash toggle-visibility" id="toggle-visibility-1"></i>
+					</div>
+					<div class="error"><?php echo $passwordErr; ?></div>
+
+
+					<div class="password">
+						<input type="password" name="password_confirm" required="required" placeholder="Confirm password" class="input" id="passwordInput2">
+						<i class="fa-solid fa-eye-slash toggle-visibility" id="toggle-visibility-2"></i>
+					</div>
+					<div class="error"><?php echo $confirmPasswordErr; ?></div>
+
+					<div id="checkbox">
+						<input type="checkbox" name="checkbox" id="check" required="required">
+						<p>
+							I agree to the <a href="assets/extra/TERMS_AND_CONDITIONS.pdf">Terms of Use</a> & <a href="assets/extra/PRIVACY_POLICY.pdf">Privacy Policy</a>
+						</p>
+					</div>
+					<div class="error"><?php echo $checkboxErr; ?></div>
+					<input type="submit" name="submit" id="button" class="btn">
 				</div>
 			</form>
 		</div>
@@ -304,4 +319,5 @@ if (isset($_POST['submit'])) {
 	</footer>
 
 </body>
+
 </html>

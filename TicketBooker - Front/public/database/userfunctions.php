@@ -1,5 +1,64 @@
-<?php //include "db.php" ?>
+<?php include "db.php"
+?>
 <?php
+
+// Function to insert user data into the database
+function createUser($firstName, $lastName, $username, $email, $password, $userType)
+{
+    global $conn; // Access the database connection object
+    
+    // Generate a random salt
+    $salt = bin2hex(random_bytes(16));
+
+    // Hash the password with the salt using bcrypt
+    $hashedPassword = password_hash($password . $salt, PASSWORD_BCRYPT);
+
+    // Prepare the SQL statement
+    $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, username, email, password_hash, salt, user_type) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    
+    // Bind parameters to the statement
+    $stmt->bind_param("sssssss", $firstName, $lastName, $username, $email, $hashedPassword, $salt, $userType);
+    
+    // Execute the statement
+    if ($stmt->execute()) {
+        return true; // User inserted successfully
+    } else {
+        // Print the error message
+        echo "Error: " . $stmt->error;
+        return false; // Failed to insert user
+    }
+}
+
+function authenticateUser($email, $password)
+{
+    global $conn; // Access the database connection object
+    
+    // Prepare the SQL statement to fetch user data based on email
+    $stmt = $conn->prepare("SELECT id, password_hash, salt FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    // Check if user with the provided email exists
+    if ($result->num_rows == 1) {
+        $user = $result->fetch_assoc();
+        $storedPasswordHash = $user['password_hash'];
+        $salt = $user['salt'];
+        
+        // Generate the hash of the provided password using the stored salt
+        $providedPasswordHash = password_hash($password . $salt, PASSWORD_BCRYPT);
+        
+        // Compare the generated hash with the stored password hash
+        if (password_verify($providedPasswordHash, $storedPasswordHash)) {
+            return $user['id']; // Return the user ID if authentication succeeds
+        } else {
+            return false; // Return false if authentication fails
+        }
+    } else {
+        return false; // Return false if user does not exist
+    }
+}
+
 
 // function createUser($username, $email, $password, $accountType)
 // {
@@ -37,7 +96,7 @@
 //     if ($user) {
 //         echo $password;
 //         echo $user['password'];
-        
+
 //         if (password_verify($password, $user['password'])) {
 //             session_start();
 //             $_SESSION['user_id'] = $user['id'];
