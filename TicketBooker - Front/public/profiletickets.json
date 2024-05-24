@@ -1,21 +1,9 @@
 [
     {
-        "title": "Action Movie Premiere",
-        "date": "2024-01-15",
-        "location": "Pej\u00eb",
-        "type": "Movie"
-    },
-    {
         "title": "Sightseeing Tour",
         "date": "2024-03-05",
         "location": "Gjakov\u00eb",
         "type": "Travel"
-    },
-    {
-        "title": "Comedy Show",
-        "date": "2024-04-10",
-        "location": "Prizren",
-        "type": "Concert"
     },
     {
         "title": "Beach Vacation",
@@ -24,9 +12,15 @@
         "type": "Travel"
     },
     {
-        "title": "Classic Movie Night",
-        "date": "2024-06-20",
-        "location": "Ferizaj",
+        "title": "Action Movie Premiere",
+        "date": "2024-01-15",
+        "location": "Pej\u00eb",
         "type": "Movie"
+    },
+    {
+        "title": "Wine Tasting Tour",
+        "date": "2025-08-20",
+        "location": "Prishtin\u00eb",
+        "type": "Travel"
     }
 ]
