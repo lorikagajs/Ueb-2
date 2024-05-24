@@ -1,29 +1,52 @@
 <?php
 session_start();
 
-$valid_email = $valid_password = "";
+// Include user functions
+include "./database/userfunctions.php";
 
-if (isset($_SESSION['user'])) {
-    $user_data = $_SESSION['user'];
-    $valid_email = $user_data['email'];
-    $valid_password = $user_data['password']; 
-} else {
-    // if user data is not set, do not redirect to signup page
-    $user_data = null;
-}
+$error = ""; // Initialize error variable
 
 if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    if ($email === $valid_email && $password === $valid_password) {
-        $_SESSION['user'] = $user_data; // Save user data in session
+    // Call the authentication function
+    if (authenticateUser($email, $password)) {
+        // Authentication successful, store user data in session
+        $_SESSION['user_email'] = $email;
+        // Redirect to a protected page after successful login
         header("Location: index.php");
         exit();
     } else {
+        // Authentication failed
         $error = "Invalid email or password. Please try again.";
     }
 }
+// session_start();
+
+// $valid_email = $valid_password = "";
+
+// if (isset($_SESSION['user'])) {
+//     $user_data = $_SESSION['user'];
+//     $valid_email = $user_data['email'];
+//     $valid_password = $user_data['password']; 
+// } else {
+//     // if user data is not set, do not redirect to signup page
+//     $user_data = null;
+// }
+
+// if (isset($_POST['submit'])) {
+//     $email = $_POST['email'];
+//     $password = $_POST['password'];
+
+//     if ($email === $valid_email && $password === $valid_password) {
+//         $_SESSION['user'] = $user_data; // Save user data in session
+//         header("Location: index.php");
+//         exit();
+//     } else {
+//         $error = "Invalid email or password. Please try again.";
+//     }
+// }
 ?>
 
 <!DOCTYPE html>

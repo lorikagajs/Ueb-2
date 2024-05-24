@@ -29,35 +29,38 @@ function createUser($firstName, $lastName, $username, $email, $password, $userTy
     }
 }
 
-function authenticateUser($email, $password)
-{
-    global $conn; // Access the database connection object
-    
-    // Prepare the SQL statement to fetch user data based on email
-    $stmt = $conn->prepare("SELECT id, password_hash, salt FROM users WHERE email = ?");
+function authenticateUser($email, $password) {
+    global $conn; // Assuming $conn is your database connection object
+
+    // Retrieve hashed password from the database based on the provided email
+    $query = "SELECT password_hash FROM users WHERE email = ?";
+    $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
-    
-    // Check if user with the provided email exists
-    if ($result->num_rows == 1) {
-        $user = $result->fetch_assoc();
-        $storedPasswordHash = $user['password_hash'];
-        $salt = $user['salt'];
-        
-        // Generate the hash of the provided password using the stored salt
-        $providedPasswordHash = password_hash($password . $salt, PASSWORD_BCRYPT);
-        
-        // Compare the generated hash with the stored password hash
-        if (password_verify($providedPasswordHash, $storedPasswordHash)) {
-            return $user['id']; // Return the user ID if authentication succeeds
+
+    if ($result->num_rows === 1) {
+        // User found, verify password
+        $userData = $result->fetch_assoc();
+        $hashedPassword = $userData['password_hash'];
+
+        // Verify password
+        if (password_verify($password, $hashedPassword)) {
+            // Password is correct
+            return true;
         } else {
-            return false; // Return false if authentication fails
+            // Invalid password
+            return false;
         }
     } else {
-        return false; // Return false if user does not exist
+        // User not found
+        return false;
     }
+
+    // Close statement
+    $stmt->close();
 }
+
 
 
 // function createUser($username, $email, $password, $accountType)
