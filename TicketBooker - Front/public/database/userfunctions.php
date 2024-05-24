@@ -33,7 +33,7 @@ function authenticateUser($email, $password) {
     global $conn; // Assuming $conn is your database connection object
 
     // Retrieve hashed password from the database based on the provided email
-    $query = "SELECT password_hash FROM users WHERE email = ?";
+    $query = "SELECT password_hash,salt FROM users WHERE email = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -44,6 +44,10 @@ function authenticateUser($email, $password) {
         $userData = $result->fetch_assoc();
         $hashedPassword = $userData['password_hash'];
 
+        $salt = $userData['salt'];
+        $hashedPassword = str_ireplace($salt, '', $hashedPassword);
+        echo $hashedPassword;
+        echo $password;
         // Verify password
         if (password_verify($password, $hashedPassword)) {
             // Password is correct

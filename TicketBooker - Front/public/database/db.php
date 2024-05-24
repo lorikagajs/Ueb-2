@@ -1,7 +1,7 @@
 <?php
 
 // Database configuration
-$servername = "localhost";
+$servername = "localhost:3308";
 $username = "root"; // Replace with your database username
 $password = ""; // Replace with your database password
 $dbname = "ticketbooker"; // Replace with your database name
