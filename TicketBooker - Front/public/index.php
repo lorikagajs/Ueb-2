@@ -3,10 +3,10 @@ session_start();
 
 $firstName = $_SESSION['firstName'] ?? '';
 $lastName = $_SESSION['lastName'] ?? '';
-$loggedIn = !empty($firstName) && !empty($lastName);
+include "./database/userfunctions.php";
 
 
-if ($loggedIn) {
+if (isAuth()) {
 	setcookie('bgColor', '#222222', time() + 3600, "/", "", false, true);
 } else {
 	setcookie('bgColor', '#333', time() + 3600, "/", "", false, true);
@@ -14,6 +14,7 @@ if ($loggedIn) {
 
 if (isset($_REQUEST['logout'])) {
 	setcookie('bgColor', '#333', time() - 3600, "/");
+
 }
 
 $backgroundColor = $_COOKIE['bgColor'] ?? '#333';
@@ -56,7 +57,7 @@ $backgroundColor = $_COOKIE['bgColor'] ?? '#333';
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
 
-			<?php if ($loggedIn) : ?>
+			<?php if (isAuth()) : ?>
 				<div class="right">
 					<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
 				</div>

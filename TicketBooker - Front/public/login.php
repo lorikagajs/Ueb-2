@@ -13,8 +13,8 @@ if (isset($_POST['submit'])) {
     // Call the authentication function
     if (authenticateUser($email, $password)) {
         // Authentication successful, store user data in session
-        // $_SESSION['user_email'] = $email;
-		echo "Hekuran";
+        $_SESSION['user_email'] = $email;
+		$_SESSION['is_loggedIn']=true;
         // Redirect to a protected page after successful login
         header("Location: index.php");
         exit();

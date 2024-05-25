@@ -1,6 +1,14 @@
-<?php include "db.php"
+<?php include "db.php";
+
+include './database/utils/email.php';
+
 ?>
 <?php
+
+function isAuth(){
+    if($_SESSION['is_loggedIn']) return true ;
+    return false;
+}
 
 // Function to insert user data into the database
 function createUser($firstName, $lastName, $username, $email, $password, $userType)
@@ -21,6 +29,8 @@ function createUser($firstName, $lastName, $username, $email, $password, $userTy
     
     // Execute the statement
     if ($stmt->execute()) {
+        $message="Hello our new member";
+        sendEmail($email,'hello guyz','hello again');
         return true; // User inserted successfully
     } else {
         // Print the error message
@@ -43,13 +53,9 @@ function authenticateUser($email, $password) {
         // User found, verify password
         $userData = $result->fetch_assoc();
         $hashedPassword = $userData['password_hash'];
-
         $salt = $userData['salt'];
-        $hashedPassword = str_ireplace($salt, '', $hashedPassword);
-        echo $hashedPassword;
-        echo $password;
         // Verify password
-        if (password_verify($password, $hashedPassword)) {
+        if (password_verify($password . $salt, $hashedPassword)) {
             // Password is correct
             return true;
         } else {
