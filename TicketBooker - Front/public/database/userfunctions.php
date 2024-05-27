@@ -5,8 +5,10 @@ include './database/utils/email.php';
 ?>
 <?php
 
-function isAuth(){
-    if($_SESSION['is_loggedIn']) return true ;
+function isAuth() {
+    if (isset($_SESSION['is_loggedIn']) && $_SESSION['is_loggedIn']) {
+        return true;
+    }
     return false;
 }
 
