@@ -22,5 +22,11 @@
         "date": "2025-08-20",
         "location": "Prishtin\u00eb",
         "type": "Travel"
+    },
+    {
+        "title": "ss",
+        "date": "2024-04-05",
+        "location": "prishtine",
+        "type": "Movie"
     }
 ]

@@ -32,7 +32,7 @@ function createUser($firstName, $lastName, $username, $email, $password, $userTy
     // Execute the statement
     if ($stmt->execute()) {
         $message="Hello our new member";
-        sendEmail($email,'hello guyz','hello again');
+        sendEmail($email,'Welcome','new user',$firstName);
         return true; // User inserted successfully
     } else {
         // Print the error message
