@@ -3,6 +3,8 @@ session_start();
 $firstName = $_SESSION['firstName'] ?? '';
 $lastName = $_SESSION['lastName'] ?? '';
 $loggedIn =  !empty($firstName) && !empty($lastName);
+include "./database/userfunctions.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +37,7 @@ $loggedIn =  !empty($firstName) && !empty($lastName);
 				<a href="contact.php" class="link">Contact</a>
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
-			<?php if ($loggedIn) : ?>
+			<?php if (isAuth()) : ?>
 				<div class="right">
 					<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
 				</div>
