@@ -5,18 +5,15 @@
 //include "./database/db.php";
 //include "./database/userfunctions.php";
 session_start();
+include "./database/userfunctions.php";
 
 
 $firstName = $_SESSION['firstName'] ?? '';
 $lastName = $_SESSION['lastName'] ?? '';
-$loggedIn =  !empty($firstName) && !empty($lastName);
 
 
 // Check if user is logged in
-if (!isset($_SESSION['user_name'])) {
-    header("Location: login.php");
-    exit();
-}
+
 $firstName= $_SESSION['firstName'] ?? '';
 $lastName =$_SESSION['lastName'] ?? '';
 $username = $_SESSION['user_name'] ?? '';
@@ -47,17 +44,7 @@ if (isset($_POST['submit'])) {
     }
 
     // Validate old password
-    if (empty($_POST["oldpassword"])) {
-        $oldPasswordErr = "Old Password is required";
-        $formValid = false;
-    } else {
-        $oldPassword = $_POST["oldpassword"];
-		$hashedOldPasswordFromSession = $_SESSION['user_password'];
-        if (!$hashedOldPasswordFromSession || $oldPassword !== $hashedOldPasswordFromSession) {
-            $oldPasswordErr = "Incorrect old password";
-            $formValid = false;
-        }
-    }
+   
 
     // Validate new password
     if (empty($_POST["newpassword"])) {
@@ -83,25 +70,23 @@ if (isset($_POST['submit'])) {
         }
     }
 
-    if ($formValid) {
-        // Here you would handle updating the user information in your database
-        // For demonstration purposes, we're just updating the session values
+    // if ($formValid) {
+    //     // Here you would handle updating the user information in your database
+    //     // For demonstration purposes, we're just updating the session values
 		
 
-        $_SESSION['user_name'] = $username;
-        $_SESSION['user_email'] = $email;
-		$_SESSION['user_password'] = $newPassword;
-        // You should also handle updating the password, similar to how you did in signup.php
-        // For security, it's recommended to hash the new password before storing
-        // $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        // Update the password in the database
-        // updateUserPassword($_SESSION['user_email'], $hashedNewPassword);
+		
+    //     // You should also handle updating the password, similar to how you did in signup.php
+    //     // For security, it's recommended to hash the new password before storing
+    //     // $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+    //     // Update the password in the database
+    //     // updateUserPassword($_SESSION['user_email'], $hashedNewPassword);
 
-        // Redirect to a success page or display a success message
-        // header("Location: profile.php");
-        // exit();
-        echo "User info updated successfully!";
-    }
+    //     // Redirect to a success page or display a success message
+    //     // header("Location: profile.php");
+    //     // exit();
+        
+    // }
 }
 
 // Sanitize input function
@@ -147,7 +132,7 @@ function sanitizeInput($input) {
 				<a href="contact.php" class="link">Contact</a>
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
-			<?php if ($loggedIn) : ?>
+			<?php if (isAuth()) : ?>
 				<div class="right">
 					<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
 				</div>
@@ -347,7 +332,45 @@ function sanitizeInput($input) {
 			<a href="assets/extra/TERMS_AND_CONDITIONS.pdf" target="_blank" class="footer-link">Terms of Use</a>
 		</div>
 	</footer>
+<script>
+	$('.btn[name="submit"]').on('click', function(e) {
+        e.preventDefault(); // Prevent the form from submitting the traditional way
 
+        const username = $('input[name="username"]').val();
+        const email = $('input[name="email"]').val();
+        const oldPassword = $('input[name="oldpassword"]').val();
+        const newPassword = $('input[name="newpassword"]').val();
+
+        const data = {
+            username: username,
+            email: email,
+            oldPassword: oldPassword,
+            newPassword: newPassword
+        };
+$.ajax({
+    url: "updateProfile.php",
+    method: "post",
+    data: data,
+    success: function(response) {
+    
+           
+            if (response) {
+                alert('Profile updated successfully');
+            } else {
+                alert('Failed to update profile');
+            }
+        
+    },
+    error: function(xhr, status, error) {
+        console.error('Status:', status);
+        console.error('Error:', error);
+        console.error('Response:', xhr.responseText);
+        alert('An error occurred: ' + error);
+    }
+});
+	})
+
+</script>
 </body>
 
 </html>
