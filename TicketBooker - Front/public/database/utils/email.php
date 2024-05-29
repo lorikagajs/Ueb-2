@@ -13,11 +13,11 @@ $mail = new PHPMailer(true); // Enable exceptions
         $mail->SMTPAuth = true;
         //Enable less security apps in email
         //Replace your student email and password in here
-        $mail->Username = 'dion.gashi2@student.uni-pr.edu';
-        $mail->Password = '1247421145';
+        $mail->Username = 'admin@student.uni-pr.edu';
+        $mail->Password = 'admin';
         $mail->Port = 587;
 
-        $mail->setFrom('dion.gashi2@student.uni-pr.edu', $name);
+        $mail->setFrom('admin@student.uni-pr.edu', $name);
         $mail->addReplyTo($email);
         $mail->addAddress($email);
 
