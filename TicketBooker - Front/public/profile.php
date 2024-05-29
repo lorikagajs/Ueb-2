@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+include "./database/userfunctions.php";
 
 $firstName = $_SESSION['firstName'] ?? '';
 $username = $_SESSION['user_name'] ?? '';
@@ -112,6 +113,7 @@ if (isset ($_GET['sort'])) {
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -146,7 +148,7 @@ if (isset ($_GET['sort'])) {
 				<a href="contact.php" class="link">Contact</a>
 				<a href="faq.php" class="link">FAQ</a>
 			</div>
-			<?php if ($loggedIn) : ?>
+			<?php if (isAuth()) : ?>
 				<div class="right">
 					<img id="profile-picture" src="assets/images/profiles/profile-picture-4.jpg" alt="" width="40" height="40" style="border-radius: 50%;">
 				</div>
