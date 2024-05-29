@@ -2,6 +2,14 @@
 include "db.php";
 include './database/utils/email.php';
 
+function error_handler($errno, $errstr, $errfile, $errline, $errcontext) {
+    // Your error handling logic here
+    echo "Error: [$errno] $errstr\n";
+    echo "Error on line $errline in $errfile\n";
+}
+
+set_error_handler("error_handler");
+
 function isAuth() {
     if (isset($_SESSION['is_loggedIn']) && $_SESSION['is_loggedIn']) {
         return true;
