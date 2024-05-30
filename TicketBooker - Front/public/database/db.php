@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 }
 
 // Connection successful message for testing purposes
-echo "Connected successfully";
+// echo "Connected successfully";
 
 
 

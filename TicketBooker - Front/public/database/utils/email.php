@@ -27,4 +27,4 @@ $mail = new PHPMailer(true); // Enable exceptions
 
         $mail->send();
     }
-        ?>
+?>
